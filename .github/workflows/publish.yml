@@ -36,8 +36,7 @@ jobs:
 
       - name: Copy static assets to build folder
         run: |
-          cp static/index.html pocket_references/
-          cp static/logo.svg pocket_references/
+          cp static/. pocket_references/
 
       - name: Deploy to github pages
         uses: JamesIves/github-pages-deploy-action@4.1.7
