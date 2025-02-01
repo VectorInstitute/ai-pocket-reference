@@ -11,6 +11,9 @@
             margin: 40px auto;
             padding: 20px;
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .logo {
             display: block;
@@ -36,6 +39,28 @@
             background: #f5f5f5;
             border-color: #999;
         }
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        .community-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        .community-links a {
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        .community-links a:hover {
+            opacity: 1;
+        }
+        .community-links img {
+            width: 32px;
+            height: 32px;
+        }
     </style>
 </head>
 <body>
@@ -53,13 +78,11 @@
 
     <footer>
         <div class="community-links">
-            <a href="https://github.com/VectorInstitute/ai-pocket-reference">
+            <a href="https://github.com/VectorInstitute/ai-pocket-reference" aria-label="GitHub Repository">
                 <img src="github-mark.svg" alt="GitHub">
-                GitHub
             </a>
-            <a href="https://discord.gg/your-invite-code">
+            <a href="https://discord.gg/your-invite-code" aria-label="Discord Community">
                 <img src="discord.svg" alt="Discord">
-                Discord
             </a>
         </div>
     </footer>
