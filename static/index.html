@@ -48,9 +48,10 @@
         .community-links {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 32px;
         }
         .community-links a {
+            text-decoration: none;
             opacity: 0.7;
             transition: opacity 0.2s ease;
         }
@@ -60,6 +61,17 @@
         .community-links img {
             width: 32px;
             height: 32px;
+            margin-bottom: 4px;
+        }
+        .icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .icon-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -79,10 +91,16 @@
     <footer>
         <div class="community-links">
             <a href="https://github.com/VectorInstitute/ai-pocket-reference" aria-label="GitHub Repository">
-                <img src="github-mark.svg" alt="GitHub">
+                <div class="icon-container">
+                    <img src="github-mark.svg" alt="GitHub">
+                    <span class="icon-text">Star our project</span>
+                </div>
             </a>
             <a href="https://discord.gg/your-invite-code" aria-label="Discord Community">
-                <img src="discord.svg" alt="Discord">
+                <div class="icon-container">
+                    <img src="discord.svg" alt="Discord">
+                    <span class="icon-text">Connect with us</span>
+                </div>
             </a>
         </div>
     </footer>
