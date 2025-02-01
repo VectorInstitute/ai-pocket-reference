@@ -9,7 +9,7 @@
 
         <!-- Custom HTML head -->
 
-        <meta name="description" content="">
+        <meta name="description" content="A streamlined reference manual for AI practitioners, students, and developers to quickly look up core concepts and mock implementations">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
@@ -31,6 +31,8 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root to javascript -->
         <script>
@@ -153,10 +155,53 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chapter-1"><a class="header" href="#chapter-1">Chapter 1</a></h1>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="training-concepts"><a class="header" href="#training-concepts">Training Concepts</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="vanishing-gradients"><a class="header" href="#vanishing-gradients">Vanishing Gradients</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="exploding-gradients"><a class="header" href="#exploding-gradients">Exploding Gradients</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="activation-functions"><a class="header" href="#activation-functions">Activation Functions</a></h1>
 <pre><code class="language-python">x = 2
 y = {1: 2}
 </code></pre>
+<p>This sentence uses delimiters to show math inline: \(\sqrt{3x-1}+(1+x)^2\)</p>
+<p><strong>The Cauchy-Schwarz Inequality</strong><br />
+\[\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right)
+\left( \sum_{k=1}^n b_k^2 \right)\]</p>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="llms"><a class="header" href="#llms">LLMs</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="attention"><a class="header" href="#attention">Attention</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="transformer"><a class="header" href="#transformer">Transformer</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kv-cache"><a class="header" href="#kv-cache">KV Cache</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mixture-of-experts"><a class="header" href="#mixture-of-experts">Mixture of Experts</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="distillation"><a class="header" href="#distillation">Distillation</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="in-context-learning"><a class="header" href="#in-context-learning">In-Context Learning</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="supervised-fine-tuning"><a class="header" href="#supervised-fine-tuning">Supervised Fine-Tuning</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="encoders"><a class="header" href="#encoders">Encoders</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="decoders"><a class="header" href="#decoders">Decoders</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="encoder-decoder"><a class="header" href="#encoder-decoder">Encoder-Decoder</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="preference-tuning"><a class="header" href="#preference-tuning">Preference Tuning</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rlhf"><a class="header" href="#rlhf">RLHF</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dpo"><a class="header" href="#dpo">DPO</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="notable-models"><a class="header" href="#notable-models">Notable Models</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="llama-3"><a class="header" href="#llama-3">Llama-3</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="deepseek-r1"><a class="header" href="#deepseek-r1">DeepSeek-R1</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="deepseek-v3"><a class="header" href="#deepseek-v3">DeepSeek-v3</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cnns"><a class="header" href="#cnns">CNNs</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="convolutions"><a class="header" href="#convolutions">Convolutions</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="vision-transformers"><a class="header" href="#vision-transformers">Vision Transformers</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="notable-models-1"><a class="header" href="#notable-models-1">Notable Models</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lenet"><a class="header" href="#lenet">LeNet</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tabular-methods"><a class="header" href="#tabular-methods">Tabular Methods</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="q-learning"><a class="header" href="#q-learning">Q-Learning</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sarsa"><a class="header" href="#sarsa">SARSA</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="policy-gradient"><a class="header" href="#policy-gradient">Policy Gradient</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="actor-critic"><a class="header" href="#actor-critic">Actor-Critic</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="federated-learning"><a class="header" href="#federated-learning">Federated Learning</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="fedavg"><a class="header" href="#fedavg">FedAvg</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="fairness-and-bias"><a class="header" href="#fairness-and-bias">Fairness and Bias</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demographic-parity"><a class="header" href="#demographic-parity">Demographic Parity</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="privacy"><a class="header" href="#privacy">Privacy</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="differential-privacy"><a class="header" href="#differential-privacy">Differential Privacy</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="k-anonymity"><a class="header" href="#k-anonymity">K Anonymity</a></h1>
 
                     </main>
 
@@ -195,7 +240,9 @@ y = {1: 2}
 
         <script>
         window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
         });
         </script>
 
