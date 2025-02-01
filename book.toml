@@ -1,6 +1,14 @@
 [book]
-authors = []
+authors = ["Vector AI Engineering <ai_engineering@vectorinstitute.ai>"]
+description = "A streamlined reference manual for AI practitioners, students, and developers to quickly look up core concepts and mock implementations"
 language = "en"
 multilingual = false
 src = "src"
 title = "AI Pocket Reference"
+editors = [
+    "David Emerson <david.emerson@vectorinstitute.ai>",
+    "Andrei Fajardo <andrei.fajardo@vectorinstitute.ai>"
+]
+
+[output.html]
+mathjax-support = true
