@@ -4,11 +4,18 @@ description = "A streamlined reference manual for AI practitioners, students, an
 language = "en"
 multilingual = false
 src = "src"
-title = "AI Pocket Reference"
+title = "AI Pocket Reference: NLP"
 editors = [
     "David Emerson <david.emerson@vectorinstitute.ai>",
     "Andrei Fajardo <andrei.fajardo@vectorinstitute.ai>"
 ]
+
+[build]
+build-dir = "../../pocket_references/nlp"                # the directory where the output is placed
+create-missing = true             # whether or not to create missing pages
+use-default-preprocessors = true  # use the default preprocessors
+extra-watch-dirs = []             # directories to watch for triggering builds
+
 
 [output.html]
 mathjax-support = true
