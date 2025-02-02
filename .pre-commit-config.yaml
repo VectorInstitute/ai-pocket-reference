@@ -18,6 +18,7 @@ repos:
     rev: v0.17.2
     hooks:
     - id: markdownlint-cli2
+      args: ["--config", ".markdownlint.yaml"]
 
   - repo: https://github.com/adamchainz/blacken-docs
     rev: 1.16.0

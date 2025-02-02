@@ -20,3 +20,20 @@ applied.
 ## Performance
 
 #### References <!-- markdownlint-disable-line MD001 -->
+
+<!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
+<!-- markdownlint-disable-file MD033 -->
+
+---
+
+<div class="contributor-footnotes">
+<small>
+
+**Contributors:**
+<a href="https://github.com/nerdai">
+<img src="https://github.com/nerdai.png"
+  width="32px" alt="Contributor 1" style="border-radius: 50%">
+</a>
+</small>
+
+</div>
