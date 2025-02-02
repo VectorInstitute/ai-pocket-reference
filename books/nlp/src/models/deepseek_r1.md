@@ -3,28 +3,31 @@
 The DeepSeek-R1 model was introduced by DeepSeek in January of 2024. It is
 derived from an earlier checkpoint of [DeepSeek-V3](../models/deepseek_v3.md).
 In particular, starting with DeepSeek-V3-base, four stages of fine-tuning were
-applied:
+performed in order to arrive at the checkpoint known as DeepSeek-R1:
 
 1. "cold-start" [SFT](../llms/fine_tuning/sft.md),
-2. Reinforcement Learning (RL) for reasoning via [GRPO](../llms/fine_tuning/grpo.md),
-3. SFT using RL-generated reasoning data (sampled with [Rejection Sampling](../llms/misc/rejection_sampling.md))
-4. RL for aligning to human preferences
+2. Reinforcement Learning (RL) for reasoning using [GRPO](../llms/fine_tuning/grpo.md),
+3. SFT using RL-generated reasoning data (sampled with [Rejection Sampling](../llms/misc/rejection_sampling.md)),
+4. RL for aligning to human preferences.
 
-## Distinctive Features
+## Historical Significance
 
-- [Multi-Latent Attention](../llms/architecture/mla.md) for memory efficiency
-- [GRPO](../llms/fine_tuning/grpo.md) for reasoning
-- [SFT](../llms/fine_tuning/sft.md) for reasoning cold start
-- [MoE](../llms/architecture/moe.md)
-- [Multi-Token Prediction](../llms/decoding/multi_token_prediction.md)
-- [Rejection Sampling](../llms/misc/rejection_sampling.md)
-- F8 training
+lorem ipsum
 
-## Architecture
+## Architectural Highlights
 
-## Performance
+See [DeepSeek-V3](../models/deepseek_v3.md).
 
-#### References <!-- markdownlint-disable-line MD001 -->
+## Training Data
+
+## Key Results
+
+## Limitations
+
+#### References & Useful Links <!-- markdownlint-disable-line MD001 -->
+
+1. _Guo, Daya, et al. "Deepseek-r1: Incentivizing reasoning capability in llms
+   via reinforcement learning." arXiv preprint arXiv:2501.12948 (2025)._
 
 <!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
