@@ -164,6 +164,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="encoders"><a class="header" href="#encoders">Encoders</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="decoders"><a class="header" href="#decoders">Decoders</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="encoder-decoder"><a class="header" href="#encoder-decoder">Encoder-Decoder</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="multi-latent-attention"><a class="header" href="#multi-latent-attention">Multi-Latent Attention</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prompting"><a class="header" href="#prompting">Prompting</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prompt-engineering"><a class="header" href="#prompt-engineering">Prompt Engineering</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="in-context-learning"><a class="header" href="#in-context-learning">In-Context Learning</a></h1>
@@ -176,6 +177,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="supervised-fine-tuning"><a class="header" href="#supervised-fine-tuning">Supervised Fine-Tuning</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rlhf"><a class="header" href="#rlhf">RLHF</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="dpo"><a class="header" href="#dpo">DPO</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="grpo"><a class="header" href="#grpo">GRPO</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="peft"><a class="header" href="#peft">PEFT</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lora"><a class="header" href="#lora">LoRA</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="qlora"><a class="header" href="#qlora">QLoRA</a></h1>
@@ -196,17 +198,53 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="fast-attention"><a class="header" href="#fast-attention">Fast Attention</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="distillation-1"><a class="header" href="#distillation-1">Distillation</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quantization-1"><a class="header" href="#quantization-1">Quantization</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="decoding"><a class="header" href="#decoding">Decoding</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="multi-token-prediction"><a class="header" href="#multi-token-prediction">Multi-Token Prediction</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="top-k"><a class="header" href="#top-k">Top-k</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="greedy"><a class="header" href="#greedy">Greedy</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="speculative"><a class="header" href="#speculative">Speculative</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="miscellaneous"><a class="header" href="#miscellaneous">Miscellaneous</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rejection-sampling"><a class="header" href="#rejection-sampling">Rejection Sampling</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="emergent"><a class="header" href="#emergent">Emergent</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="llm-as-judge"><a class="header" href="#llm-as-judge">LLM As Judge</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="notable-models"><a class="header" href="#notable-models">Notable Models</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="bert"><a class="header" href="#bert">BERT</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="llama-3"><a class="header" href="#llama-3">Llama-3</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="deepseek-r1"><a class="header" href="#deepseek-r1">DeepSeek-R1</a></h1>
+<p>The DeepSeek-R1 model was introduced by DeepSeek in January of 2024. It is
+derived from a checkpoint of <a href="models/../models/deepseek_v3.html">DeepSeek-V3</a>. In particular,
+starting with DeepSeek-V3 as the base model, two stages of fine-tuning were
+applied.</p>
+<h2 id="distinctive-features"><a class="header" href="#distinctive-features">Distinctive Features</a></h2>
+<ul>
+<li><a href="models/../llms/architecture/mla.html">Multi-Latent Attention</a> for memory efficiency</li>
+<li><a href="models/../llms/fine_tuning/grpo.html">GRPO</a> for reasoning</li>
+<li><a href="models/../llms/fine_tuning/sft.html">SFT</a> for reasoning cold start</li>
+<li><a href="models/../llms/architecture/moe.html">MoE</a></li>
+<li><a href="models/../llms/decoding/multi_token_prediction.html">Multi-Token Prediction</a></li>
+<li><a href="models/../llms/misc/rejection_sampling.html">Rejection Sampling</a></li>
+<li>F8 training</li>
+</ul>
+<h2 id="architecture-1"><a class="header" href="#architecture-1">Architecture</a></h2>
+<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
+<h4 id="references"><a class="header" href="#references">References <!-- markdownlint-disable-line MD001 --></a></h4>
+<!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
+<!-- markdownlint-disable-file MD033 -->
+<hr />
+<div class="contributor-footnotes">
+<small>
+<p><strong>Contributors:</strong>
+<a href="https://github.com/nerdai">
+<img src="https://github.com/nerdai.png"
+  width="32px" alt="Contributor 1" style="border-radius: 50%">
+</a>
+</small></p>
+</div>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="deepseek-v3"><a class="header" href="#deepseek-v3">DeepSeek-v3</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="metrics"><a class="header" href="#metrics">Metrics</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rouge"><a class="header" href="#rouge">Rouge</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="bleu"><a class="header" href="#bleu">Bleu</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="passk"><a class="header" href="#passk">pass@k</a></h1>
 
                     </main>
 
