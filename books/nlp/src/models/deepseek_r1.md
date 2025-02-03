@@ -72,7 +72,13 @@ Below are three key results of DeepSeek-R1 and its development:
    model GPT-4o-0513 across all benchmarks tested, but also OpenAI's o1-mini model
    on most benchmarks.
 
-3. **RL's Potential:** DeepSeek-R1-Zero ...
+3. **RL's Potential:** Pure RL empowered DeepSeek-R1-Zero to autonomously acquire
+   robust reasoning capabilities without any SFT data. What's more is that as test-time
+   computation was increased, desirable behaviours such as reflection and re-evaluation
+   on past trajectories emerged making it possible for the model to have "aha moments"
+   when solving complex tasks. This development should serve as a reminder of the
+   great potential of RL and its overall place in AI as endeavour to reach new
+   heights.
 
 ## Limitations
 
