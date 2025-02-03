@@ -10,6 +10,19 @@ Cold-Start** (using [SFT](../llms/fine_tuning/sft.md)), (ii) **RL for Reasoning*
 [Rejection Sampling](../llms/misc/rejection_sampling.md)), and (iv) **RL for Alignment**
 (to human preferences).
 
+![Lineage](https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/checkpoint-lineage.excalidraw.svg)
+
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+
+Figure: Illustrating DeepSeek-R1 model evolution.
+
+</div>
+
+Devote a couple sentences for DeepSeek-R1-Zero RL pipeline.
+
 ## Historical Significance
 
 At the time of its release, LLM reasoning models such as the OpenAI's o-series
@@ -44,8 +57,8 @@ See [DeepSeek-V3](../models/deepseek_v3.md).
 
 The training data used for the four stages are described below:
 
-**Reasoning Cold Start**: a collection of 200K samples of long CoT passages from
-multiple domains, verified by human annotators was used.
+**Reasoning Cold Start**: 1000s of samples of long CoT passages from multiple domains,
+verified by human annotators was used.
 
 **RL for Reasoning**: self-exploration, using increased test-time for RL discovery
 until convergence (referred to as the RL checkpoint).
