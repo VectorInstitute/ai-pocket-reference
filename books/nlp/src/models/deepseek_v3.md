@@ -1,1 +1,119 @@
+<!-- markdownlint-disable-file MD033 -->
+
 # DeepSeek-v3
+
+The DeepSeek-V3 model was introduced by DeepSeek in December of 2024.
+
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/deepseek-v3-lineage-v2.excalidraw.svg" alt="DeepSeek-V3 Model Lineage"> <!-- markdownlint-disable-line MD013 -->
+</center>
+
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+
+Figure: Illustrating DeepSeek-V3 training evolution.
+
+</div>
+
+## Historical Significance
+
+## Architectural Highlights
+
+DeepSeek-V3 is a transformer-based model that swaps out nearly all dense [feedforward](../llms/architecture/feedforward.md)
+for [MoE](../llms/architecture/moe.md). The model has a total of 671B parameters
+but through its specialized variant of MoE (referred to as DeepSeekMoE), only
+37B parameters are activated in both training and inference. The maximum context
+length for this model is 128K tokens.
+
+- Number of Transformer layers: 61
+- Hidden dimension size: 7168
+- Number of attention heads: 128
+- KV compression dim: 512
+- Number of experts (MoE): 1 (shared) & 256 (routed)
+- Hidden dimension of experts: 2048
+- Multi-Token depth: 1
+
+**DeepSeekMoE** lorem ipsum
+
+**Auxiliary-loss Load Free Balancing** lorem ipsum
+
+**Multi-Head Latent Attention (MLA)** lorem ipsum
+
+**Multi-Token Prediction** lorem ipsum
+
+## Training Data
+
+## Compute Details
+
+DeepSeek-V3 was trained on a cluster with 2048 NVIDIA H800 GPUs. Each node within
+the cluster consists of 8 H800 GPUs inter-connected via NVLink and NVSwitch.
+
+**FP8 Training** lorem ipsum
+
+## Key Results
+
+<!-- markdownlint-disable MD013 -->
+
+| Benchmark (Metric)          | # Shots | DeepSeek-V2 Base | Qwen2.5 72B Base | LLaMA-3.1 405B Base | DeepSeek-V3 Base |
+| --------------------------- | ------- | ---------------- | ---------------- | ------------------- | ---------------- |
+| Pile-test (BPB)             | -       | 0.606            | 0.638            | **0.542**           | 0.548            |
+| BBH (EM)                    | 3-shot  | 78.8             | 79.8             | 82.9                | **87.5**         |
+| MMLU (EM)                   | 5-shot  | 78.4             | 85.0             | 84.4                | **87.1**         |
+| MMLU-Redux (EM)             | 5-shot  | 75.6             | 83.2             | 81.3                | **86.2**         |
+| MMLU-Pro (EM)               | 5-shot  | 51.4             | 58.3             | 52.8                | **64.4**         |
+| DROP (F1)                   | 3-shot  | 80.4             | 80.6             | 86.0                | **89.0**         |
+| ARC-Easy (EM)               | 25-shot | 97.6             | 98.4             | 98.4                | **98.9**         |
+| ARC-Challenge (EM)          | 25-shot | 92.2             | 94.5             | **95.3**            | **95.3**         |
+| HellaSwag (EM)              | 10-shot | 87.1             | 84.8             | **89.2**            | 88.9             |
+| PIQA (EM)                   | 0-shot  | 83.9             | 82.1             | **85.9**            | 84.7             |
+| WinoGrande (EM)             | 5-shot  | **86.3**         | 82.3             | 85.2                | 84.9             |
+| RACE-Middle (EM)            | 3-shot  | 73.1             | 68.1             | **74.2**            | 74.9             |
+| RACE-High (EM)              | 5-shot  | 52.6             | 50.3             | **56.8**            | 51.3             |
+| TriviaQA (EM)               | 5-shot  | 80.0             | 71.9             | **82.7**            | 82.9             |
+| NaturalQuestions (EM)       | 5-shot  | 38.6             | 33.2             | **41.5**            | 40.0             |
+| AGIEval (EM)                | 0-shot  | 57.5             | 75.8             | 60.6                | **79.6**         |
+| HumanEval (Pass@1)          | 0-shot  | 43.3             | 53.0             | 54.9                | **65.2**         |
+| MBPP (Pass@1)               | 3-shot  | 65.0             | 72.6             | 68.4                | **75.4**         |
+| LiveCodeBench-Base (Pass@1) | 3-shot  | 11.6             | 12.9             | 15.1                | **19.4**         |
+| CRUXEval-1 (EM)             | 2-shot  | 52.5             | 59.1             | 58.5                | **67.3**         |
+| CRUXEval-O (EM)             | 2-shot  | 49.8             | 59.9             | 59.9                | **69.8**         |
+| CSMRR (EM)                  | 8-shot  | 81.6             | 88.3             | 89.3                | **89.3**         |
+| MATH (EM)                   | 4-shot  | 43.4             | 54.4             | 49.0                | **61.6**         |
+| MGSM (EM)                   | 8-shot  | 63.6             | 76.2             | 69.9                | **79.8**         |
+| CMath (EM)                  | 3-shot  | 78.7             | 84.5             | 77.3                | **90.7**         |
+| CLUEWSC (EM)                | 5-shot  | 82.0             | 82.5             | **83.0**            | 82.7             |
+| C-Eval (EM)                 | 0-shot  | 81.4             | 72.5             | 72.5                | **90.1**         |
+| CMMLU (EM)                  | 5-shot  | 84.0             | **89.5**         | 73.7                | 88.8             |
+| CMRC (EM)                   | 1-shot  | **77.4**         | 75.8             | 76.0                | 76.3             |
+| C3 (EM)                     | 0-shot  | 77.4             | 76.7             | **79.7**            | 78.6             |
+| CCPM (EM)                   | 0-shot  | **93.0**         | 88.5             | 78.6                | 92.0             |
+| MMLU-non-English (EM)       | 5-shot  | 64.0             | 74.8             | 73.8                | **79.4**         |
+
+<!-- markdownlint-enable MD013 -->
+
+## Limitations
+
+#### References & Useful Links <!-- markdownlint-disable-line MD001 -->
+
+1. [_Liu, Aixin, et al. "Deepseek-v3 technical report." arXiv preprint
+   arXiv:2412.19437 (2024)._](https://arxiv.org/pdf/2412.19437)
+
+<!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
+<!-- markdownlint-disable-file MD033 -->
+
+---
+
+<div class="contributor-footnotes">
+<small>
+
+**Contributors:**
+
+<a href="https://github.com/nerdai">
+<img src="https://github.com/nerdai.png"
+  width="32px" alt="Contributor 1" style="border-radius: 50%">
+</a>
+</small>
+
+</div>

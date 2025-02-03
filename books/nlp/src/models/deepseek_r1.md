@@ -1,6 +1,6 @@
 # DeepSeek-R1
 
-The DeepSeek-R1 model was introduced by DeepSeek in January of 2024. It is
+The DeepSeek-R1 model was introduced by DeepSeek in January of 2025. It is
 derived from an earlier checkpoint of [DeepSeek-V3](../models/deepseek_v3.md).
 In particular, starting with DeepSeek-V3-base, four stages of fine-tuning were
 performed in order to arrive at the checkpoint known as DeepSeek-R1: (i) **Reasoning

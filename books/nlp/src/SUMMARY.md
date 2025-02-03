@@ -8,6 +8,7 @@
 
 - [LLMs](llms/README.md)
   - [Architecture](llms/architecture/README.md)
+    - [FeedForward](llms/architecture/feedforward.md)
     - [Attention](llms/architecture/attention.md)
     - [Transformer](llms/architecture/transformer.md)
     - [Mixture of Experts](llms/architecture/moe.md)
