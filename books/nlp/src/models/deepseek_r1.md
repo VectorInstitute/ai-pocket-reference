@@ -3,14 +3,12 @@
 The DeepSeek-R1 model was introduced by DeepSeek in January of 2024. It is
 derived from an earlier checkpoint of [DeepSeek-V3](../models/deepseek_v3.md).
 In particular, starting with DeepSeek-V3-base, four stages of fine-tuning were
-performed in order to arrive at the checkpoint known as DeepSeek-R1:
-
-1. **cold-start** using [SFT](../llms/fine_tuning/sft.md),
-2. **RL-reasoning** using [GRPO](../llms/fine_tuning/grpo.md) (where RL stands for
-   Reinforcement Learning),
-3. **SFT** using RL-generated reasoning data (sampled with [Rejection Sampling](../llms/misc/rejection_sampling.md))
-   as well as non-reasoning data,
-4. **RL-alignment** for aligning to human preferences.
+performed in order to arrive at the checkpoint known as DeepSeek-R1: (i) **Reasoning
+Cold-Start** (using [SFT](../llms/fine_tuning/sft.md)), (ii) **RL for Reasoning**
+(using [GRPO](../llms/fine_tuning/grpo.md)), (iii) **SFT for Enhanced Reasoning
+& General Capabilities** (using RL-generated reasoning data sampled with
+[Rejection Sampling](../llms/misc/rejection_sampling.md)), and (iv) **RL for Alignment**
+(to human preferences).
 
 ## Historical Significance
 
@@ -46,17 +44,29 @@ See [DeepSeek-V3](../models/deepseek_v3.md).
 
 The training data used for the four stages are described below:
 
-- **cold-start**: a collection of 200K samples of long CoT passages from multiple
-  domains, verified by human annotators was used.
-- **RL-reasoning**: self-exploration, using increased test-time for RL discovery
-  until convergence (referred to as the RL checkpoint).
-- **SFT**: the RL checkpoint was used to generate 600K reasoning related
-  samples (using rejection sampling). DeepSeek-V3 was used to create 200K non-reasoning
-  data omitting the CoT portion for simple queries.
-- **RL-alignment**: a combination of reward signals diverse data distributions
-  including preference pairs and analyses of generated summaries & responses.
+**Reasoning Cold Start**: a collection of 200K samples of long CoT passages from
+multiple domains, verified by human annotators was used.
+
+**RL for Reasoning**: self-exploration, using increased test-time for RL discovery
+until convergence (referred to as the RL checkpoint).
+
+**SFT for Enhanced Reasoning & General Capabilities**: the RL checkpoint was then
+used to generate 600K reasoning related samples (using rejection sampling).
+DeepSeek-V3 was used to create 200K non-reasoning data omitting the CoT portion
+for simple queries.
+
+**RL for Alignment**: a combination of reward signals diverse data distributions
+including preference pairs and analyses of generated summaries & responses.
 
 ## Key Results
+
+Below are three key results of DeepSeek-R1 and its development:
+
+1. **Performance on Benchmarks** dfadf
+
+2. **Distilling reasoning** lorem ipsum
+
+3. **RL's potential** lorem ipsum
 
 ## Limitations
 
