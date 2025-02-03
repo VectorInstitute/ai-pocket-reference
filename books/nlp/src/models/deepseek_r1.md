@@ -5,10 +5,12 @@ derived from an earlier checkpoint of [DeepSeek-V3](../models/deepseek_v3.md).
 In particular, starting with DeepSeek-V3-base, four stages of fine-tuning were
 performed in order to arrive at the checkpoint known as DeepSeek-R1:
 
-1. "cold-start" [SFT](../llms/fine_tuning/sft.md),
-2. Reinforcement Learning (RL) for reasoning using [GRPO](../llms/fine_tuning/grpo.md),
-3. SFT using RL-generated reasoning data (sampled with [Rejection Sampling](../llms/misc/rejection_sampling.md)),
-4. RL for aligning to human preferences.
+1. **cold-start** using [SFT](../llms/fine_tuning/sft.md),
+2. **RL-reasoning** using [GRPO](../llms/fine_tuning/grpo.md) (where RL stands for
+   Reinforcement Learning),
+3. **SFT** using RL-generated reasoning data (sampled with [Rejection Sampling](../llms/misc/rejection_sampling.md))
+   as well as non-reasoning data,
+4. **RL-alignment** for aligning to human preferences.
 
 ## Historical Significance
 
