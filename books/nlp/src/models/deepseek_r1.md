@@ -64,9 +64,15 @@ Below are three key results of DeepSeek-R1 and its development:
 
 1. **Performance on Benchmarks:** dfadf
 
-2. **Distilling Reasoning Capabilities:** lorem ipsum
+2. **Distilling Reasoning Capabilities:** The 800K samples that included generated
+   examples by both DeepSeek-R1 (reasoning) and DeepSeek-V3 (non-reasoning) were
+   used to distill other open-source models like [Qwen](../models/qwen2pt5.md)
+   and [Llama](../models/llama_3.md). With only the application SFT (i.e., no RL),
+   some of these distilled models were not only able to outperform OpenAI's non-reasoning
+   model GPT-4o-0513 across all benchmarks tested, but also OpenAI's o1-mini model
+   on most benchmarks.
 
-3. **RL's Potential:** lorem ipsum
+3. **RL's Potential:** DeepSeek-R1-Zero ...
 
 ## Limitations
 

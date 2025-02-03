@@ -1,4 +1,5 @@
 <!-- markdownlint-disable-file MD025 -->
+
 # Summary
 
 [Introduction](README.md)
@@ -61,6 +62,7 @@
   - [Llama-3](models/llama_3.md)
   - [DeepSeek-R1](models/deepseek_r1.md)
   - [DeepSeek-v3](models/deepseek_v3.md)
+  - [Qwen2.5](models/qwen2pt5.md)
 
 # Evaluation
 
