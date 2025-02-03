@@ -62,7 +62,49 @@ including preference pairs and analyses of generated summaries & responses.
 
 Below are three key results of DeepSeek-R1 and its development:
 
-1. **Performance on Benchmarks:** dfadf
+<!-- markdownlint-disable MD013 -->
+
+| Benchmark (Metric)         | Claude-3.5-Sonnet-1022 | GPT-4 0513 | DeepSeek-V3 | OpenAI o1-mini | OpenAI o1-1217 | DeepSeek-R1 |
+| -------------------------- | ---------------------- | ---------- | ----------- | -------------- | -------------- | ----------- |
+| MMLU (Pass@1)              | 88.3                   | 87.2       | 88.5        | 85.2           | **91.8**       | 90.8        |
+| MMLU-Redux (EM)            | 88.9                   | 88.0       | 89.1        | 86.7           | -              | **92.9**    |
+| MMLU-Pro (EM)              | 78.0                   | 72.6       | 75.9        | 80.3           | -              | **84.0**    |
+| DROP (3-shot F1)           | 88.3                   | 83.7       | 91.6        | 83.9           | 90.2           | **92.2**    |
+| IF-Eval (Prompt Strict)    | **86.5**               | 84.3       | 86.1        | 84.8           | -              | 83.3        |
+| GFQA Diamond (Pass@1)      | 65.0                   | 49.9       | 59.1        | 60.0           | **75.7**       | 71.5        |
+| SimpleQA (Correct)         | 28.4                   | 38.2       | 24.9        | 7.0            | **47.0**       | 30.1        |
+| FRAMES (Acc.)              | 72.5                   | 80.5       | 73.3        | 76.9           | -              | **82.5**    |
+| AlpacaEval2.0 (LC-winrate) | 52.0                   | 51.1       | 70.0        | 57.8           | -              | **87.6**    |
+| ArenaHard (GPT-4-1106)     | 85.2                   | 80.4       | 85.5        | 92.0           | -              | **92.3**    |
+| LiveCodeBench (Pass@1-COT) | 38.9                   | 32.9       | 36.2        | 53.8           | 63.4           | **65.9**    |
+| Codeforces (Percentile)    | 20.3                   | 23.6       | 58.7        | 93.4           | **96.6**       | 96.3        |
+| Codeforces (Rating)        | 717                    | 759        | 1134        | 1820           | **2061**       | 2029        |
+| SWE Verified (Resolved)    | **50.8**               | 38.8       | 42.0        | 41.6           | 48.9           | 49.2        |
+| Aider-Polyglot (Acc.)      | 45.3                   | 16.0       | 49.6        | 32.9           | **61.7**       | 53.3        |
+| AIME 2024 (Pass@1)         | 16.0                   | 9.3        | 39.2        | 63.6           | 79.2           | **79.8**    |
+| MATH-500 (Pass@1)          | 78.3                   | 74.6       | 90.2        | 90.0           | 96.4           | **97.3**    |
+| CNMO 2024 (Pass@1)         | 13.1                   | 10.8       | 43.2        | 67.6           | -              | **78.8**    |
+| CLUEWSC (EM)               | 85.4                   | 87.9       | 90.9        | 89.9           | -              | **92.8**    |
+| C-Eval (EM)                | 76.7                   | 76.0       | 86.5        | 68.9           | -              | **91.8**    |
+| C-SimpleQA (Correct)       | 55.4                   | 58.7       | **68.0**    | 40.3           | -              | 63.7        |
+
+<!-- markdownlint-enable MD013 -->
+
+<div
+  class="table-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+
+Table: Comparison between DeepSeek-R1 and other representative models.
+(Copied from Table 4 of Guo, Daya, et al (2024).)
+
+</div>
+
+1. **Performance on Benchmarks:** The table above which was copied from the DeepSeek-R1
+   paper compares the performance of DeepSeek-R1 and -V3 with representative models
+   from Anthropic and OpenAI. The values reported clearly demonstrate the impressive
+   performance of DeepSeek-R1 across various benchmarks and tasks. Most notably,
+   DeepSeek-R1 was able to surpass OpenAI's reasoning model o1-1217 on several benchmarks.
 
 2. **Distilling Reasoning Capabilities:** The 800K samples that included generated
    examples by both DeepSeek-R1 (reasoning) and DeepSeek-V3 (non-reasoning) were
