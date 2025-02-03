@@ -156,33 +156,85 @@
                     <main>
                         <h1 id="deepseek-r1"><a class="header" href="#deepseek-r1">DeepSeek-R1</a></h1>
 <p>The DeepSeek-R1 model was introduced by DeepSeek in January of 2024. It is
-derived from a checkpoint of <a href="../models/deepseek_v3.html">DeepSeek-V3</a>. In particular,
-starting with DeepSeek-V3 as the base model, two stages of fine-tuning were
-applied.</p>
-<h2 id="distinctive-features"><a class="header" href="#distinctive-features">Distinctive Features</a></h2>
+derived from an earlier checkpoint of <a href="../models/deepseek_v3.html">DeepSeek-V3</a>.
+In particular, starting with DeepSeek-V3-base, four stages of fine-tuning were
+performed in order to arrive at the checkpoint known as DeepSeek-R1:</p>
+<ol>
+<li><strong>cold-start</strong> using <a href="../llms/fine_tuning/sft.html">SFT</a>,</li>
+<li><strong>RL-reasoning</strong> using <a href="../llms/fine_tuning/grpo.html">GRPO</a> (where RL stands for
+Reinforcement Learning),</li>
+<li><strong>SFT</strong> using RL-generated reasoning data (sampled with <a href="../llms/misc/rejection_sampling.html">Rejection Sampling</a>)
+as well as non-reasoning data,</li>
+<li><strong>RL-alignment</strong> for aligning to human preferences.</li>
+</ol>
+<h2 id="historical-significance"><a class="header" href="#historical-significance">Historical Significance</a></h2>
+<p>At the time of its release, LLM reasoning models such as the OpenAI's o-series
+models had demonstrated remarkable performance on complex tasks, including those
+requiring multiple steps (e.g., <a href="https://arcprize.org/blog/oai-o3-pub-breakthrough">OpenAI o3's breakthrough score on ARC-AGI</a>).
+However, OpenAI—operating under a closed-source model—provided little details to
+how these models were developed, merely mentioning that Reinforcement Learning techniques
+were used to train the LLMs to produce long (internal) chain-of-thought style
+reasoning prior to providing a final answer.</p>
+<p>In contrast, DeepSeek open-sourced DeepSeek-R1 and provided a very detailed
+technical report, shedding much light on its training pipeline, which included an
+RL approach for the model to acquire its reasoning capabilities. It was also
+reported that DeepSeek-R1 was trained on NVIDIA H800's, a less capable GPU than
+the NVIDIA H100 or A100.</p>
+<blockquote>
+<p>DeepSeek-V3 is trained on a cluster equipped with 2048 NVIDIA H800 GPUs.</p>
+<p><em>(quoted from the DeepSeek-V3 Technical Report)</em></p>
+</blockquote>
+<p>The fact that DeepSeek-R1's performance rivaled that of it's closed-source
+counterpart in OpenAI o3 on multiple benchmarks (using reportedly less compute)
+led to a frenzy in the LLM and broader AI community. As an example, many teams
+(including at least one from HuggingFace) worked tirelessly to produce their own
+versions of DeepSeek-R1 in the days after its release.</p>
+<h2 id="architectural-highlights"><a class="header" href="#architectural-highlights">Architectural Highlights</a></h2>
+<p>See <a href="../models/deepseek_v3.html">DeepSeek-V3</a>.</p>
+<h2 id="training-data"><a class="header" href="#training-data">Training Data</a></h2>
+<p>The training data used for the four stages are described below:</p>
 <ul>
-<li><a href="../llms/architecture/mla.html">Multi-Latent Attention</a> for memory efficiency</li>
-<li><a href="../llms/fine_tuning/grpo.html">GRPO</a> for reasoning</li>
-<li><a href="../llms/fine_tuning/sft.html">SFT</a> for reasoning cold start</li>
-<li><a href="../llms/architecture/moe.html">MoE</a></li>
-<li><a href="../llms/decoding/multi_token_prediction.html">Multi-Token Prediction</a></li>
-<li><a href="../llms/misc/rejection_sampling.html">Rejection Sampling</a></li>
-<li>F8 training</li>
+<li><strong>cold-start</strong>: a collection of 200K samples of long CoT passages from multiple
+domains, verified by human annotators was used.</li>
+<li><strong>RL-reasoning</strong>: self-exploration, using increased test-time for RL discovery
+until convergence (referred to as the RL checkpoint).</li>
+<li><strong>SFT</strong>: the RL checkpoint was used to generate 600K reasoning related
+samples (using rejection sampling). DeepSeek-V3 was used to create 200K non-reasoning
+data omitting the CoT portion for simple queries.</li>
+<li><strong>RL-alignment</strong>: a combination of reward signals diverse data distributions
+including preference pairs and analyses of generated summaries &amp; responses.</li>
 </ul>
-<h2 id="architecture"><a class="header" href="#architecture">Architecture</a></h2>
-<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
-<h4 id="references"><a class="header" href="#references">References <!-- markdownlint-disable-line MD001 --></a></h4>
+<h2 id="key-results"><a class="header" href="#key-results">Key Results</a></h2>
+<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
+<p>DeepSeek reported various limitations for DeepSeek-R1. Most notably, DeepSeek-R1
+is inferior to DeepSeek-V3 in general capabilities such as function calling, producing
+structured outputs (JSON), role-playing, and multi-turn conversations. Additionally,
+due to its optimization for English and Chinese, the model sometimes suffers from
+language mixing. Lastly, DeepSeek-R1 reportedly demonstrated a high sensitivity
+to prompts and long inference times, making it unsuitable for low-latency applications
+such as software-engineering tasks.</p>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<ol>
+<li><a href="https://arxiv.org/pdf/2501.12948"><em>Guo, Daya, et al. "Deepseek-r1: Incentivizing reasoning capability in llms
+via reinforcement learning." arXiv preprint arXiv:2501.12948 (2025).</em></a></li>
+<li><a href="https://arxiv.org/pdf/2412.19437"><em>Liu, Aixin, et al. "Deepseek-v3 technical report." arXiv preprint
+arXiv:2412.19437 (2024).</em></a></li>
+<li><a href="https://fortune.com/2025/01/27/china-deepseek-nvidia-gpu-investor-panic-us-export-controls-rethink/"><em>China's DeepSeek sets off Nvidia investor panic over US export controls</em></a>
+<em>(appearing in fortune.com)</em></li>
+<li><a href="https://huggingface.co/blog/open-r1"><em>Open-R1: a fully open reproduction of DeepSeek-R1</em></a>
+<em>(by HuggingFace)</em></li>
+</ol>
 <!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
 <hr />
 <div class="contributor-footnotes">
 <small>
-<p><strong>Contributors:</strong>
+<p><strong>Contributors:</strong></p>
 <a href="https://github.com/nerdai">
 <img src="https://github.com/nerdai.png"
   width="32px" alt="Contributor 1" style="border-radius: 50%">
 </a>
-</small></p>
+</small>
 </div>
 
                     </main>
