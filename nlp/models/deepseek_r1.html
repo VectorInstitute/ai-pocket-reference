@@ -164,14 +164,25 @@ Cold-Start</strong> (using <a href="../llms/fine_tuning/sft.html">SFT</a>), (ii)
 &amp; General Capabilities</strong> (using RL-generated reasoning data sampled with
 <a href="../llms/misc/rejection_sampling.html">Rejection Sampling</a>), and (iv) <strong>RL for Alignment</strong>
 (to human preferences).</p>
-<p><img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/checkpoint-lineage.excalidraw.svg" alt="Lineage" /></p>
+<p><img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/deepseek-v3-r1-lineage.excalidraw.svg" alt="Lineage" /></p>
 <div
   class="figure-caption"
   style="text-align: center; font-size: 0.8em; margin-top: 10px;"
 >
 <p>Figure: Illustrating DeepSeek-R1 model evolution.</p>
 </div>
-<p>Devote a couple sentences for DeepSeek-R1-Zero RL pipeline.</p>
+<p>As illustrated in the Figure above, the model lineage of DeepSeek-R1 implements
+a full-scale RL for reasoning stage that leverages cold-start data. In contrast,
+DeepSeek-R1-Zero does not use any cold-start SFT data whatsoever and uses purely
+RL steps to acquire its reasoning capabilities. The reward signal used for
+guiding the RL process of DeepSeek-R1-Zero is rules based computed from the
+response's correctness as well as its adherence to the desired format. While
+DeepSeek-R1-Zero demonstrated remarkable reasoning capabilities, it suffered greatly
+from poor readability and language mixing.</p>
+<p>This motivated the usage of cold-start data in the RL for Reasoning stage of
+DeepSeek-R1's training. Additionally, a reward signal to reduce language mixing
+as well as a model-based reward (using DeepSeek-V3 for judgement) was also
+incorporated.</p>
 <h2 id="historical-significance"><a class="header" href="#historical-significance">Historical Significance</a></h2>
 <p>At the time of its release, LLM reasoning models such as the OpenAI's o-series
 models had demonstrated remarkable performance on complex tasks, including those
