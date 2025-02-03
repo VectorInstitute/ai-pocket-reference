@@ -62,11 +62,11 @@ including preference pairs and analyses of generated summaries & responses.
 
 Below are three key results of DeepSeek-R1 and its development:
 
-1. **Performance on Benchmarks** dfadf
+1. **Performance on Benchmarks:** dfadf
 
-2. **Distilling reasoning** lorem ipsum
+2. **Distilling Reasoning Capabilities:** lorem ipsum
 
-3. **RL's potential** lorem ipsum
+3. **RL's Potential:** lorem ipsum
 
 ## Limitations
 
