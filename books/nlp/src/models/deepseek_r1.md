@@ -58,6 +58,14 @@ The training data used for the four stages are described below:
 
 ## Limitations
 
+DeepSeek reported various limitations for DeepSeek-R1. Most notably, DeepSeek-R1
+is inferior to DeepSeek-V3 in general capabilities such as function calling, producing
+structured outputs (JSON), role-playing, and multi-turn conversations. Additionally,
+due to its optimization for English and Chinese, the model sometimes suffers from
+language mixing. Lastly, DeepSeek-R1 reportedly demonstrated a high sensitivity
+to prompts and long inference times, making it unsuitable for low-latency applications
+such as software-engineering tasks.
+
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
 1. [_Guo, Daya, et al. "Deepseek-r1: Incentivizing reasoning capability in llms
