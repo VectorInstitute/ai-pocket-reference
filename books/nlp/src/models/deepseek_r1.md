@@ -26,17 +26,33 @@ RL approach for the model to acquire its reasoning capabilities. It was also
 reported that DeepSeek-R1 was trained on NVIDIA H800's, a less capable GPU than
 the NVIDIA H100 or A100.
 
+> DeepSeek-V3 is trained on a cluster equipped with 2048 NVIDIA H800 GPUs.
+>
+> _(quoted from the DeepSeek-V3 Technical Report)_
+
 The fact that DeepSeek-R1's performance rivaled that of it's closed-source
 counterpart in OpenAI o3 on multiple benchmarks (using reportedly less compute)
 led to a frenzy in the LLM and broader AI community. As an example, many teams
 (including at least one from HuggingFace) worked tirelessly to produce their own
-versions of DeepSeek-R1 in the days after it's release.
+versions of DeepSeek-R1 in the days after its release.
 
 ## Architectural Highlights
 
 See [DeepSeek-V3](../models/deepseek_v3.md).
 
 ## Training Data
+
+The training data used for the four stages are described below:
+
+- **cold-start**: a collection of 200K samples of long CoT passages from multiple
+  domains, verified by human annotators was used.
+- **RL-reasoning**: self-exploration, using increased test-time for RL discovery
+  until convergence (referred to as the RL checkpoint).
+- **SFT**: the RL checkpoint was used to generate 600K reasoning related
+  samples (using rejection sampling). DeepSeek-V3 was used to create 200K non-reasoning
+  data omitting the CoT portion for simple queries.
+- **RL-alignment**: a combination of reward signals diverse data distributions
+  including preference pairs and analyses of generated summaries & responses.
 
 ## Key Results
 
