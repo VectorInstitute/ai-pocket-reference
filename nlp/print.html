@@ -220,6 +220,14 @@ Cold-Start</strong> (using <a href="models/../llms/fine_tuning/sft.html">SFT</a>
 &amp; General Capabilities</strong> (using RL-generated reasoning data sampled with
 <a href="models/../llms/misc/rejection_sampling.html">Rejection Sampling</a>), and (iv) <strong>RL for Alignment</strong>
 (to human preferences).</p>
+<p><img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/checkpoint-lineage.excalidraw.svg" alt="Lineage" /></p>
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+<p>Figure: Illustrating DeepSeek-R1 model evolution.</p>
+</div>
+<p>Devote a couple sentences for DeepSeek-R1-Zero RL pipeline.</p>
 <h2 id="historical-significance"><a class="header" href="#historical-significance">Historical Significance</a></h2>
 <p>At the time of its release, LLM reasoning models such as the OpenAI's o-series
 models had demonstrated remarkable performance on complex tasks, including those
@@ -246,8 +254,8 @@ versions of DeepSeek-R1 in the days after its release.</p>
 <p>See <a href="models/../models/deepseek_v3.html">DeepSeek-V3</a>.</p>
 <h2 id="training-data"><a class="header" href="#training-data">Training Data</a></h2>
 <p>The training data used for the four stages are described below:</p>
-<p><strong>Reasoning Cold Start</strong>: a collection of 200K samples of long CoT passages from
-multiple domains, verified by human annotators was used.</p>
+<p><strong>Reasoning Cold Start</strong>: 1000s of samples of long CoT passages from multiple domains,
+verified by human annotators was used.</p>
 <p><strong>RL for Reasoning</strong>: self-exploration, using increased test-time for RL discovery
 until convergence (referred to as the RL checkpoint).</p>
 <p><strong>SFT for Enhanced Reasoning &amp; General Capabilities</strong>: the RL checkpoint was then
@@ -258,9 +266,45 @@ for simple queries.</p>
 including preference pairs and analyses of generated summaries &amp; responses.</p>
 <h2 id="key-results"><a class="header" href="#key-results">Key Results</a></h2>
 <p>Below are three key results of DeepSeek-R1 and its development:</p>
+<!-- markdownlint-disable MD013 -->
+<div class="table-wrapper"><table><thead><tr><th>Benchmark (Metric)</th><th>Claude-3.5-Sonnet-1022</th><th>GPT-4 0513</th><th>DeepSeek-V3</th><th>OpenAI o1-mini</th><th>OpenAI o1-1217</th><th>DeepSeek-R1</th></tr></thead><tbody>
+<tr><td>MMLU (Pass@1)</td><td>88.3</td><td>87.2</td><td>88.5</td><td>85.2</td><td><strong>91.8</strong></td><td>90.8</td></tr>
+<tr><td>MMLU-Redux (EM)</td><td>88.9</td><td>88.0</td><td>89.1</td><td>86.7</td><td>-</td><td><strong>92.9</strong></td></tr>
+<tr><td>MMLU-Pro (EM)</td><td>78.0</td><td>72.6</td><td>75.9</td><td>80.3</td><td>-</td><td><strong>84.0</strong></td></tr>
+<tr><td>DROP (3-shot F1)</td><td>88.3</td><td>83.7</td><td>91.6</td><td>83.9</td><td>90.2</td><td><strong>92.2</strong></td></tr>
+<tr><td>IF-Eval (Prompt Strict)</td><td><strong>86.5</strong></td><td>84.3</td><td>86.1</td><td>84.8</td><td>-</td><td>83.3</td></tr>
+<tr><td>GFQA Diamond (Pass@1)</td><td>65.0</td><td>49.9</td><td>59.1</td><td>60.0</td><td><strong>75.7</strong></td><td>71.5</td></tr>
+<tr><td>SimpleQA (Correct)</td><td>28.4</td><td>38.2</td><td>24.9</td><td>7.0</td><td><strong>47.0</strong></td><td>30.1</td></tr>
+<tr><td>FRAMES (Acc.)</td><td>72.5</td><td>80.5</td><td>73.3</td><td>76.9</td><td>-</td><td><strong>82.5</strong></td></tr>
+<tr><td>AlpacaEval2.0 (LC-winrate)</td><td>52.0</td><td>51.1</td><td>70.0</td><td>57.8</td><td>-</td><td><strong>87.6</strong></td></tr>
+<tr><td>ArenaHard (GPT-4-1106)</td><td>85.2</td><td>80.4</td><td>85.5</td><td>92.0</td><td>-</td><td><strong>92.3</strong></td></tr>
+<tr><td>LiveCodeBench (Pass@1-COT)</td><td>38.9</td><td>32.9</td><td>36.2</td><td>53.8</td><td>63.4</td><td><strong>65.9</strong></td></tr>
+<tr><td>Codeforces (Percentile)</td><td>20.3</td><td>23.6</td><td>58.7</td><td>93.4</td><td><strong>96.6</strong></td><td>96.3</td></tr>
+<tr><td>Codeforces (Rating)</td><td>717</td><td>759</td><td>1134</td><td>1820</td><td><strong>2061</strong></td><td>2029</td></tr>
+<tr><td>SWE Verified (Resolved)</td><td><strong>50.8</strong></td><td>38.8</td><td>42.0</td><td>41.6</td><td>48.9</td><td>49.2</td></tr>
+<tr><td>Aider-Polyglot (Acc.)</td><td>45.3</td><td>16.0</td><td>49.6</td><td>32.9</td><td><strong>61.7</strong></td><td>53.3</td></tr>
+<tr><td>AIME 2024 (Pass@1)</td><td>16.0</td><td>9.3</td><td>39.2</td><td>63.6</td><td>79.2</td><td><strong>79.8</strong></td></tr>
+<tr><td>MATH-500 (Pass@1)</td><td>78.3</td><td>74.6</td><td>90.2</td><td>90.0</td><td>96.4</td><td><strong>97.3</strong></td></tr>
+<tr><td>CNMO 2024 (Pass@1)</td><td>13.1</td><td>10.8</td><td>43.2</td><td>67.6</td><td>-</td><td><strong>78.8</strong></td></tr>
+<tr><td>CLUEWSC (EM)</td><td>85.4</td><td>87.9</td><td>90.9</td><td>89.9</td><td>-</td><td><strong>92.8</strong></td></tr>
+<tr><td>C-Eval (EM)</td><td>76.7</td><td>76.0</td><td>86.5</td><td>68.9</td><td>-</td><td><strong>91.8</strong></td></tr>
+<tr><td>C-SimpleQA (Correct)</td><td>55.4</td><td>58.7</td><td><strong>68.0</strong></td><td>40.3</td><td>-</td><td>63.7</td></tr>
+</tbody></table>
+</div><!-- markdownlint-enable MD013 -->
+<div
+  class="table-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+<p>Table: Comparison between DeepSeek-R1 and other representative models.
+(Copied from Table 4 of Guo, Daya, et al (2024).)</p>
+</div>
 <ol>
 <li>
-<p><strong>Performance on Benchmarks:</strong> dfadf</p>
+<p><strong>Performance on Benchmarks:</strong> The table above which was copied from the DeepSeek-R1
+paper compares the performance of DeepSeek-R1 and -V3 with representative models
+from Anthropic and OpenAI. The values reported clearly demonstrate the impressive
+performance of DeepSeek-R1 across various benchmarks and tasks. Most notably,
+DeepSeek-R1 was able to surpass OpenAI's reasoning model o1-1217 on several benchmarks.</p>
 </li>
 <li>
 <p><strong>Distilling Reasoning Capabilities:</strong> The 800K samples that included generated
@@ -272,7 +316,13 @@ model GPT-4o-0513 across all benchmarks tested, but also OpenAI's o1-mini model
 on most benchmarks.</p>
 </li>
 <li>
-<p><strong>RL's Potential:</strong> DeepSeek-R1-Zero ...</p>
+<p><strong>RL's Potential:</strong> Pure RL empowered DeepSeek-R1-Zero to autonomously acquire
+robust reasoning capabilities without any SFT data. What's more is that as test-time
+computation was increased, desirable behaviours such as reflection and re-evaluation
+on past trajectories emerged making it possible for the model to have "aha moments"
+when solving complex tasks. This development should serve as a reminder of the
+great potential of RL and its overall place in AI as endeavour to reach new
+heights.</p>
 </li>
 </ol>
 <h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
