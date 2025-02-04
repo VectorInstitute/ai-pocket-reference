@@ -33,6 +33,7 @@
     - [LoRA](llms/fine_tuning/lora.md)
     - [QLoRA](llms/fine_tuning/qlora.md)
     - [DoRA](llms/fine_tuning/dora.md)
+    - [YaRN](llms/fine_tuning/yarn.md)
   - [Agents](llms/agents/README.md)
     - [Tool Use](llms/agents/tool_use.md)
     - [Reflection](llms/agents/reflection.md)

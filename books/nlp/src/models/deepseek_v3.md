@@ -2,7 +2,8 @@
 
 # DeepSeek-v3
 
-The DeepSeek-V3 model was introduced by DeepSeek in December of 2024.
+The DeepSeek-V3 model was introduced by DeepSeek in December of 2024. It is an
+LLM that leverages [MoE](../llms/architecture/moe.md) in its design.
 
 <center>
 <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/deepseek-v3-lineage-v2.excalidraw.svg" alt="DeepSeek-V3 Model Lineage"> <!-- markdownlint-disable-line MD013 -->
@@ -16,6 +17,12 @@ The DeepSeek-V3 model was introduced by DeepSeek in December of 2024.
 Figure: Illustrating DeepSeek-V3 training evolution.
 
 </div>
+
+The training pipeline for DeepSeek-V3 consists of two typical stages: pre-training
+and post-training. As depicted in the Figure above, the pre-training stage involves
+a pre-training on 14.8T tokens followed by long-context extension using the [YaRN](../llms/fine_tuning/yarn.md)
+methodology. Post-training of DeepSeek-V3 utilizes [SFT](../llms/fine_tuning/sft.md)
+as well as Reinforcement Learning methods.
 
 ## Historical Significance
 
