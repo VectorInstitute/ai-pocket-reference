@@ -18,9 +18,9 @@ Figure: Illustrating DeepSeek-V3 training evolution.
 
 </div>
 
-The training pipeline for DeepSeek-V3 consists of two typical stages: pre-training
+The training pipeline for DeepSeek-V3 consists of the two typical stages: pre-training
 and post-training. As depicted in the Figure above, the pre-training stage involves
-a pre-training on 14.8T tokens followed by long-context extension using the [YaRN](../llms/fine_tuning/yarn.md)
+pre-training on 14.8T tokens followed by long-context extension using the [YaRN](../llms/fine_tuning/yarn.md)
 methodology. Post-training of DeepSeek-V3 utilizes [SFT](../llms/fine_tuning/sft.md)
 as well as Reinforcement Learning methods.
 
