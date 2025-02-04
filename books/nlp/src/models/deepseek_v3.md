@@ -62,7 +62,12 @@ another linear project matrix for compressing keys and values back up. Only the
 compressed joint representation of keys and values need to be cached during inference.
 For more details see [MLA](../llms/architecture/mla.md).
 
-**Multi-Token Prediction** lorem ipsum. For more details see [MTP](../llms/decoding/multi_token_prediction.md).
+**Multi-Token Prediction:** In an effort to improve the training signal, DeepSeek-V3
+expands the prediction scope to additional future tokens at every token position
+of the sequence. In other words, instead of only predicting the next immediate token
+and training the model on this signal, $D$ future tokens are predicted. These tokens
+are predicted sequentially by $D$ sequential multi-token prediction modules in order
+to maintain the causal chain. For more details see [MTP](../llms/decoding/multi_token_prediction.md).
 
 | Parameter                           | Value                     |
 | ----------------------------------- | ------------------------- |
