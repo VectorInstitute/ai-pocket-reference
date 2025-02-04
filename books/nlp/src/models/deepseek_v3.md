@@ -26,6 +26,13 @@ as well as Reinforcement Learning methods.
 
 ## Historical Significance
 
+At the time of its release, open-source models had already been lessening the gap
+in performance with closed-source counterparts. DeepSeek-V3 was yet another open-source
+model that achieved high levels of performance, beating other open-source alternatives
+as well as some closed-source models in various benchmarks. Additionally, DeepSeek-V3
+was trained on relatively less compute (with NVIDIA H800's instead of the more capable
+NVIDIA H100 or A100 GPUs).
+
 ## Architectural Highlights
 
 DeepSeek-V3 is a transformer-based model that swaps out nearly all dense [feedforward](../llms/architecture/feedforward.md)
