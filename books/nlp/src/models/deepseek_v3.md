@@ -29,9 +29,9 @@ as well as Reinforcement Learning methods.
 At the time of its release, open-source models had already been lessening the gap
 in performance with closed-source counterparts. DeepSeek-V3 was yet another open-source
 model that achieved high levels of performance, beating other open-source alternatives
-as well as some closed-source models in various benchmarks. Additionally, DeepSeek-V3
-was trained on relatively less compute (with NVIDIA H800's instead of the more capable
-NVIDIA H100 or A100 GPUs).
+as well as some closed-source models in various benchmarks. What made DeepSeek-V3's
+achievement even more intriguing was that it was reportedly trained using less
+compute than its closest counterparts.
 
 ## Architectural Highlights
 
@@ -42,13 +42,27 @@ but through its specialized variant of MoE (referred to as DeepSeekMoE), only
 long-context extension fine-tuning steps, the maximum context length for this model
 was extended to 128K tokens.
 
-**DeepSeekMoE** lorem ipsum
+**DeepSeekMoE:** Used to carry out training more efficiently, this MoE design
+consists of two sets of experts, namely: shared and routed. The former set of routers
+is used for every token in the input sequence whereas the usage of routed ones are
+determined according to the affinity to the input token.
 
-**Auxiliary-loss Load Free Balancing** lorem ipsum
+**Auxiliary-loss Load Free Balancing:** When using an MoE architecture, one must
+consider load balancing across the networks to prevent routing collapse. This has
+been typically addressed via the introduction of an auxiliary loss. However, if
+this loss has too great of an influence, it can lead to a model degradation. DeepSeek-V3
+instead considers a technique that requires no auxiliary loss but instead relies
+on a new bias term that dynamically changes its value according to the experts
+current workload.
 
-**Multi-Head Latent Attention (MLA)** lorem ipsum
+**Multi-Head Latent Attention (MLA):** Used for making inference more efficient
+by jointly compressing attention keys and values to a lower dimension. The compression
+involves a linear projection matrix compressing keys and values down as well as
+another linear project matrix for compressing keys and values back up. Only the
+compressed joint representation of keys and values need to be cached during inference.
+For more details see [MLA](../llms/architecture/mla.md).
 
-**Multi-Token Prediction** lorem ipsum
+**Multi-Token Prediction** lorem ipsum. For more details see [MTP](../llms/decoding/multi_token_prediction.md).
 
 | Parameter                           | Value                     |
 | ----------------------------------- | ------------------------- |
@@ -138,6 +152,8 @@ Table 2: Comparison between DeepSeek-V3 and other representative models.
 
 1. [_Liu, Aixin, et al. "Deepseek-v3 technical report." arXiv preprint
    arXiv:2412.19437 (2024)._](https://arxiv.org/pdf/2412.19437)
+2. [DeepSeek sparks AI stock selloff; Nvidia posts record market-cap loss](https://www.reuters.com/technology/chinas-deepseek-sets-off-ai-market-rout-2025-01-27/)
+   (_appearing in reuters.com_)
 
 <!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
