@@ -121,7 +121,7 @@ Below are three key results of DeepSeek-R1 and its development:
 >
 
 Table: Comparison between DeepSeek-R1 and other representative models.
-(Copied from Table 4 of Guo, Daya, et al (2024).)
+(Copied from Table 4 of Guo, Daya, et al (2025).)
 
 </div>
 

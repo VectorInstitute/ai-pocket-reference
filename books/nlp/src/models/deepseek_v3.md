@@ -38,16 +38,9 @@ NVIDIA H100 or A100 GPUs).
 DeepSeek-V3 is a transformer-based model that swaps out nearly all dense [feedforward](../llms/architecture/feedforward.md)
 for [MoE](../llms/architecture/moe.md). The model has a total of 671B parameters
 but through its specialized variant of MoE (referred to as DeepSeekMoE), only
-37B parameters are activated in both training and inference. The maximum context
-length for this model is 128K tokens.
-
-- Number of Transformer layers: 61
-- Hidden dimension size: 7168
-- Number of attention heads: 128
-- KV compression dim: 512
-- Number of experts (MoE): 1 (shared) & 256 (routed)
-- Hidden dimension of experts: 2048
-- Multi-Token depth: 1
+37B parameters are activated in both training and inference. Through a series of
+long-context extension fine-tuning steps, the maximum context length for this model
+was extended to 128K tokens.
 
 **DeepSeekMoE** lorem ipsum
 
@@ -56,6 +49,28 @@ length for this model is 128K tokens.
 **Multi-Head Latent Attention (MLA)** lorem ipsum
 
 **Multi-Token Prediction** lorem ipsum
+
+| Parameter                           | Value                     |
+| ----------------------------------- | ------------------------- |
+| Total parameters                    | 671B                      |
+| Activated parameters                | 37B                       |
+| Maximum context length              | 128K tokens               |
+| Number of Transformer layers        | 61                        |
+| Hidden dimension size               | 7168                      |
+| Number of attention heads           | 128                       |
+| Number of experts (MoE)             | 1 (shared) & 256 (routed) |
+| Hidden dimension of experts         | 2048                      |
+| KV compression dimension size (MLA) | 512                       |
+| Multi-token depth (MTP)             | 1                         |
+
+<div
+  class="table-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+
+Table 1: Summary of DeepSeek-V3 architecture and hyper parameters.
+
+</div>
 
 ## Training Data
 
@@ -106,6 +121,16 @@ the cluster consists of 8 H800 GPUs inter-connected via NVLink and NVSwitch.
 | MMLU-non-English (EM)       | 5-shot  | 64.0             | 74.8             | 73.8                | **79.4**         |
 
 <!-- markdownlint-enable MD013 -->
+
+<div
+  class="table-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+
+Table 2: Comparison between DeepSeek-V3 and other representative models.
+(Copied from Table 3 of Liu, Aixin, et al (2024).)
+
+</div>
 
 ## Limitations
 
