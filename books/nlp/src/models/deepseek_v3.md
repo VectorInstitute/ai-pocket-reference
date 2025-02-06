@@ -17,9 +17,7 @@ LLM that leverages [MoE](../llms/architecture/moe.md) in its design.
   class="figure-caption"
   style="text-align: center; font-size: 0.8em; margin-top: 10px;"
 >
-
 Figure: Illustrating DeepSeek-V3 training evolution.
-
 </div>
 
 The training pipeline for DeepSeek-V3 consists of the two typical stages: pre-training
@@ -90,9 +88,7 @@ to maintain the causal chain. For more details see [MTP](../llms/decoding/multi_
   class="table-caption"
   style="text-align: center; font-size: 0.8em; margin-top: 10px;"
 >
-
 Table 1: Summary of DeepSeek-V3 architecture and hyper parameters.
-
 </div>
 
 ## Training Data
@@ -149,10 +145,8 @@ the cluster consists of 8 H800 GPUs inter-connected via NVLink and NVSwitch.
   class="table-caption"
   style="text-align: center; font-size: 0.8em; margin-top: 10px;"
 >
-
 Table 2: Comparison between DeepSeek-V3 and other representative models.
 (Copied from Table 3 of Liu, Aixin, et al (2024).)
-
 </div>
 
 ## Limitations
