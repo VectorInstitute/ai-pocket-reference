@@ -23,7 +23,10 @@ jobs:
           toolchain: stable
 
       - name: Install mdbook if needed
-        run: (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "^0.4" mdbook)
+        run: |
+          (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "^0.4" mdbook)
+          cargo install mdbook-reading-time
+          cargo install mdbook-github-authors --version 0.1.0-a0
 
       - name: Build books
         run: |
