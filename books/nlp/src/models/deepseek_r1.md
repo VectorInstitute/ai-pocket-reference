@@ -1,4 +1,10 @@
+<!-- markdownlint-disable-file MD033 -->
+
 # DeepSeek-R1
+
+<p align="left"><small>
+(Reading time: {{ #reading_time }})
+</small></p>
 
 The DeepSeek-R1 model was introduced by DeepSeek in January of 2025. It is
 derived from an earlier checkpoint of [DeepSeek-V3](../models/deepseek_v3.md).
@@ -171,17 +177,4 @@ such as software-engineering tasks.
 <!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
 
----
-
-<div class="contributor-footnotes">
-<small>
-
-**Contributors:**
-
-<a href="https://github.com/nerdai">
-<img src="https://github.com/nerdai.png"
-  width="32px" alt="Contributor 1" style="border-radius: 50%">
-</a>
-</small>
-
-</div>
+{{#author nerdai}}

@@ -2,6 +2,10 @@
 
 # DeepSeek-v3
 
+<p align="left"><small>
+(Reading time: {{ #reading_time }})
+</small></p>
+
 The DeepSeek-V3 model was introduced by DeepSeek in December of 2024. It is an
 LLM that leverages [MoE](../llms/architecture/moe.md) in its design.
 
@@ -163,17 +167,4 @@ Table 2: Comparison between DeepSeek-V3 and other representative models.
 <!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
 
----
-
-<div class="contributor-footnotes">
-<small>
-
-**Contributors:**
-
-<a href="https://github.com/nerdai">
-<img src="https://github.com/nerdai.png"
-  width="32px" alt="Contributor 1" style="border-radius: 50%">
-</a>
-</small>
-
-</div>
+{{#author nerdai}}

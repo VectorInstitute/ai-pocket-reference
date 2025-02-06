@@ -16,6 +16,12 @@ create-missing = true             # whether or not to create missing pages
 use-default-preprocessors = true  # use the default preprocessors
 extra-watch-dirs = []             # directories to watch for triggering builds
 
+# preprocessors
+[preprocessor.github-authors]
+command = "mdbook-github-authors"
 
+[preprocessor.reading-time]
+
+# renderer options
 [output.html]
 mathjax-support = true
