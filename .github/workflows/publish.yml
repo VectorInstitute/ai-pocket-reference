@@ -30,12 +30,12 @@ jobs:
 
       - name: Build books
         run: |
-          mdbook build books/fundamentals
-          mdbook build books/cv
+          # mdbook build books/fundamentals
+          # mdbook build books/cv
           mdbook build books/nlp
-          mdbook build books/rl
-          mdbook build books/responsible_ai
-          mdbook build books/fl
+          # mdbook build books/rl
+          # mdbook build books/responsible_ai
+          # mdbook build books/fl
 
       - name: Copy static assets to build folder
         run: |

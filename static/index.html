@@ -35,9 +35,25 @@
             border-radius: 4px;
             transition: all 0.2s ease;
         }
-        .nav-links a:hover {
-            background: #f5f5f5;
-            border-color: #999;
+        .link, .disabled-link {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #000;
+            transition: background-color 0.2s;
+        }
+        .link {
+            background-color: white;
+        }
+        .link:hover {
+            background-color: #f5f5f5;
+        }
+        .disabled-link {
+            color: #999;
+            background-color: #f5f5f5;
+            cursor: not-allowed;
         }
         footer {
             margin-top: auto;
@@ -80,12 +96,22 @@
 
 
     <div class="nav-links">
-        <a href="https://vectorinstitute.github.io/ai-pocket-reference/fundamentals">AI Fundamentals</a>
-        <a href="https://vectorinstitute.github.io/ai-pocket-reference/nlp">Natural Language Processing</a>
-        <a href="https://vectorinstitute.github.io/ai-pocket-reference/cv">Computer Vision</a>
-        <a href="https://vectorinstitute.github.io/ai-pocket-reference/rl">Reinforcement Learning</a>
-        <a href="https://vectorinstitute.github.io/ai-pocket-reference/fl">Federated Learning</a>
-        <a href="https://vectorinstitute.github.io/ai-pocket-reference/responsible_ai">Responsible AI</a>
+        <!-- <a href="https://vectorinstitute.github.io/ai-pocket-reference/fundamentals">AI Fundamentals</a> -->
+        <div class="disabled-link">AI Fundamentals</div>
+
+        <a href="https://vectorinstitute.github.io/ai-pocket-reference/nlp" class="link">Natural Language Processing</a>
+
+        <!-- <a href="https://vectorinstitute.github.io/ai-pocket-reference/cv">Computer Vision</a> -->
+        <div class="disabled-link">Computer Vision</div>
+
+        <!-- <a href="https://vectorinstitute.github.io/ai-pocket-reference/rl">Reinforcement Learning</a> -->
+        <div class="disabled-link">Reinforcement Learning</div>
+
+        <!-- <a href="https://vectorinstitute.github.io/ai-pocket-reference/fl">Federated Learning</a> -->
+        <div class="disabled-link">Federated Learning</div>
+
+        <!-- <a href="https://vectorinstitute.github.io/ai-pocket-reference/responsible_ai">Responsible AI</a> -->
+        <div class="disabled-link">Responsible AI</div>
     </div>
 
     <footer>
