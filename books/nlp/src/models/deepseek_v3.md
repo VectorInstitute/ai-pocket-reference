@@ -175,6 +175,9 @@ Table 2: Comparison between DeepSeek-V3 and other representative models.
 
 ## Limitations
 
+DeepSeek-V3 requires significant amounts of computation facilities to ensure efficient
+inference.
+
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
 1. [_Liu, Aixin, et al. "Deepseek-v3 technical report." arXiv preprint
