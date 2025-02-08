@@ -60,6 +60,13 @@ We welcome contributions from the AI community! If you'd like to write a new poc
 reference or help improve existing ones, please see our [CONTRIBUTING.md](CONTRIBUTING.md)
 file for detailed guidelines.
 
+## License
+
+AI Pocket Reference © 2025 by Vector Insitute (AI Engineering) is marked with
+CC0 1.0. To view a copy of this license, visit [https://creativecommons.org/publicdomain/zero/1.0/](https://creativecommons.org/publicdomain/zero/1.0/)
+
+See the [LICENSE](LICENSE) file for details.
+
 ## Citation
 
 While this work is released under CC0 and citation is not required, if you would
@@ -74,13 +81,6 @@ like to reference the AI Pocket Reference in your work, you can cite it as:
   doi = {10.5281/zenodo.XXXXXX}
 }
 ```
-
-## License
-
-AI Pocket Reference © 2025 by Vector Insitute (AI Engineering) is marked with
-CC0 1.0. To view a copy of this license, visit [https://creativecommons.org/publicdomain/zero/1.0/](https://creativecommons.org/publicdomain/zero/1.0/)
-
-See the [LICENSE](LICENSE) file for details.
 
 ---
 
