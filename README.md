@@ -1,5 +1,13 @@
 # AI Pocket Reference
 
+<!-- markdownlint-disable MD033 -->
+
+<p align="center">
+  <img src="./static/logo.svg" alt="AI Pocket Reference Logo" width="200"/>
+</p>
+
+<!-- markdownlint-enable MD033 -->
+
 A streamlined reference manual providing concise information about artificial intelligence
 fundamentals, as well as areas such as computer vision, natural language processing,
 reinforcement learning, federated learning, and responsible AI.
