@@ -63,9 +63,7 @@ file for detailed guidelines.
 ## License
 
 AI Pocket Reference © 2025 by Vector Insitute (AI Engineering) is marked with
-CC0 1.0. To view a copy of this license, visit [https://creativecommons.org/publicdomain/zero/1.0/](https://creativecommons.org/publicdomain/zero/1.0/)
-
-See the [LICENSE](LICENSE) file for details.
+CC0 1.0. See the [LICENSE](LICENSE) file for details.
 
 ## Citation
 
