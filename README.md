@@ -67,7 +67,7 @@ CC0 1.0. See the [LICENSE](LICENSE) file for details.
 
 ## Citation
 
-While this work is released under CC0 and citation is not required, if you would
+While this work is released under CC0 1.0 and citation is not required, if you would
 like to reference the AI Pocket Reference in your work, you can cite it as:
 
 ```bibtex
