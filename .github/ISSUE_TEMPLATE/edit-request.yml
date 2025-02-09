@@ -1,7 +1,8 @@
 name: 📝 Edit Request
 description: Submit a request to edit a pocket reference
 title: "[EDIT]"
-labels: [edit-request]
+labels: ["edit"]
+project: ["VectorInstitute/7"]
 assignees: []
 
 body:
