@@ -56,12 +56,20 @@ You can contribute to the AI Pocket Reference project in several ways:
    # Clone your fork
    git clone https://github.com/YOUR_USERNAME/ai-pocket-reference.git
    cd ai-pocket-reference
+   ```
 
+2. **Install `mdbook` and Required Preprocessors**
+
+   ```bash
    # Install mdbook and required preprocessors
    cargo install mdbook
    cargo install mdbook-reading-time    # For calculating reading time
    cargo install mdbook-github-authors  # For tracking contributors
+   ```
 
+3. **Install `pre-commit`**
+
+   ```bash
    # Install and set up pre-commit hooks
    pip install pre-commit
    pre-commit install
@@ -76,33 +84,33 @@ You can contribute to the AI Pocket Reference project in several ways:
    These checks run automatically before each commit to maintain the quality of
    our pocket references.
 
-2. **Make Your Changes**
+4. **Make Your Changes**
 
-The AI Pocket Reference is organized as a collection of mdBooks, with separate
-books for different areas of AI. The available books are:
+   The AI Pocket Reference is organized as a collection of mdBooks, with separate
+   books for different areas of AI. The available books are:
 
-- `books/fundamentals` - Core AI/ML concepts and foundations
-- `books/cv` - Computer Vision
-- `books/nlp` - Natural Language Processing
-- `books/rl` - Reinforcement Learning
-- `books/fl` - Federated Learning
-- `books/responsible_ai` - Responsible AI and Ethics
+   - `books/fundamentals` - Core AI/ML concepts and foundations
+   - `books/cv` - Computer Vision
+   - `books/nlp` - Natural Language Processing
+   - `books/rl` - Reinforcement Learning
+   - `books/fl` - Federated Learning
+   - `books/responsible_ai` - Responsible AI and Ethics
 
-When making changes, you'll need to work with the appropriate book for your topic.
+   When making changes, you'll need to work with the appropriate book for your topic.
 
-- Build and test locally (make sure you're in the project root directory):
+   - Build and test locally (make sure you're in the project root directory):
 
-  ```bash
-  # From the project root directory (ai-pocket-reference/),
-  # watch and automatically open the book in your browser
-  mdbook watch books/<book-name> --open
+     ```bash
+     # From the project root directory (ai-pocket-reference/),
+     # watch and automatically open the book in your browser
+     mdbook watch books/<book-name> --open
 
-  # For example, to work on the NLP book:
-  mdbook watch books/nlp --open
-  ```
+     # For example, to work on the NLP book:
+     mdbook watch books/nlp --open
+     ```
 
-- Make sure you're working with the correct book for your contribution
-- Commit your changes with clear commit messages
+   - Make sure you're working with the correct book for your contribution
+   - Commit your changes with clear commit messages
 
 ## Style Guide
 
