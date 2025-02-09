@@ -12,12 +12,27 @@ body:
         ## New Pocket Reference Request Template
         Help us expand our collection of AI pocket references by suggesting a new one!
 
+  - type: dropdown
+    id: reference-book
+    attributes:
+      label: Book
+      description: Select the book to which this Pocket Reference belongs
+      options:
+        - fundamentals
+        - nlp
+        - cv
+        - rl
+        - fl
+        - responsible_ai
+    validations:
+      required: true
+
   - type: input
     id: reference-title
     attributes:
-      label: Proposed AI Pocket Reference
+      label: Pocket Reference Title
       description: What would you like the new pocket reference to cover?
-      placeholder: e.g., Attention, Differential Privacy, Back Propagation
+      placeholder: e.g., attention.md, differential_privacy.md, backpropagation.md
     validations:
       required: true
 
@@ -25,32 +40,8 @@ body:
     id: reference-content
     attributes:
       label: Proposed Content
-      description: Describe the content and focus of the proposed AI pocket reference
-      placeholder: Provide details about the concepts, models, techniques, etc., to be covered
-    validations:
-      required: true
-
-  - type: textarea
-    id: useful-links
-    attributes:
-      label: References
-      description: Provide links to resource materials on which the Pocket Reference should be based.
-      placeholder: e.g., https://arxiv.org/pdf/1706.03762
-    validations:
-      required: true
-
-  - type: dropdown
-    id: reference-book
-    attributes:
-      label: Reference Area
-      description: Select the area of AI to which this Pocket Reference belongs
-      options:
-        - AI Fundamentals
-        - Natural Language Processing (NLP)
-        - Computer Vision (CV)
-        - Reinforcement Learning (RL)
-        - Federated Learning (FL)
-        - Responsible AI
+      description: Describe the key concepts to be covered in this pocket reference
+      placeholder: Outline the main topics, concepts, techniques, or models that should be included
     validations:
       required: true
 
@@ -59,6 +50,37 @@ body:
     attributes:
       label: Rationale
       description: Why is this pocket reference valuable?
-      placeholder: Explain the need for this reference, its potential impact, or how it fills a gap in existing resources
+      placeholder: Explain why this topic deserves a pocket reference and how it would benefit the AI community
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: content-type
+    attributes:
+      label: Content Types
+      description: Select the types of content that should be included
+      options:
+        - label: Theoretical foundations
+        - label: Mathematical formulations
+        - label: Code examples
+        - label: Diagrams/visualizations
+        - label: Practical applications
+        - label: Common pitfalls/challenges
+    validations:
+      required: true
+
+  - type: textarea
+    id: useful-links
+    attributes:
+      label: Additional Resources
+      description: |
+        Provide supporting materials that could help in creating this pocket reference.
+        This could include:
+        - Academic papers
+        - Official documentation
+        - Tutorial links
+        - Blog posts
+        - Implementation examples
+      placeholder: List any relevant resources with brief descriptions of their relevance
     validations:
       required: true
