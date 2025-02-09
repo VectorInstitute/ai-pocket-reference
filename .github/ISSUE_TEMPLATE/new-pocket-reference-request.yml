@@ -9,55 +9,47 @@ body:
     attributes:
       value: |
         ## New Pocket Reference Request Template
-        Help us expand our collection of pocket references by suggesting a new one!
+        Help us expand our collection of AI pocket references by suggesting a new one!
 
   - type: input
     id: reference-title
     attributes:
-      label: Proposed Reference Title
-      description: What would you like the new pocket reference to be called?
-      placeholder: e.g., Docker Cheat Sheet, Machine Learning Quick Reference
+      label: Proposed AI Pocket Reference
+      description: What would you like the new pocket reference to cover?
+      placeholder: e.g., Attention, Differential Privacy, Back Propagation
     validations:
       required: true
 
   - type: textarea
-    id: reference-scope
+    id: reference-content
     attributes:
-      label: Reference Scope
-      description: Describe the content and focus of the proposed pocket reference
-      placeholder: Provide details about the topics, technologies, or concepts to be covered
+      label: Proposed Content
+      description: Describe the content and focus of the proposed AI pocket reference
+      placeholder: Provide details about the concepts, models, techniques, etc., to be covered
     validations:
       required: true
 
   - type: textarea
-    id: target-audience
+    id: useful-links
     attributes:
-      label: Target Audience
-      description: Who would benefit most from this pocket reference?
-      placeholder: Describe the skill level, profession, or use case for this reference
-    validations:
-      required: true
-
-  - type: textarea
-    id: key-contents
-    attributes:
-      label: Key Contents
-      description: List the main sections or topics you propose to include
-      placeholder: Provide a bullet-point list of key sections, important concepts, or critical information to cover
+      label: References
+      description: Provide links to resource materials on which the Pocket Reference should be based.
+      placeholder: e.g., https://arxiv.org/pdf/1706.03762
     validations:
       required: true
 
   - type: checkboxes
-    id: reference-type
+    id: reference-book
     attributes:
-      label: Reference Type
-      description: Select the category of the proposed pocket reference
+      label: Reference Area
+      description: Select the area of AI to which this Pocket Reference belongs
       options:
-        - label: Programming Language
-        - label: Framework/Library
-        - label: Tool/Technology
-        - label: Concept/Methodology
-        - label: Other (please specify)
+        - label: AI Fundamentals
+        - label: Natural Language Processing (NLP)
+        - label: Computer Vision (CV)
+        - label: Reinforcement Learning (RL)
+        - label: Federated Learning (FL)
+        - label: Responsible AI
 
   - type: textarea
     id: rationale
@@ -67,10 +59,3 @@ body:
       placeholder: Explain the need for this reference, its potential impact, or how it fills a gap in existing resources
     validations:
       required: true
-
-  - type: textarea
-    id: additional-context
-    attributes:
-      label: Additional Context
-      description: Any other information that might help in evaluating the request
-      placeholder: Include links to resources, example use cases, or supplementary information
