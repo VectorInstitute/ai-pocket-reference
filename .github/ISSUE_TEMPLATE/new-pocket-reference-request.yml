@@ -2,8 +2,7 @@ name: 🆕 New Pocket Reference Request
 description: Request a new pocket reference
 title: "[NEW REQUEST]"
 labels: ["new"]
-project: ["VectorInstitute/7"]
-assignees: []
+projects: ["VectorInstitute/7"]
 
 body:
   - type: markdown
