@@ -1,0 +1,77 @@
+name: 🆕 New Pocket Reference Request
+description: Request a new pocket reference
+title: "[NEW REQUEST]"
+labels: ["new"]
+project: ["VectorInstitute/7"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## New Pocket Reference Request Template
+        Help us expand our collection of pocket references by suggesting a new one!
+
+  - type: input
+    id: reference-title
+    attributes:
+      label: Proposed Reference Title
+      description: What would you like the new pocket reference to be called?
+      placeholder: e.g., Docker Cheat Sheet, Machine Learning Quick Reference
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference-scope
+    attributes:
+      label: Reference Scope
+      description: Describe the content and focus of the proposed pocket reference
+      placeholder: Provide details about the topics, technologies, or concepts to be covered
+    validations:
+      required: true
+
+  - type: textarea
+    id: target-audience
+    attributes:
+      label: Target Audience
+      description: Who would benefit most from this pocket reference?
+      placeholder: Describe the skill level, profession, or use case for this reference
+    validations:
+      required: true
+
+  - type: textarea
+    id: key-contents
+    attributes:
+      label: Key Contents
+      description: List the main sections or topics you propose to include
+      placeholder: Provide a bullet-point list of key sections, important concepts, or critical information to cover
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: reference-type
+    attributes:
+      label: Reference Type
+      description: Select the category of the proposed pocket reference
+      options:
+        - label: Programming Language
+        - label: Framework/Library
+        - label: Tool/Technology
+        - label: Concept/Methodology
+        - label: Other (please specify)
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why is this pocket reference valuable?
+      placeholder: Explain the need for this reference, its potential impact, or how it fills a gap in existing resources
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that might help in evaluating the request
+      placeholder: Include links to resources, example use cases, or supplementary information
