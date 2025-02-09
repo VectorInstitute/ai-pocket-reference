@@ -1,6 +1,6 @@
 name: 🆕 New Pocket Reference Request
 description: Request a new pocket reference
-title: "[NEW REQUEST]"
+title: "[NEW REQUEST] <insert-new-pocket-ref-name>"
 labels: ["new"]
 projects: ["VectorInstitute/7"]
 

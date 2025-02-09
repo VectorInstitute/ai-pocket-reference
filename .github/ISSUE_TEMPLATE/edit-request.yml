@@ -1,7 +1,8 @@
 name: 📝 Edit Request
 description: Submit a request to edit a pocket reference
-title: "[EDIT REQUEST]"
-labels: ["edit"]
+title: "[EDIT REQUEST] <insert-pocket-ref-name>"
+labels:
+  - edit
 projects: ["VectorInstitute/7"]
 
 body:
@@ -14,8 +15,8 @@ body:
   - type: dropdown
     id: reference-book
     attributes:
-      label: Reference Area
-      description: Select the area of AI to which this Pocket Reference belongs
+      label: Book
+      description: Select the book to which this Pocket Reference belongs
       options:
         - AI Fundamentals
         - Natural Language Processing (NLP)
@@ -23,15 +24,6 @@ body:
         - Reinforcement Learning (RL)
         - Federated Learning (FL)
         - Responsible AI
-    validations:
-      required: true
-
-  - type: input
-    id: reference-name
-    attributes:
-      label: Pocket Reference Name
-      description: Specify which AI pocket reference needs editing
-      placeholder: e.g., Attention, LoRA
     validations:
       required: true
 
