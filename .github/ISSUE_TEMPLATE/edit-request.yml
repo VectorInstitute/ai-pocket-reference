@@ -18,12 +18,21 @@ body:
       label: Book
       description: Select the book to which this Pocket Reference belongs
       options:
-        - AI Fundamentals
-        - Natural Language Processing (NLP)
-        - Computer Vision (CV)
-        - Reinforcement Learning (RL)
-        - Federated Learning (FL)
-        - Responsible AI
+        - fundamentals
+        - nlp
+        - cv
+        - rl
+        - fl
+        - responsible_ai
+    validations:
+      required: true
+
+  - type: input
+    id: reference-name
+    attributes:
+      label: Pocket Reference Name
+      description: Name of the specific pocket reference you want to edit
+      placeholder: e.g., transformers.md, cnns.md
     validations:
       required: true
 
@@ -58,7 +67,7 @@ body:
     id: edit-type
     attributes:
       label: Type of Edit
-      description: Select the type of changes you're proposing
+      description: Select all types of changes you're proposing
       options:
         - label: Correction of factual information
         - label: Clarification of existing content
@@ -66,10 +75,18 @@ body:
         - label: Updating outdated content
         - label: Improving readability
         - label: Other (please specify in the reason)
+    validations:
+      required: true
 
   - type: textarea
     id: additional-context
     attributes:
       label: Additional Context
-      description: Any other information that might help in reviewing the edit request
-      placeholder: Include screenshots, links, or any supplementary information
+      description: |
+        Any other information that might help in reviewing the edit request.
+        This could include:
+        - Academic papers
+        - Official documentation
+        - Code examples
+        - Diagrams or figures
+      placeholder: Include references, links, or any supplementary information
