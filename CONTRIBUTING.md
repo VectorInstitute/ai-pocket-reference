@@ -142,9 +142,15 @@ There are two ways to include code in your pocket reference:
    - Include comments to explain key concepts
 
 2. **Supplementary Jupyter Notebooks**
-   - Submit notebooks to our [supplementary code repository](URL_TO_REPO)
+
+   - Submit notebooks to our [supplementary code repository](https://github.com/VectorInstitute/ai-pocket-reference-code)
    - Use for detailed implementations, tutorials, or extended examples
-   - Reference these notebooks from your pocket reference
+   - Reference these notebooks from your pocket reference using the helper
+     `{{#colab <book>/<notebook-title>.ipynb}}`
+
+     > [!NOTE]
+     > Ensure that you're notebook has been successfully merged into the supplementary
+     > code Github repository. Otherwise, the Google colab link will not work.
 
 Choose the appropriate method based on your needs:
 
