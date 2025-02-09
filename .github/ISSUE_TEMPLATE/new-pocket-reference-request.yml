@@ -38,18 +38,20 @@ body:
     validations:
       required: true
 
-  - type: checkboxes
+  - type: dropdown
     id: reference-book
     attributes:
       label: Reference Area
       description: Select the area of AI to which this Pocket Reference belongs
       options:
-        - label: AI Fundamentals
-        - label: Natural Language Processing (NLP)
-        - label: Computer Vision (CV)
-        - label: Reinforcement Learning (RL)
-        - label: Federated Learning (FL)
-        - label: Responsible AI
+        - AI Fundamentals
+        - Natural Language Processing (NLP)
+        - Computer Vision (CV)
+        - Reinforcement Learning (RL)
+        - Federated Learning (FL)
+        - Responsible AI
+    validations:
+      required: true
 
   - type: textarea
     id: rationale
