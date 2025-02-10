@@ -8,10 +8,6 @@
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
       <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
     </a>
-    <a target="_blank" href="https://colab.research.google.com/github/VectorInstitute/ai-pocket-reference-code/blob/main/notebooks/nlp/dummy.ipynb">
-      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-    </a>
-    <p style="margin: 0;"><small>Reading time: {{ #reading_time }}</small></p>
   </div>
 </div>
 <!-- markdownlint-enable MD013 -->
