@@ -27,6 +27,17 @@ of the LLM are frozen during fine-tuning and only the low-rank weight-update mat
 at each step of fine-tuning. This reduction in dimensionality helps to amplify the
 most important or influential features of the model.
 
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/LoRA.svg" alt="lora"> <!-- markdownlint-disable-line MD013 -->
+</center>
+
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: Illustrating a forward pass with LoRA
+</div>
+
 ## Some Math
 
 Let \\(W\\) represent the \\(d\times d\\) weight matrix for a dense, linear layer.
