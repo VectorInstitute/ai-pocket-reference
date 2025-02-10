@@ -30,18 +30,49 @@ most important or influential features of the model.
 ## Some Math
 
 Let \\(W\\) represent the \\(d\times d\\) weight matrix for a dense, linear layer.
-We can then loosely represent an updated version (i.e. after a training step) of
+We can then loosely represent an updated version (i.e. after fine-tuning) of
 this matrix as follows:
 
 $$W_{\text{updated}} = W + \Delta W,$$
 
-where \\(\Delta W\\) is the update matrix. With LoRA, it is \\(\Delta W\\) that we
-project into a low-rank space:
+where \\(\Delta W\\) is the update matrix. With LoRA, it is \\(\Delta W\\) which
+we project into a low-rank space:
 
 $$\Delta W \approx AB,$$
 
 where \\(A\\) and \\(B^T\\) are both matrices of dimension \\(d \times r\\) and
-\\(r < d\\).
+\\(r << d\\). During fine-tuning, \\(W\\) is frozen and only \\(A\\) and \\(B\\)
+are updated.
+
+For inference (i.e., forward phase), let \\(x\\) be an input embedding, then by
+the distributive property
+
+$$xW_{\text{updated}} = xW + x\Delta W \approx xW + xAB.$$
+
+## Implementation Details
+
+One modular implementation of LoRA involves the introduction of a `LoRALayer` that
+comprises of only the \\(A\\) and \\(B\\) dense weights. In this way, a `LoRALayer`
+can adapt a pre-trained `Linear` layer.
+
+```python
+import torch
+
+
+class LoRALayer(torch.nn.Module):
+    """A basic LoRALayer implementation."""
+
+    def __init__(self, d_in: int, d_out: int, rank: int):
+        self.A = torch.nn.Parameter(torch.empty(d_in, rank))
+        self.B = torch.nn.Parameter(torch.zeros(rank, d_out))
+
+    def forward(self, x):
+        return x @ self.A @ self.B
+```
+
+With the `LoRALayer` defined in this way, one can then combine this with a `Linear`
+layer to implement the LoRA technique. See the supplementary Colab notebook linked
+at the top of this pocket reference for more details.
 
 ## Performance
 
