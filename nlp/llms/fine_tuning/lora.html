@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>LoRA - AI Pocket Reference: NLP</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A streamlined reference manual for AI practitioners, students, and developers to quickly look up core concepts and mock implementations">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Pocket Reference: NLP</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- markdownlint-disable-file MD033 -->
+<h1 id="lora"><a class="header" href="#lora">LoRA</a></h1>
+<!-- markdownlint-disable MD013 -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <a target="_blank" href="https://colab.research.google.com/github/VectorInstitute/ai-pocket-reference-code/blob/main/notebooks/nlp/lora.ipynb">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 3 minutes</small></p>
+  </div>
+</div>
+<!-- markdownlint-enable MD013 -->
+<p>Low-rank adaptation (LoRA) is parameter-efficient fine-tuning (<a href="../fine_tuning/peft.html">PEFT</a>)
+introduced by Hu, Edward J. et al. (2021). The creators of LoRA posited that since
+trained deep learning models reside in low intrinsic dimensions, perhaps their
+weight-update matrices do as well.</p>
+<p>Specifically, with LoRA, we learn a low-rank representation of the weight-update
+matrices of dense, linear layers of a pre-trained LLM. The original weights
+of the LLM are frozen during fine-tuning and only the low-rank weight-update matrices
+at each step of fine-tuning. This reduction in dimensionality helps to amplify the
+most important or influential features of the model.</p>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/LoRA.svg" alt="lora"> <!-- markdownlint-disable-line MD013 -->
+</center>
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: Illustrating a forward pass with LoRA
+</div>
+<h2 id="some-math"><a class="header" href="#some-math">Some Math</a></h2>
+<p>Let \(W\) represent the \(d\times d\) weight matrix for a dense, linear layer.
+We can then loosely represent an updated version (i.e. after fine-tuning) of
+this matrix as follows:</p>
+<p>$$W_{\text{updated}} = W + \Delta W,$$</p>
+<p>where \(\Delta W\) is the update matrix. With LoRA, it is \(\Delta W\) which
+we project into a low-rank space:</p>
+<p>$$\Delta W \approx AB,$$</p>
+<p>where \(A\) and \(B^T\) are both matrices of dimension \(d \times r\) and
+\(r &lt;&lt; d\). During fine-tuning, \(W\) is frozen and only \(A\) and \(B\)
+are updated.</p>
+<p>For inference (i.e., forward phase), let \(x\) be an input embedding, then by
+the distributive property</p>
+<p>$$xW_{\text{updated}} = xW + x\Delta W \approx xW + xAB.$$</p>
+<h2 id="implementation-details"><a class="header" href="#implementation-details">Implementation Details</a></h2>
+<p>One modular implementation of LoRA involves the introduction of a <code>LoRALayer</code> that
+comprises of only the \(A\) and \(B\) dense weights. In this way, a <code>LoRALayer</code>
+can adapt a pre-trained <code>Linear</code> layer.</p>
+<pre><code class="language-python">import torch
+
+
+class LoRALayer(torch.nn.Module):
+    """A basic LoRALayer implementation."""
+
+    def __init__(self, d_in: int, d_out: int, rank: int):
+        self.A = torch.nn.Parameter(torch.empty(d_in, rank))
+        self.B = torch.nn.Parameter(torch.zeros(rank, d_out))
+
+    def forward(self, x):
+        return x @ self.A @ self.B
+</code></pre>
+<p>With the <code>LoRALayer</code> defined in this way, one can then combine this with a <code>Linear</code>
+layer to implement the LoRA technique. See the supplementary Colab notebook linked
+at the top of this pocket reference for more details.</p>
+<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
+<p>In the original paper, the authors reported similar levels of performance when using
+LoRA compared to full fine-tuning on various natural language generation and understanding
+tasks.</p>
+<h2 id="additional-benefits"><a class="header" href="#additional-benefits">Additional Benefits</a></h2>
+<p>Since LoRA matrices can be stored efficiently and separately from the pre-trained
+LLM weights, customization of these large models is highly scalable. Organizations
+can build libraries of specialized LoRA matrices for different datasets and domains,
+switching between them as needed for specific applications.</p>
+<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<ol>
+<li><a href="https://arxiv.org/pdf/2106.09685"><em>Hu, Edward J., et al. "Lora: Low-rank adaptation of large language models."
+arXiv preprint arXiv:2106.09685, 2021.</em></a></li>
+<li><a href="https://www.amazon.com/Build-Large-Language-Model-Scratch/dp/1633437167"><em>Raschka, Sebastian. Build a Large Language Model (From Scratch). Simon and
+Schuster, 2024.</em></a></li>
+<li><a href="https://huggingface.co/docs/peft/en/task_guides/lora_based_methods"><em>Sourab Mangrulkar et al. PEFT: State-of-the-art Parameter-Efficient Fine-Tuning methods (LoRA methods), 2022.</em></a></li>
+<li><a href="https://arxiv.org/pdf/2307.13269"><em>Huang, Chengsong, et al. "Lorahub: Efficient cross-task generalization via
+dynamic lora composition." arXiv preprint arXiv:2307.13269 (2023).</em></a></li>
+<li><a href="https://d3ddy8balm3goa.cloudfront.net/paper-cards/w29_2023-lora.excalidraw.svg"><em>Fajardo V.A. LoRA PaperCard, 2023.</em></a></li>
+</ol>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/nerdai">
+<img src="https://github.com/nerdai.png"
+  width="32px" alt="Contributor nerdai" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../models/deepseek_r1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../models/deepseek_r1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

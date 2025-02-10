@@ -157,6 +157,106 @@
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
+<h1 id="lora"><a class="header" href="#lora">LoRA</a></h1>
+<!-- markdownlint-disable MD013 -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <a target="_blank" href="https://colab.research.google.com/github/VectorInstitute/ai-pocket-reference-code/blob/main/notebooks/nlp/lora.ipynb">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 3 minutes</small></p>
+  </div>
+</div>
+<!-- markdownlint-enable MD013 -->
+<p>Low-rank adaptation (LoRA) is parameter-efficient fine-tuning (<a href="llms/fine_tuning/../fine_tuning/peft.html">PEFT</a>)
+introduced by Hu, Edward J. et al. (2021). The creators of LoRA posited that since
+trained deep learning models reside in low intrinsic dimensions, perhaps their
+weight-update matrices do as well.</p>
+<p>Specifically, with LoRA, we learn a low-rank representation of the weight-update
+matrices of dense, linear layers of a pre-trained LLM. The original weights
+of the LLM are frozen during fine-tuning and only the low-rank weight-update matrices
+at each step of fine-tuning. This reduction in dimensionality helps to amplify the
+most important or influential features of the model.</p>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/LoRA.svg" alt="lora"> <!-- markdownlint-disable-line MD013 -->
+</center>
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: Illustrating a forward pass with LoRA
+</div>
+<h2 id="some-math"><a class="header" href="#some-math">Some Math</a></h2>
+<p>Let \(W\) represent the \(d\times d\) weight matrix for a dense, linear layer.
+We can then loosely represent an updated version (i.e. after fine-tuning) of
+this matrix as follows:</p>
+<p>$$W_{\text{updated}} = W + \Delta W,$$</p>
+<p>where \(\Delta W\) is the update matrix. With LoRA, it is \(\Delta W\) which
+we project into a low-rank space:</p>
+<p>$$\Delta W \approx AB,$$</p>
+<p>where \(A\) and \(B^T\) are both matrices of dimension \(d \times r\) and
+\(r &lt;&lt; d\). During fine-tuning, \(W\) is frozen and only \(A\) and \(B\)
+are updated.</p>
+<p>For inference (i.e., forward phase), let \(x\) be an input embedding, then by
+the distributive property</p>
+<p>$$xW_{\text{updated}} = xW + x\Delta W \approx xW + xAB.$$</p>
+<h2 id="implementation-details"><a class="header" href="#implementation-details">Implementation Details</a></h2>
+<p>One modular implementation of LoRA involves the introduction of a <code>LoRALayer</code> that
+comprises of only the \(A\) and \(B\) dense weights. In this way, a <code>LoRALayer</code>
+can adapt a pre-trained <code>Linear</code> layer.</p>
+<pre><code class="language-python">import torch
+
+
+class LoRALayer(torch.nn.Module):
+    """A basic LoRALayer implementation."""
+
+    def __init__(self, d_in: int, d_out: int, rank: int):
+        self.A = torch.nn.Parameter(torch.empty(d_in, rank))
+        self.B = torch.nn.Parameter(torch.zeros(rank, d_out))
+
+    def forward(self, x):
+        return x @ self.A @ self.B
+</code></pre>
+<p>With the <code>LoRALayer</code> defined in this way, one can then combine this with a <code>Linear</code>
+layer to implement the LoRA technique. See the supplementary Colab notebook linked
+at the top of this pocket reference for more details.</p>
+<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
+<p>In the original paper, the authors reported similar levels of performance when using
+LoRA compared to full fine-tuning on various natural language generation and understanding
+tasks.</p>
+<h2 id="additional-benefits"><a class="header" href="#additional-benefits">Additional Benefits</a></h2>
+<p>Since LoRA matrices can be stored efficiently and separately from the pre-trained
+LLM weights, customization of these large models is highly scalable. Organizations
+can build libraries of specialized LoRA matrices for different datasets and domains,
+switching between them as needed for specific applications.</p>
+<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<ol>
+<li><a href="https://arxiv.org/pdf/2106.09685"><em>Hu, Edward J., et al. "Lora: Low-rank adaptation of large language models."
+arXiv preprint arXiv:2106.09685, 2021.</em></a></li>
+<li><a href="https://www.amazon.com/Build-Large-Language-Model-Scratch/dp/1633437167"><em>Raschka, Sebastian. Build a Large Language Model (From Scratch). Simon and
+Schuster, 2024.</em></a></li>
+<li><a href="https://huggingface.co/docs/peft/en/task_guides/lora_based_methods"><em>Sourab Mangrulkar et al. PEFT: State-of-the-art Parameter-Efficient Fine-Tuning methods (LoRA methods), 2022.</em></a></li>
+<li><a href="https://arxiv.org/pdf/2307.13269"><em>Huang, Chengsong, et al. "Lorahub: Efficient cross-task generalization via
+dynamic lora composition." arXiv preprint arXiv:2307.13269 (2023).</em></a></li>
+<li><a href="https://d3ddy8balm3goa.cloudfront.net/paper-cards/w29_2023-lora.excalidraw.svg"><em>Fajardo V.A. LoRA PaperCard, 2023.</em></a></li>
+</ol>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/nerdai">
+<img src="https://github.com/nerdai.png"
+  width="32px" alt="Contributor nerdai" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
 <h1 id="deepseek-r1"><a class="header" href="#deepseek-r1">DeepSeek-R1</a></h1>
 <!-- markdownlint-disable MD013 -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
@@ -164,10 +264,6 @@
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
       <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
     </a>
-    <a target="_blank" href="https://colab.research.google.com/github/VectorInstitute/ai-pocket-reference-code/blob/main/notebooks/nlp/dummy.ipynb">
-      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-    </a>
-    <p style="margin: 0;"><small>Reading time: 7 minutes</small></p>
   </div>
 </div>
 <!-- markdownlint-enable MD013 -->
@@ -296,7 +392,7 @@ great potential of RL and its overall place in AI as endeavour to reach new
 heights.</p>
 </li>
 </ol>
-<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
+<h2 id="limitations-1"><a class="header" href="#limitations-1">Limitations</a></h2>
 <p>DeepSeek reported various limitations for DeepSeek-R1. Most notably, DeepSeek-R1
 is inferior to DeepSeek-V3 in general capabilities such as function calling, producing
 structured outputs (JSON), role-playing, and multi-turn conversations. Additionally,
@@ -304,7 +400,7 @@ due to its optimization for English and Chinese, the model sometimes suffers fro
 language mixing. Lastly, DeepSeek-R1 reportedly demonstrated a high sensitivity
 to prompts and long inference times, making it unsuitable for low-latency applications
 such as software-engineering tasks.</p>
-<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<h4 id="references--useful-links-1"><a class="header" href="#references--useful-links-1">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li><a href="https://arxiv.org/pdf/2501.12948"><em>Guo, Daya, et al. "Deepseek-r1: Incentivizing reasoning capability in llms
 via reinforcement learning." arXiv preprint arXiv:2501.12948 (2025).</em></a></li>
@@ -316,7 +412,6 @@ arXiv:2412.19437 (2024).</em></a></li>
 <em>(by HuggingFace)</em></li>
 <li><a href="https://huggingface.co/deepseek-ai/DeepSeek-R1"><em>DeepSeek-R1 is available on HuggingFace</em></a></li>
 </ol>
-<!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
@@ -491,17 +586,16 @@ that this pipeline improved reasononing performance while still maintaining the
 ability to produce desired outputs and efficient response lengths.</p>
 </li>
 </ol>
-<h2 id="limitations-1"><a class="header" href="#limitations-1">Limitations</a></h2>
+<h2 id="limitations-2"><a class="header" href="#limitations-2">Limitations</a></h2>
 <p>DeepSeek-V3 requires significant amounts of computation facilities to ensure efficient
 inference.</p>
-<h4 id="references--useful-links-1"><a class="header" href="#references--useful-links-1">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<h4 id="references--useful-links-2"><a class="header" href="#references--useful-links-2">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li><a href="https://arxiv.org/pdf/2412.19437"><em>Liu, Aixin, et al. "Deepseek-v3 technical report." arXiv preprint
 arXiv:2412.19437 (2024).</em></a></li>
 <li><a href="https://www.reuters.com/technology/chinas-deepseek-sets-off-ai-market-rout-2025-01-27/">DeepSeek sparks AI stock selloff; Nvidia posts record market-cap loss</a>
 (<em>appearing in reuters.com</em>)</li>
 </ol>
-<!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
