@@ -38,5 +38,6 @@ at each step of fine-tuning.
    arXiv preprint arXiv:2106.09685 (2021)._](https://arxiv.org/pdf/2106.09685)
 2. [_Raschka, Sebastian. Build a Large Language Model (From Scratch). Simon and
    Schuster, 2024._](https://www.amazon.com/Build-Large-Language-Model-Scratch/dp/1633437167)
+3. [_Fajardo V.A. LoRA PaperCard._](https://d3ddy8balm3goa.cloudfront.net/paper-cards/w29_2023-lora.excalidraw.svg)
 
 {{#author nerdai}}
