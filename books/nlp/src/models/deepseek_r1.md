@@ -185,7 +185,6 @@ such as software-engineering tasks.
    _(by HuggingFace)_
 5. [_DeepSeek-R1 is available on HuggingFace_](https://huggingface.co/deepseek-ai/DeepSeek-R1)
 
-<!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
 
 {{#author nerdai}}

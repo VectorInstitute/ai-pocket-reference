@@ -192,7 +192,6 @@ inference.
 2. [DeepSeek sparks AI stock selloff; Nvidia posts record market-cap loss](https://www.reuters.com/technology/chinas-deepseek-sets-off-ai-market-rout-2025-01-27/)
    (_appearing in reuters.com_)
 
-<!-- TODO: mdBook preprocessor with custom mustache handler {{ #author }} -->
 <!-- markdownlint-disable-file MD033 -->
 
 {{#author nerdai}}
