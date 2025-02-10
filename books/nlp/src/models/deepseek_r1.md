@@ -2,9 +2,19 @@
 
 # DeepSeek-R1
 
-<p align="left"><small>
-(Reading time: {{ #reading_time }})
-</small></p>
+<!-- markdownlint-disable MD013 -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <a target="_blank" href="https://colab.research.google.com/github/VectorInstitute/ai-pocket-reference-code/blob/main/notebooks/nlp/dummy.ipynb">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: {{ #reading_time }}</small></p>
+  </div>
+</div>
+<!-- markdownlint-enable MD013 -->
 
 The DeepSeek-R1 model was introduced by DeepSeek in January of 2025. It is
 derived from an earlier checkpoint of [DeepSeek-V3](../models/deepseek_v3.md).
