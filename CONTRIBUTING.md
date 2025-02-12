@@ -63,7 +63,7 @@ You can contribute to the AI Pocket Reference project in several ways:
    ```bash
    # Install mdbook and required preprocessors
    cargo install mdbook
-   cargo install mdbook-reading-time    # For calculating reading time
+   cargo install mdbook-ai-pocket-reference    # For aipr preprocessors
    cargo install mdbook-github-authors  # For tracking contributors
    ```
 

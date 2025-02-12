@@ -2,16 +2,7 @@
 
 # DeepSeek-v3
 
-<!-- markdownlint-disable MD013 -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
-  <div>
-    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
-      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
-    </a>
-    <p style="margin: 0;"><small>Reading time: {{ #reading_time }}</small></p>
-  </div>
-</div>
-<!-- markdownlint-enable MD013 -->
+{{ #aipr_header }}
 
 The DeepSeek-V3 model was introduced by DeepSeek in December of 2024. It is an
 LLM that leverages [MoE](../llms/architecture/moe.md) in its design.

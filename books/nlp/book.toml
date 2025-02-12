@@ -17,10 +17,11 @@ use-default-preprocessors = true  # use the default preprocessors
 extra-watch-dirs = []             # directories to watch for triggering builds
 
 # preprocessors
+[preprocessor.ai-pocket-reference]
+command = "mdbook-ai-pocket-reference"
+
 [preprocessor.github-authors]
 command = "mdbook-github-authors"
-
-[preprocessor.reading-time]
 
 # renderer options
 [output.html]
