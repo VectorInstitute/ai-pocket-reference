@@ -1,0 +1,29 @@
+.watermark {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.watermark img {
+    height: 60px;
+    width: auto;
+    display: block;
+}
+
+/* Light theme */
+.light .watermark .dark-logo,
+.rust .watermark .dark-logo { display: none; }
+.light .watermark .light-logo,
+.rust .watermark .light-logo { display: block; }
+
+/* Dark themes */
+.coal .watermark .light-logo,
+.navy .watermark .light-logo,
+.ayu .watermark .light-logo { display: none; }
+
+.coal .watermark .dark-logo,
+.navy .watermark .dark-logo,
+.ayu .watermark .dark-logo { display: block; }
