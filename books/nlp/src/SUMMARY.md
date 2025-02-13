@@ -20,7 +20,7 @@
     - [Prompt Engineering]() <!-- (llms/prompting/prompt_engineering.md) -->
     - [In-Context Learning]() <!-- (llms/prompting/icl.md) -->
     - [Few-Shot Learning]() <!-- (llms/prompting/few_shot.md) -->
-    - [Chain of Thought]() <!-- (llms/prompting/cot.md) -->
+    - [Chain of Thought](llms/prompting/cot.md)
     - [Tree of Thought]() <!-- (llms/prompting/tot.md) -->
     - [Soft prompts]() <!-- (llms/prompting/soft.md) -->
     - [Hard prompts]() <!-- (llms/prompting/hard.md) -->
