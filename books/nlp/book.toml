@@ -26,4 +26,3 @@ command = "mdbook-github-authors"
 # renderer options
 [output.html]
 mathjax-support = true
-additional-css = ["custom.css"]
