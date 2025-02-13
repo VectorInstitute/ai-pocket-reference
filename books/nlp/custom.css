@@ -1,29 +1,21 @@
-.watermark {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    opacity: 0.25;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.watermark img {
-    height: 60px;
+.vector-logo img {
+    height: 50px;
     width: auto;
     display: block;
+    margin-left: auto;
 }
 
 /* Light theme */
-.light .watermark .dark-logo,
-.rust .watermark .dark-logo { display: none; }
-.light .watermark .light-logo,
-.rust .watermark .light-logo { display: block; }
+.light .vector-logo .dark-logo,
+.rust .vector-logo .dark-logo { display: none; }
+.light .vector-logo .light-logo,
+.rust .vector-logo .light-logo { display: block; }
 
 /* Dark themes */
-.coal .watermark .light-logo,
-.navy .watermark .light-logo,
-.ayu .watermark .light-logo { display: none; }
+.coal .vector-logo .light-logo,
+.navy .vector-logo .light-logo,
+.ayu .vector-logo .light-logo { display: none; }
 
-.coal .watermark .dark-logo,
-.navy .watermark .dark-logo,
-.ayu .watermark .dark-logo { display: block; }
+.coal .vector-logo .dark-logo,
+.navy .vector-logo .dark-logo,
+.ayu .vector-logo .dark-logo { display: block; }
