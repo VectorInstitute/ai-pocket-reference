@@ -6,12 +6,19 @@
 
 <!-- Main Body -->
 
-The Chain of Thought (CoT) prompting technique was introduced in Wei, Jason et al.
-(2022).
+The Chain of Thought (CoT) prompting technique, introduced by Wei, Jason et al (2022),
+encourages an LLM to articulate its reasoning steps before arriving at a final
+answer to a given task.
 
-## Example Usage
+Before its introduction, scaling LLMs had demonstrated the ability to generate coherent
+text and solve various tasks. However, these LLMs still underperformed on
+complex reasoning tasks like arithmetic and symbolic reasoning. While some prompting
+techniques and [in-context learning](./icl.md) had been discovered, none had successfully
+enabled LLMs to handle complex reasoning tasks.
 
 ## Performance
+
+## Modern Usage
 
 ## CoT and Reasoning LLMs
 
