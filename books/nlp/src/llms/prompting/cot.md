@@ -11,10 +11,12 @@ encourages an LLM to articulate its reasoning steps before arriving at a final
 answer to a given task.
 
 Before its introduction, scaling LLMs had demonstrated the ability to generate coherent
-text and solve various tasks. However, these LLMs still underperformed on
-complex reasoning tasks like arithmetic and symbolic reasoning. While some prompting
-techniques and [in-context learning](./icl.md) had been discovered, none had successfully
+text and solve various tasks. However, these LLMs still underperformed on complex
+reasoning tasks like arithmetic and symbolic reasoning. While some prompting techniques
+and [in-context learning](./icl.md) had already been discovered, none had successfully
 enabled LLMs to handle complex reasoning tasks.
+
+## Original Implementation Details
 
 CoT was originally introduced as a few-shot prompting technique where each included
 examplar is augmented with a _chain of thought_ that explains how the final answer
@@ -46,9 +48,11 @@ fine-tuning. However, CoT added little benefit for smaller models, leading the
 authors to posit it as an [emergent](../misc/emergent.md) ability of model
 scale.
 
-## CoT and Reasoning LLMs
-
 ## Limitations
+
+## Modern Usage
+
+## CoT and Reasoning LLMs
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
