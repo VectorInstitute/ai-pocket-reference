@@ -17,12 +17,15 @@ use-default-preprocessors = true  # use the default preprocessors
 extra-watch-dirs = []             # directories to watch for triggering builds
 
 # preprocessors
-[preprocessor.ai-pocket-reference]
-command = "mdbook-ai-pocket-reference"
-
 [preprocessor.github-authors]
 command = "mdbook-github-authors"
+
+[preprocessor.ai-pocket-reference]
+command = "mdbook-ai-pocket-reference"
+after = [ "github-authors" ]
+
 
 # renderer options
 [output.html]
 mathjax-support = true
+additional-css = ["../_common/mdbook-ai-pocket-reference.css"]
