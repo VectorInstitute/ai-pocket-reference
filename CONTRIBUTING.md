@@ -197,7 +197,7 @@ The default header includes a Github badge that links to issue submission for th
 repository as well as a calculated reading time.
 
 If your pocket reference has an associated notebook that lives in
-[ai-pocket-reference-code](<(https://github.com/VectorInstitute/ai-pocket-reference-code)>))
+[ai-pocket-reference-code](https://github.com/VectorInstitute/ai-pocket-reference-code),
 then you can specify the `colab` option of the helper in order to bring in the
 Google colab badge that points to your notebook.
 
