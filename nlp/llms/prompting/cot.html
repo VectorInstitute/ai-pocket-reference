@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>LoRA - AI Pocket Reference: NLP</title>
+        <title>Chain of Thought - AI Pocket Reference: NLP</title>
 
 
         <!-- Custom HTML head -->
@@ -156,91 +156,96 @@
                 <div id="content" class="content">
                     <main>
                         <!-- markdownlint-disable-file MD033 -->
-<h1 id="lora"><a class="header" href="#lora">LoRA</a></h1>
+<h1 id="chain-of-thought"><a class="header" href="#chain-of-thought">Chain of Thought</a></h1>
+<!-- Header -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
   <div>
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
       <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
     </a>
-    <a target="_blank" href="https://colab.research.google.com/github/VectorInstitute/ai-pocket-reference-code/blob/main/notebooks/nlp/lora.ipynb">
-      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-    </a>
     <p style="margin: 0;"><small>Reading time: 3 min</small></p>
   </div>
 </div>
-<p>Low-rank adaptation (LoRA) is parameter-efficient fine-tuning (<a href="../fine_tuning/peft.html">PEFT</a>)
-introduced by Hu, Edward J. et al. (2021). The creators of LoRA posited that since
-trained deep learning models reside in low intrinsic dimensions, perhaps their
-weight-update matrices do as well.</p>
-<p>Specifically, with LoRA, we learn a low-rank representation of the weight-update
-matrices of dense, linear layers of a pre-trained LLM. The original weights
-of the LLM are frozen during fine-tuning and only the low-rank weight-update matrices
-at each step of fine-tuning. This reduction in dimensionality helps to amplify the
-most important or influential features of the model.</p>
+<!-- Main Body -->
+<p>The Chain of Thought (CoT) prompting technique, introduced by Wei, Jason et al (2022),
+encourages an LLM to articulate its reasoning steps before arriving at a final
+answer to a given task.</p>
+<p>Before its introduction, scaling LLMs had demonstrated the ability to generate coherent
+text and solve various tasks. However, these LLMs still underperformed on complex
+reasoning tasks like arithmetic and symbolic reasoning. While some prompting techniques
+and <a href="./icl.html">in-context learning</a> had already been discovered, none had successfully
+enabled LLMs to handle complex reasoning tasks.</p>
 <center>
-<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/LoRA.svg" alt="lora"> <!-- markdownlint-disable-line MD013 -->
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/cot.svg" alt="cot"> <!-- markdownlint-disable-line MD013 -->
 </center>
 <div
   class="figure-caption"
   style="text-align: center; font-size: 0.8em; margin-top: 10px;"
 >
-Figure: Illustrating a forward pass with LoRA
+Figure: LLM producing a chain of thought.
 </div>
-<h2 id="some-math"><a class="header" href="#some-math">Some Math</a></h2>
-<p>Let \(W\) represent the \(d\times d\) weight matrix for a dense, linear layer.
-We can then loosely represent an updated version (i.e. after fine-tuning) of
-this matrix as follows:</p>
-<p>$$W_{\text{updated}} = W + \Delta W,$$</p>
-<p>where \(\Delta W\) is the update matrix. With LoRA, it is \(\Delta W\) which
-we project into a low-rank space:</p>
-<p>$$\Delta W \approx AB,$$</p>
-<p>where \(A\) and \(B^T\) are both matrices of dimension \(d \times r\) and
-\(r &lt;&lt; d\). During fine-tuning, \(W\) is frozen and only \(A\) and \(B\)
-are updated.</p>
-<p>For inference (i.e., forward phase), let \(x\) be an input embedding, then by
-the distributive property</p>
-<p>$$xW_{\text{updated}} = xW + x\Delta W \approx xW + xAB.$$</p>
-<h2 id="implementation-details"><a class="header" href="#implementation-details">Implementation Details</a></h2>
-<p>One modular implementation of LoRA involves the introduction of a <code>LoRALayer</code> that
-comprises of only the \(A\) and \(B\) dense weights. In this way, a <code>LoRALayer</code>
-can adapt a pre-trained <code>Linear</code> layer.</p>
-<pre><code class="language-python">import torch
-
-
-class LoRALayer(torch.nn.Module):
-    """A basic LoRALayer implementation."""
-
-    def __init__(self, d_in: int, d_out: int, rank: int):
-        self.A = torch.nn.Parameter(torch.empty(d_in, rank))
-        self.B = torch.nn.Parameter(torch.zeros(rank, d_out))
-
-    def forward(self, x):
-        return x @ self.A @ self.B
+<h2 id="original-implementation-details"><a class="header" href="#original-implementation-details">Original Implementation Details</a></h2>
+<p>CoT was originally introduced as a few-shot prompting technique where each included
+examplar is augmented with a <em>chain of thought</em> that explains how the final answer
+was determined. An example of such an examplar taken from the original paper is
+provided below:</p>
+<pre><code class="language-yaml"># An examplar
+examplar:
+  question: &gt;
+    Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each
+    can has 3 tennis balls. How many tennis balls does he have now?
+  chain of thought: &gt;
+    Roger started with 5 balls. 2 cans of 3 tennis balls each
+    is 6 tennis balls. 5 + 6 = 11.
+  answer: The answer is 11.
 </code></pre>
-<p>With the <code>LoRALayer</code> defined in this way, one can then combine this with a <code>Linear</code>
-layer to implement the LoRA technique. See the supplementary Colab notebook linked
-at the top of this pocket reference for more details.</p>
+<p>The authors used the same set of 8 examplars across all tested benchmarks, with
+the exception of <a href="https://github.com/google-deepmind/AQuA">AQuA</a> for which 4
+examplars derived from the training set was used instead.</p>
 <h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
-<p>In the original paper, the authors reported similar levels of performance when using
-LoRA compared to full fine-tuning on various natural language generation and understanding
-tasks.</p>
-<h2 id="additional-benefits"><a class="header" href="#additional-benefits">Additional Benefits</a></h2>
-<p>Since LoRA matrices can be stored efficiently and separately from the pre-trained
-LLM weights, customization of these large models is highly scalable. Organizations
-can build libraries of specialized LoRA matrices for different datasets and domains,
-switching between them as needed for specific applications.</p>
+<p>With larger models, CoT outperformed standard prompting across all tested reasoning
+benchmarks (mathematical, commonsense, and symbolic). For some of these, it even
+achieved state of the art results, beating out previous methods that relied on
+fine-tuning. However, CoT added little benefit for smaller models, leading the
+authors to posit it as an <a href="../misc/emergent.html">emergent</a> ability of model
+scale.</p>
 <h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
+<p>One of the noted limitations of CoT is the lack of guarantees on correct reasoning
+paths taken by the LLM. In other words, the reasoning steps that the LLM performs
+can be flawed, leading to inefficient token generation and potentially amplifying
+the issue of LLM hallucinations.</p>
+<h2 id="modern-implementations"><a class="header" href="#modern-implementations">Modern Implementations</a></h2>
+<p>Since its introdcution, the CoT prompting technique has become more flexible.
+Broadly speaking, it is widely recognized as a prompting technique that elicits a
+<em>chain of thought</em> output in its generation. To do so, many include general
+instructions in the prompt, specifying the desired output format and other requirements.
+With these system instructions and output formats, CoT can also be implemented
+in a zero-shot fashion.</p>
+<pre><code class="language-yaml"># Example CoT prompt instructions
+prompt:
+  system: &gt;
+    You are a helpful assistant that is able to handle complex reasoning
+    tasks. To arrive at the final answer, perform chain of thought steps
+    and include these in your output.
+
+    Structure your output using the following format
+      &lt;thought&gt;
+        chain of thought here
+      &lt;/thought&gt;
+      &lt;answer&gt;
+        answer here
+      &lt;/answer&gt;
+  question: &gt;
+    Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each
+    can has 3 tennis balls. How many tennis balls does he have now?
+</code></pre>
 <h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
-<li><a href="https://arxiv.org/pdf/2106.09685"><em>Hu, Edward J., et al. "Lora: Low-rank adaptation of large language models."
-arXiv preprint arXiv:2106.09685, 2021.</em></a></li>
-<li><a href="https://www.amazon.com/Build-Large-Language-Model-Scratch/dp/1633437167"><em>Raschka, Sebastian. Build a Large Language Model (From Scratch). Simon and
-Schuster, 2024.</em></a></li>
-<li><a href="https://huggingface.co/docs/peft/en/task_guides/lora_based_methods"><em>Sourab Mangrulkar et al. PEFT: State-of-the-art Parameter-Efficient Fine-Tuning methods (LoRA methods), 2022.</em></a></li>
-<li><a href="https://arxiv.org/pdf/2307.13269"><em>Huang, Chengsong, et al. "Lorahub: Efficient cross-task generalization via
-dynamic lora composition." arXiv preprint arXiv:2307.13269 (2023).</em></a></li>
-<li><a href="https://d3ddy8balm3goa.cloudfront.net/paper-cards/w29_2023-lora.excalidraw.svg"><em>Fajardo V.A. LoRA PaperCard, 2023.</em></a></li>
+<li><a href="https://arxiv.org/pdf/2106.09685"><em>Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large
+language models." Advances in neural information processing systems 35 (2022):
+24824-24837.</em></a></li>
 </ol>
+<!-- Contributions -->
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
 <small>
@@ -266,11 +271,11 @@ dynamic lora composition." arXiv preprint arXiv:2307.13269 (2023).</em></a></li>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../llms/prompting/cot.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../models/deepseek_r1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../llms/fine_tuning/lora.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -280,11 +285,11 @@ dynamic lora composition." arXiv preprint arXiv:2307.13269 (2023).</em></a></li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../llms/prompting/cot.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../models/deepseek_r1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../llms/fine_tuning/lora.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

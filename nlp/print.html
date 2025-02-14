@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../_common/mdbook-ai-pocket-reference.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -156,6 +157,125 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
+<h1 id="chain-of-thought"><a class="header" href="#chain-of-thought">Chain of Thought</a></h1>
+<!-- Header -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 3 min</small></p>
+  </div>
+</div>
+<!-- Main Body -->
+<p>The Chain of Thought (CoT) prompting technique, introduced by Wei, Jason et al (2022),
+encourages an LLM to articulate its reasoning steps before arriving at a final
+answer to a given task.</p>
+<p>Before its introduction, scaling LLMs had demonstrated the ability to generate coherent
+text and solve various tasks. However, these LLMs still underperformed on complex
+reasoning tasks like arithmetic and symbolic reasoning. While some prompting techniques
+and <a href="llms/prompting/./icl.html">in-context learning</a> had already been discovered, none had successfully
+enabled LLMs to handle complex reasoning tasks.</p>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/cot.svg" alt="cot"> <!-- markdownlint-disable-line MD013 -->
+</center>
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: LLM producing a chain of thought.
+</div>
+<h2 id="original-implementation-details"><a class="header" href="#original-implementation-details">Original Implementation Details</a></h2>
+<p>CoT was originally introduced as a few-shot prompting technique where each included
+examplar is augmented with a <em>chain of thought</em> that explains how the final answer
+was determined. An example of such an examplar taken from the original paper is
+provided below:</p>
+<pre><code class="language-yaml"># An examplar
+examplar:
+  question: &gt;
+    Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each
+    can has 3 tennis balls. How many tennis balls does he have now?
+  chain of thought: &gt;
+    Roger started with 5 balls. 2 cans of 3 tennis balls each
+    is 6 tennis balls. 5 + 6 = 11.
+  answer: The answer is 11.
+</code></pre>
+<p>The authors used the same set of 8 examplars across all tested benchmarks, with
+the exception of <a href="https://github.com/google-deepmind/AQuA">AQuA</a> for which 4
+examplars derived from the training set was used instead.</p>
+<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
+<p>With larger models, CoT outperformed standard prompting across all tested reasoning
+benchmarks (mathematical, commonsense, and symbolic). For some of these, it even
+achieved state of the art results, beating out previous methods that relied on
+fine-tuning. However, CoT added little benefit for smaller models, leading the
+authors to posit it as an <a href="llms/prompting/../misc/emergent.html">emergent</a> ability of model
+scale.</p>
+<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
+<p>One of the noted limitations of CoT is the lack of guarantees on correct reasoning
+paths taken by the LLM. In other words, the reasoning steps that the LLM performs
+can be flawed, leading to inefficient token generation and potentially amplifying
+the issue of LLM hallucinations.</p>
+<h2 id="modern-implementations"><a class="header" href="#modern-implementations">Modern Implementations</a></h2>
+<p>Since its introdcution, the CoT prompting technique has become more flexible.
+Broadly speaking, it is widely recognized as a prompting technique that elicits a
+<em>chain of thought</em> output in its generation. To do so, many include general
+instructions in the prompt, specifying the desired output format and other requirements.
+With these system instructions and output formats, CoT can also be implemented
+in a zero-shot fashion.</p>
+<pre><code class="language-yaml"># Example CoT prompt instructions
+prompt:
+  system: &gt;
+    You are a helpful assistant that is able to handle complex reasoning
+    tasks. To arrive at the final answer, perform chain of thought steps
+    and include these in your output.
+
+    Structure your output using the following format
+      &lt;thought&gt;
+        chain of thought here
+      &lt;/thought&gt;
+      &lt;answer&gt;
+        answer here
+      &lt;/answer&gt;
+  question: &gt;
+    Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each
+    can has 3 tennis balls. How many tennis balls does he have now?
+</code></pre>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<ol>
+<li><a href="https://arxiv.org/pdf/2106.09685"><em>Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large
+language models." Advances in neural information processing systems 35 (2022):
+24824-24837.</em></a></li>
+</ol>
+<!-- Contributions -->
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/nerdai">
+<img src="https://github.com/nerdai.png"
+  width="32px" alt="Contributor nerdai" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
+</div>
 <div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
 <h1 id="lora"><a class="header" href="#lora">LoRA</a></h1>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
@@ -221,7 +341,7 @@ class LoRALayer(torch.nn.Module):
 <p>With the <code>LoRALayer</code> defined in this way, one can then combine this with a <code>Linear</code>
 layer to implement the LoRA technique. See the supplementary Colab notebook linked
 at the top of this pocket reference for more details.</p>
-<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
+<h2 id="performance-1"><a class="header" href="#performance-1">Performance</a></h2>
 <p>In the original paper, the authors reported similar levels of performance when using
 LoRA compared to full fine-tuning on various natural language generation and understanding
 tasks.</p>
@@ -230,8 +350,8 @@ tasks.</p>
 LLM weights, customization of these large models is highly scalable. Organizations
 can build libraries of specialized LoRA matrices for different datasets and domains,
 switching between them as needed for specific applications.</p>
-<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
-<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<h2 id="limitations-1"><a class="header" href="#limitations-1">Limitations</a></h2>
+<h4 id="references--useful-links-1"><a class="header" href="#references--useful-links-1">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li><a href="https://arxiv.org/pdf/2106.09685"><em>Hu, Edward J., et al. "Lora: Low-rank adaptation of large language models."
 arXiv preprint arXiv:2106.09685, 2021.</em></a></li>
@@ -253,6 +373,14 @@ dynamic lora composition." arXiv preprint arXiv:2307.13269 (2023).</em></a></li>
 </a>
 </div>
 </small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
 </div>
 <div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
 <h1 id="deepseek-r1"><a class="header" href="#deepseek-r1">DeepSeek-R1</a></h1>
@@ -389,7 +517,7 @@ great potential of RL and its overall place in AI as endeavour to reach new
 heights.</p>
 </li>
 </ol>
-<h2 id="limitations-1"><a class="header" href="#limitations-1">Limitations</a></h2>
+<h2 id="limitations-2"><a class="header" href="#limitations-2">Limitations</a></h2>
 <p>DeepSeek reported various limitations for DeepSeek-R1. Most notably, DeepSeek-R1
 is inferior to DeepSeek-V3 in general capabilities such as function calling, producing
 structured outputs (JSON), role-playing, and multi-turn conversations. Additionally,
@@ -397,7 +525,7 @@ due to its optimization for English and Chinese, the model sometimes suffers fro
 language mixing. Lastly, DeepSeek-R1 reportedly demonstrated a high sensitivity
 to prompts and long inference times, making it unsuitable for low-latency applications
 such as software-engineering tasks.</p>
-<h4 id="references--useful-links-1"><a class="header" href="#references--useful-links-1">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<h4 id="references--useful-links-2"><a class="header" href="#references--useful-links-2">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li><a href="https://arxiv.org/pdf/2501.12948"><em>Guo, Daya, et al. "Deepseek-r1: Incentivizing reasoning capability in llms
 via reinforcement learning." arXiv preprint arXiv:2501.12948 (2025).</em></a></li>
@@ -421,6 +549,14 @@ arXiv:2412.19437 (2024).</em></a></li>
 </a>
 </div>
 </small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
 </div>
 <div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
 <h1 id="deepseek-v3"><a class="header" href="#deepseek-v3">DeepSeek-v3</a></h1>
@@ -581,10 +717,10 @@ that this pipeline improved reasononing performance while still maintaining the
 ability to produce desired outputs and efficient response lengths.</p>
 </li>
 </ol>
-<h2 id="limitations-2"><a class="header" href="#limitations-2">Limitations</a></h2>
+<h2 id="limitations-3"><a class="header" href="#limitations-3">Limitations</a></h2>
 <p>DeepSeek-V3 requires significant amounts of computation facilities to ensure efficient
 inference.</p>
-<h4 id="references--useful-links-2"><a class="header" href="#references--useful-links-2">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<h4 id="references--useful-links-3"><a class="header" href="#references--useful-links-3">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li><a href="https://arxiv.org/pdf/2412.19437"><em>Liu, Aixin, et al. "Deepseek-v3 technical report." arXiv preprint
 arXiv:2412.19437 (2024).</em></a></li>
@@ -603,6 +739,14 @@ arXiv:2412.19437 (2024).</em></a></li>
 </a>
 </div>
 </small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
 </div>
 
                     </main>
