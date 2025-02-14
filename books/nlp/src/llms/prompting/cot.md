@@ -50,9 +50,41 @@ scale.
 
 ## Limitations
 
-## Modern Usage
+One of the noted limitations of CoT is the lack of guarantees on correct reasoning
+paths taken by the LLM. In other words, the reasoning steps that the LLM performs
+can be flawed, leading to inefficient token generation and potentially amplifying
+the issue of LLM hallucinations.
 
-## CoT and Reasoning LLMs
+## Modern Implementations
+
+Since its creation, the CoT prompting technique has become more flexible. Loosely
+speaking, it is widely recognized as a prompting technique that evokes a _chain
+of thought_ step in its output generation. To do so, many have opted to include
+general instructions in the prompt detailing output format and other desiderata.
+With such system instructions and output formats, CoT can also be implemented in
+a zero-shot fashion.
+
+```yaml
+# Prompt components
+prompt:
+  system: >
+    You are a helpful assistant that is able to handle complex reasoning
+    tasks. To arrive at the final answer, perform chain of thought steps
+    and include these in your output.
+
+    Structure your output using the following format
+      <thought>
+        chain of thought here
+      </thought>
+      <answer>
+        answer here
+      </answer>
+  question: >
+    Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each
+    can has 3 tennis balls. How many tennis balls does he have now?
+```
+
+## Long CoT and Reasoning LLMs
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
