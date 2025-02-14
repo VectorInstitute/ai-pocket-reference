@@ -174,6 +174,45 @@ with other contributors.
 
 We use several mdBook preprocessors to enhance our pocket references:
 
+- [mdbook-ai-pocket-reference](https://github.com/VectorInstitute/mdbook-ai-pocket-reference)
+  — for adding default headers and footers to each pocket reference
+- [mdbook-github-authors](https://github.com/VectorInstitute/mdbook-github-authors)
+  — for listing Contributors of a pocket reference
+
+### Adding the AI Pocket Reference Header
+
+To add the default header to your pocket reference, you can need to use the
+`{{ #aipr_header }}` helper. This helper should be placed immediately after
+the title section.
+
+```markdown
+# My Pocket Reference
+
+{{ #aipr_header }}
+
+... rest of the pocket reference
+```
+
+The default header includes a Github badge that links to issue submission for the
+repository as well as a calculated reading time.
+
+If your pocket reference has an associated notebook that lives in
+[ai-pocket-reference-code](<(https://github.com/VectorInstitute/ai-pocket-reference-code)>))
+then you can specify the `colab` option of the helper in order to bring in the
+Google colab badge that points to your notebook.
+
+```markdown
+# My Pocket Reference
+
+{{ #aipr_header colab=nlp/lora.ipynb }}
+
+... rest of the pocket reference
+```
+
+In the example above, a Google Colab badge would be added to the header that
+links to the notebook found in the supplementary code repo at
+[notebooks/nlp/lora.ipynb](https://github.com/VectorInstitute/ai-pocket-reference-code/blob/main/notebooks/nlp/lora.ipynb).
+
 ### Adding Contributors
 
 You need to use either of these helpers in your markdown file. Note the exact
@@ -197,17 +236,6 @@ These will automatically:
 
 - Track contributions
 - Display GitHub profile information
-
-### Reading Time
-
-Add the following HTML immediately underneath your title to display the estimated
-reading time:
-
-```markdown
-<p align="left"><small>
-(Reading time: {{ #reading_time }})
-</small></p>
-```
 
 ## Recognition
 
