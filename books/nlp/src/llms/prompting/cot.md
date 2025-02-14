@@ -1,3 +1,5 @@
+<!-- markdownlint-disable-file MD033 -->
+
 # Chain of Thought
 
 <!-- Header -->
@@ -15,6 +17,17 @@ text and solve various tasks. However, these LLMs still underperformed on comple
 reasoning tasks like arithmetic and symbolic reasoning. While some prompting techniques
 and [in-context learning](./icl.md) had already been discovered, none had successfully
 enabled LLMs to handle complex reasoning tasks.
+
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/cot.svg" alt="cot"> <!-- markdownlint-disable-line MD013 -->
+</center>
+
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: LLM producing a chain of thought.
+</div>
 
 ## Original Implementation Details
 
@@ -57,15 +70,15 @@ the issue of LLM hallucinations.
 
 ## Modern Implementations
 
-Since its creation, the CoT prompting technique has become more flexible. Loosely
-speaking, it is widely recognized as a prompting technique that evokes a _chain
-of thought_ step in its output generation. To do so, many have opted to include
-general instructions in the prompt detailing output format and other desiderata.
-With such system instructions and output formats, CoT can also be implemented in
-a zero-shot fashion.
+Since its introdcution, the CoT prompting technique has become more flexible.
+Broadly speaking, it is widely recognized as a prompting technique that elicits a
+_chain of thought_ output in its generation. To do so, many include general
+instructions in the prompt, specifying the desired output format and other requirements.
+With these system instructions and output formats, CoT can also be implemented
+in a zero-shot fashion.
 
 ```yaml
-# Prompt components
+# Example CoT prompt instructions
 prompt:
   system: >
     You are a helpful assistant that is able to handle complex reasoning
@@ -83,8 +96,6 @@ prompt:
     Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each
     can has 3 tennis balls. How many tennis balls does he have now?
 ```
-
-## Long CoT and Reasoning LLMs
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
