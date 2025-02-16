@@ -48,8 +48,7 @@
     - [Quantization]() <!-- (llms/compression/quantization.md) -->
   - [Efficient Inference]() <!-- (llms/efficient_inference/README.md) -->
     - [Fast Attention]() <!-- (llms/efficient_inference/fast_attention.md) -->
-    - [Distillation]() <!-- (llms/efficient_inference/distillation.md) -->
-    - [Quantization]() <!-- (llms/efficient_inference/quantization.md) -->
+    - [KV Cache](llms/efficient_inference/kv_cache.md)
   - [Decoding]() <!-- (llms/decoding/README.md) -->
     - [Multi-Token Prediction]() <!-- (llms/decoding/multi_token_prediction.md) -->
     - [Top-k]() <!-- (llms/decoding/top_k.md) -->
