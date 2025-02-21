@@ -95,6 +95,7 @@ You can contribute to the AI Pocket Reference project in several ways:
    - `books/rl` - Reinforcement Learning
    - `books/fl` - Federated Learning
    - `books/responsible_ai` - Responsible AI and Ethics
+   - `books/compute` - High-Performance AI Compute
 
    When making changes, you'll need to work with the appropriate book for your topic.
 
