@@ -30,9 +30,10 @@ jobs:
 
       - name: Build books
         run: |
+          mdbook build books/nlp
+          mdbook build books/compute
           # mdbook build books/fundamentals
           # mdbook build books/cv
-          mdbook build books/nlp
           # mdbook build books/rl
           # mdbook build books/responsible_ai
           # mdbook build books/fl
