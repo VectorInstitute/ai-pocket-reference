@@ -24,6 +24,7 @@ body:
         - rl
         - fl
         - responsible_ai
+        - compute
     validations:
       required: true
 
