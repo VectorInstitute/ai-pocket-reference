@@ -28,7 +28,7 @@
     - [Supervised Fine-Tuning]() <!-- (llms/fine_tuning/sft.md) -->
     - [RLHF]() <!-- (llms/fine_tuning/rlhf.md) -->
     - [DPO]() <!-- (llms/fine_tuning/dpo.md) -->
-    - [GRPO]() <!-- (llms/fine_tuning/grpo.md) -->
+    - [GRPO](llms/fine_tuning/grpo.md)
     - [PEFT]() <!-- (llms/fine_tuning/peft.md) -->
     - [LoRA](llms/fine_tuning/lora.md)
     - [QLoRA]() <!-- (llms/fine_tuning/qlora.md) -->
