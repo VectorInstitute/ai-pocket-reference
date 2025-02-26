@@ -28,9 +28,9 @@ $$
 where \\(f\_{attn}(\cdot)\\) is the attention operator that produces a contextualized
 vector using all of the input embedding vectors, and \\(W_k\\), \\(W_v\\) and \\(W_q\\)
 are the \\(h\times h\\) projection matrice for keys, values, and queries, respectively.
-Note that the Attention module computes the contextualized vectors of all input
-embeddings making use of causal masking to ensure that only the previous tokens
-are attended to.
+(Note that the Attention module computes the contextualized vectors of all input
+embeddings simultaneously, employing causal masking to ensure that each token
+only attends to itself and previous tokens in the sequence.)
 
 Recall that with the attention operator, we first need to compute the various keys
 and values representations of the input embeddings as well as the query
@@ -60,7 +60,7 @@ Using scaled-dot attention, we combine the keys with the query to derive an atte
 weights vector via:
 
 $$
-a_{t-1} = \mathbf{Softmax}(q_{t-1} K_{t-1}^T / \sqrt{h}).
+a_{t-1} = \text{Softmax}(q_{t-1} K_{t-1}^T / \sqrt{h}).
 $$
 
 Finally, the contextualized vector of the (\\(t-1)\\)-th token is the attention-weighted
@@ -151,7 +151,7 @@ token and add it to the respective caches, one for each keys and values.
 > \\(\qquad\\)\\(V_t = [V\_{t-1}; v\_t]\\)\
 > \\(\quad\\)Compute attention using cached keys and values:\
 > \\(\qquad\\)\\(q_t = x_t W_q\\)\
-> \\(\qquad\\)\\(c_t = \text{softmax}(q_t K_t^T / \sqrt{h}) V_t\\)\
+> \\(\qquad\\)\\(c_t = \text{Softmax}(q_t K_t^T / \sqrt{h}) V_t\\)\
 > \\(\quad\\)Compute next token logits using \\(c_t\\)\
 > \\(\quad\\)Generate \\(x\_{t+1}\\) // (which becomes part of the next step's input)
 
