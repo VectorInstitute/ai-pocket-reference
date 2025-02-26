@@ -9,9 +9,8 @@
 With autoregressive models like decoder-only LLMs (i.e., GPTs), inference is performed
 by predicting one token at a time, using the past token generations as inputs for
 future ones. To predict future tokens, certain computed representations of these
-past tokens are required for every future token prediction. As such, it can become
-quite wasteful to have to re-compute these representations at every token prediction
-step.
+past tokens are required for every future token prediction. This makes it computationally
+inefficient to recalculate these representations at each token generation step."
 
 To formalize this, let \\(x_1,x_2, \ldots, x\_{t-1}\\) represent the input sequence
 of \\(h\\) dimensional embeddings i.e., \\(x_i \in R^{1\times h}\\). For simplicity,
@@ -29,6 +28,10 @@ $$
 where \\(f\_{attn}(\cdot)\\) is the attention operator that produces a contextualized
 vector using all of the input embedding vectors, and \\(W_k\\), \\(W_v\\) and \\(W_q\\)
 are the \\(h\times h\\) projection matrice for keys, values, and queries, respectively.
+Note that the Attention module computes the contextualized vectors of all input
+embeddings making use of causal masking to ensure that only the previous tokens
+are attended to.
+
 Recall that with the attention operator, we first need to compute the various keys
 and values representations of the input embeddings as well as the query
 representation of \\(x\_{t-1}\\):
@@ -125,10 +128,9 @@ In other words, the keys and values required to build \\(c_t\\) consist of all t
 previous keys and values needed for \\(c\_{t-1}\\) plus only the new key and value
 derived from the latest input embedding token \\(x_t\\).
 
-The above formulation presents an opportunity to reduce the number of computations
-required at each token generation step. That is, rather than re-computing
-\\(K\_{t-1}\\) and \\(V\_{t-1}\\), it'd be more efficient if these past keys and
-values were cached and be simply re-used for future computations.
+This insight presents an opportunity to significantly reduce computational overhead
+during generation by caching and reusing past keys and values rather than recomputing
+them.
 
 This is exactly the purpose of having a KV Cache. At each iteration of inference,
 we compute the newest key and value emanating from the latest input embedding
@@ -151,7 +153,7 @@ token and add it to the respective caches, one for each keys and values.
 > \\(\qquad\\)\\(q_t = x_t W_q\\)\
 > \\(\qquad\\)\\(c_t = \text{softmax}(q_t K_t^T / \sqrt{h}) V_t\\)\
 > \\(\quad\\)Compute next token logits using \\(c_t\\)\
-> \\(\quad\\)Generate \\(x\_{t+1}\\)
+> \\(\quad\\)Generate \\(x\_{t+1}\\) // (which becomes part of the next step's input)
 
 ## Limitations
 
@@ -161,6 +163,9 @@ requirements can be quite expensive. As one example, Liu et al (2024) note that
 with 540B PaLM, using a batch size of 512 and context length of 2048, would required
 a KV Cache that can take upwards of 3TB of memory — more than the amount of memory
 required to hold the model's weight parameters.
+
+This memory bottleneck becomes especially pronounced when serving multiple requests
+simultaneously or working with very long context windows.
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
