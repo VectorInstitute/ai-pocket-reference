@@ -15,18 +15,23 @@ step.
 
 To formalize this, let \\(x_1,x_2, \ldots, x\_{t-1}\\) represent the input sequence
 of \\(h\\) dimensional embeddings i.e., \\(x_i \in R^{1\times h}\\). For simplicity,
-let's consider a single Attention head and a single Transformer block. In order
-to get the logits for the next token, the LLM must compute the contextualized vector
-\\(c\_{t-1}\\) given by:
+let's consider a single [Attention](../architecture/attention.md) head and a single
+[Transformer](../architecture/transformer.md) block. In order to get the logits
+for the next token, the LLM must compute the contextualized vector \\(c\_{t-1}\\)
+given by:
 
 $$
 \begin{aligned}
-c_{t-1} &= \mathbf{Attn}(x_1, x_2, \ldots x_{t-1}),
+c_{t-1} &= f_{attn}(x_1, x_2, \ldots, x_{t-1}; W_k, W_v, W_q),
 \end{aligned}
 $$
 
-Recall that to compute attention, we need to compute the various keys and values
-representations of the input embeddings as well as the query representation of \\(x\_{t-1}\\):
+where \\(f\_{attn}(\cdot)\\) is the attention operator that produces a contextualized
+vector using all of the input embedding vectors, and \\(W_k\\), \\(W_v\\) and \\(W_q\\)
+are the \\(h\times h\\) projection matrice for keys, values, and queries, respectively.
+Recall that with the attention operator, we first need to compute the various keys
+and values representations of the input embeddings as well as the query
+representation of \\(x\_{t-1}\\):
 
 $$
 K_{t-1} = \begin{bmatrix}
@@ -48,8 +53,8 @@ x_{t-1} W_v
 q_{t-1} = x_{t-1}W_q.
 $$
 
-Using scaled-dot attention, we turn these keys and values into an attention weights
-vector via:
+Using scaled-dot attention, we combine the keys with the query to derive an attention
+weights vector via:
 
 $$
 a_{t-1} = \mathbf{Softmax}(q_{t-1} K_{t-1}^T / \sqrt{h}).
@@ -71,11 +76,12 @@ need to build the contextualized vector, \\(c_t\\):
 
 $$
 \begin{aligned}
-c_t &= \mathbf{Attn}(x_1, x_2, \ldots x_{t-1}, x_t).
+c_t &= f_{attn}(x_1, x_2, \ldots, x_{t-1}, x_t; W_k, W_v, W_q),
 \end{aligned}
 $$
 
-As before, we understand that we need the following keys and values:
+As before, we understand that in order to apply this operator, the following keys,
+values and query are required:
 
 $$
 K_{t} = \begin{bmatrix}
@@ -99,13 +105,13 @@ x_t W_v
 q_t = x_{t}W_q.
 $$
 
-However, it is also straightforward to see that
+It immediately follows though that
 
 $$
 K_{t} = \begin{bmatrix}
 K_{t-1} \\\\
 x_t W_k
-\end{bmatrix},
+\end{bmatrix}
 \quad
 \text{and}
 \quad
@@ -119,13 +125,42 @@ In other words, the keys and values required to build \\(c_t\\) consist of all t
 previous keys and values needed for \\(c\_{t-1}\\) plus only the new key and value
 derived from the latest input embedding token \\(x_t\\).
 
-Rather than re-computing \\(K\_{t-1}\\) and \\(V\_{t-1}\\), it'd be more efficient
-if these past keys and values were cached and be simply re-used for future
-computations. This is exactly what the KV Cache is used for. At each iteration of
-inference, we compute the newest key and value emanating from the latest input embedding
-token and add it to the respective cache.
+The above formulation presents an opportunity to reduce the number of computations
+required at each token generation step. That is, rather than re-computing
+\\(K\_{t-1}\\) and \\(V\_{t-1}\\), it'd be more efficient if these past keys and
+values were cached and be simply re-used for future computations.
+
+This is exactly the purpose of having a KV Cache. At each iteration of inference,
+we compute the newest key and value emanating from the latest input embedding
+token and add it to the respective caches, one for each keys and values.
+
+> **Algorithm: KV Cache for Autoregressive Inference**
+>
+> _Pre-fill Stage_\
+> Given input sequence \\(x_1, x_2, \ldots, x_n\\)\
+> Initialize key cache \\(K_n = [x_1W_k; x_2W_k; \ldots; x_nW_k]\\)\
+> Initialize value cache \\(V_n = [x_1W_v; x_2W_v; \ldots; x_nW_v]\\)
+>
+> _Decode Stage_\
+> Loop for each token generation step t > n:\
+> \\(\quad\\)Compute new key and value: \\(k_t = x_t W_k\\), \\(v_t = x_t W_v\\)\
+> \\(\quad\\)Update caches by appending new key and value:\
+> \\(\qquad\\)\\(K_t = [K\_{t-1}; k\_t]\\)\
+> \\(\qquad\\)\\(V_t = [V\_{t-1}; v\_t]\\)\
+> \\(\quad\\)Compute attention using cached keys and values:\
+> \\(\qquad\\)\\(q_t = x_t W_q\\)\
+> \\(\qquad\\)\\(c_t = \text{softmax}(q_t K_t^T / \sqrt{h}) V_t\\)\
+> \\(\quad\\)Compute next token logits using \\(c_t\\)\
+> \\(\quad\\)Generate \\(x\_{t+1}\\)
 
 ## Limitations
+
+Note that LLMs use Multi-Head Attention modules with several Transformer layers.
+Each attention head would need to maintain its own KV Cache and as such, the memory
+requirements can be quite expensive. As one example, Liu et al (2024) note that
+with 540B PaLM, using a batch size of 512 and context length of 2048, would required
+a KV Cache that can take upwards of 3TB of memory — more than the amount of memory
+required to hold the model's weight parameters.
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
