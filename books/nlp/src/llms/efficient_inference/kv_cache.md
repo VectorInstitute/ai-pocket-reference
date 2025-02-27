@@ -1,3 +1,5 @@
+<!-- markdownlint-disable-file MD033 -->
+
 # KV Cache
 
 <!-- Header -->
@@ -11,6 +13,17 @@ by predicting one token at a time, using the past token generations as inputs fo
 future ones. To predict future tokens, certain computed representations of these
 past tokens are required for every future token prediction. This makes it computationally
 inefficient to recalculate these representations at each token generation step."
+
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/kv-cache-final.excalidraw.svg" alt="kv-cache"> <!-- markdownlint-disable-line MD013 -->
+</center>
+
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: KV Cache for autoregressive inference
+</div>
 
 To formalize this, let \\(x_1,x_2, \ldots, x\_{t-1}\\) represent the input sequence
 of \\(h\\) dimensional embeddings i.e., \\(x_i \in R^{1\times h}\\). For simplicity,
