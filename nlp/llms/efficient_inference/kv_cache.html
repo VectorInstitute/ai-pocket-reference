@@ -194,7 +194,7 @@ c_{t-1} &amp;= f_{attn}(x_1, x_2, \ldots, x_{t-1}; W_k, W_v, W_q),
 $$</p>
 <p>where \(f_{attn}(\cdot)\) is the attention operator that produces a contextualized
 vector using all of the input embedding vectors, and \(W_k\), \(W_v\) and \(W_q\)
-are the \(h\times h\) projection matrice for keys, values, and queries, respectively.
+are the \(h\times h\) projection matrices for keys, values, and queries, respectively.
 (Note that the Attention module computes the contextualized vectors of all input
 embeddings simultaneously, employing causal masking to ensure that each token
 only attends to itself and previous tokens in the sequence.)</p>
@@ -319,6 +319,8 @@ simultaneously or working with very long context windows.</p>
 cache." arXiv preprint arXiv:2402.02750 (2024).</a></li>
 <li><a href="https://www.amazon.com/Build-Large-Language-Model-Scratch/dp/1633437167"><em>Raschka, Sebastian. Build a Large Language Model (From Scratch). Simon and
 Schuster, 2024.</em></a></li>
+<li><a href="https://r4j4n.github.io/blogs/posts/kv/">Rajan, R. "KV Cache - Understanding the Mechanism behind it." R4J4N Blogs,
+r4j4n.github.io/blogs/posts/kv/. Accessed 27 Feb. 2025.</a></li>
 </ol>
 <!-- Contributions -->
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
