@@ -1,11 +1,24 @@
-# Kernels for layernorm forward pass
-
 <!-- Header -->
+
+# Kernels for layernorm forward pass
 
 {{ #aipr_header }}
 
 <!-- Main Body -->
 
+## Introduction
+
+## Kernel 1
+
+## Kernel 2
+
+## Kernel 3
+
+## Kernel 4
+
+## Kernel 5
+
+
 <!-- Contributors -->
 
-{{#author VectorInstitute}} <!-- replace VectorInstitute with your github user -->
+{{#author xeon27}}
