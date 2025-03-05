@@ -3,8 +3,6 @@
 
 # Kernels for LayerNorm forward pass
 
-<!-- Header -->
-
 {{ #aipr_header }}
 
 <!-- Main Body -->
