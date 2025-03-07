@@ -14,7 +14,7 @@ $$y = \frac{x - \mathbb{E}[x]}{\sqrt{\operatorname{Var}[x] + \epsilon}} * \gamma
 
 This book outlines and provides a detailed explanation of a series of CUDA kernel implementations of LayerNorm forward pass based on the [llm.c](https://github.com/karpathy/llm.c/tree/master/dev/cuda) repository. Please refer to the [Layer Normalization book](../../../../fundamentals/src/normalizations/layernorm.md) for conceptual understanding and other details about the operation. For the purpose of this book, lets implement kernels for LayerNorm in the [Transformer](../../../../nlp/src/llms/architecture/transformer.md) architecture for language modeling which expects **a tensor of shape $(B, T, C)$ as input**, where $B$ is the batch size, $T$ is the sequence length and $C$ is the hidden dimension size. LayerNorm is applied to the last dimension.
 
-The following table shows memory bandwidth for each kernel on a **A40 GPU for block size 512**. The last column shows improvement over the first kernel:
+The following table shows memory bandwidth for each kernel on a **A40 GPU for block size 512**. The last column shows improvement **over the first kernel**:
 
 | Kernel # | Bandwidth (GB/s) | Improvement |
 |:---------|-----------------:|:------------|
@@ -304,6 +304,8 @@ $$\operatorname{Var}(x) = \mathbb{E}[x^2] - (\mathbb{E}[x])^2$$
 This simple change also leads to a small improvement of **~1.2x over Kernel 3** (for block size 512).
 
 ## Kernel 5
+
+The final kernel operates in two stages. Similar to Kernel 2, **each block is responsible for one segment of C**. In stage 1, even though *thread coarsening* is done on the block level, the first *reduction* is done on the warp level. This sum is written into a *shared memory array* whose size is equal to the number of warps. In stage 2, the threads in the first warp are re-used to perform another *warp reduction* on the *shared array* to obtain the final sum. There is no *thread coarsening* for this stage. See Figure-4 for the complete flow.
 
 The final kernel improves by **~1.25x over Kernel 4** and **~13x over the first kernel** (for block size 512).
 
