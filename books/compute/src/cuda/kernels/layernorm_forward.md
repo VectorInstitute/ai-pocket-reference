@@ -10,7 +10,7 @@
 
 The Layer Normalization (LayerNorm) operation applies normalization across the last D dimensions of the activation tensor as described in [this paper](https://arxiv.org/abs/1607.06450). The normalization equation is given below:
 
-$$y = \frac{x - \mathbb{E}[x]}{\sqrt{\operatorname{Var}[x] + \epsilon}} * \gamma + \beta$$
+$$y = \frac{x - \mathbb{E}[x]}{\sqrt{Var[x] + \epsilon}} * \gamma + \beta$$
 
 This book outlines and provides a detailed explanation of a series of CUDA kernel implementations of LayerNorm forward pass based on the [llm.c](https://github.com/karpathy/llm.c/tree/master/dev/cuda) repository. Please refer to the [Layer Normalization book](../../../../fundamentals/src/normalizations/layernorm.md) for conceptual understanding and other details about the operation. For the purpose of this book, lets implement kernels for LayerNorm in the [Transformer](../../../../nlp/src/llms/architecture/transformer.md) architecture for language modeling which expects **a tensor of shape $(B, T, C)$ as input**, where $B$ is the batch size, $T$ is the sequence length and $C$ is the hidden dimension size. LayerNorm is applied to the last dimension.
 
@@ -31,10 +31,10 @@ The first kernel is a copy of the CPU implementation. It parallelizes over the f
 1. Mean calculation
 $$\mathbb{E}[x] = \frac{1}{C} \sum_{i=1}^{C} x_i$$
 2. Variance and reciprocal of standard deviation (rstd) calculation
-$$\operatorname{Var}(x) = \frac{1}{C} \sum_{i=1}^{C} (x_i - \mathbb{E}[x])^2$$
-$$rstd(x) = \frac{1}{\sqrt{\operatorname{Var}(x) + \epsilon}}$$
+$$Var[x] = \frac{1}{C} \sum_{i=1}^{C} (x_i - \mathbb{E}[x])^2$$
+$$rstd[x] = \frac{1}{\sqrt{Var[x] + \epsilon}}$$
 3. Apply mean and variance normalization and then scale and shift with the learnable weight and bias parameters
-$$y_i = ((x_i - \mathbb{E}[x]) * rstd(x)) * \gamma_i + \beta_i$$
+$$y_i = ((x_i - \mathbb{E}[x]) * rstd[x]) * \gamma_i + \beta_i$$
 4. Store mean and rstd for backward pass
 
 The kernel uses a 1D grid and block as shown in Figure-1. Also note that all operations are implemented in a single kernel.
@@ -299,7 +299,7 @@ __global__ void layernorm_forward_kernel3(
 
 This kernel is similar to Kernel 3, except for the formula used to calculate variance. The variance is calculated as follows, leading to fewer subtraction operations:
 
-$$\operatorname{Var}(x) = \mathbb{E}[x^2] - (\mathbb{E}[x])^2$$
+$$Var[x] = \mathbb{E}[x^2] - (\mathbb{E}[x])^2$$
 
 This simple change also leads to a small improvement of **~1.2x over Kernel 3** (for block size 512).
 
