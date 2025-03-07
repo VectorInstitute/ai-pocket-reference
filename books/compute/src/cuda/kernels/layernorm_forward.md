@@ -29,12 +29,19 @@ The following table shows memory bandwidth for each kernel on a **A40 GPU for bl
 
 The first kernel is a copy of the CPU implementation. It parallelizes over the first 2 dimensions, $B$ and $T$, where $N = B*T$. **A single thread (see Figure-1) is responsible for normalizing one segment of size C**, hence it loops over all elements in that segment. The kernel code is broken down into 4 steps:
 1. Mean calculation
+
 $$\mathbb{E}[x] = \frac{1}{C} \sum_{i=1}^{C} x_i$$
+
 2. Variance and reciprocal of standard deviation (rstd) calculation
+
 $$Var[x] = \frac{1}{C} \sum_{i=1}^{C} (x_i - \mathbb{E}[x])^2$$
+
 $$rstd[x] = \frac{1}{\sqrt{Var[x] + \epsilon}}$$
+
 3. Apply mean and variance normalization and then scale and shift with the learnable weight and bias parameters
+
 $$y_i = ((x_i - \mathbb{E}[x]) * rstd[x]) * \gamma_i + \beta_i$$
+
 4. Store mean and rstd for backward pass
 
 The kernel uses a 1D grid and block as shown in Figure-1. Also note that all operations are implemented in a single kernel.
