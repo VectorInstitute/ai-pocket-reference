@@ -14,7 +14,11 @@ last D dimensions of the activation tensor as described in
 [this foundational paper](https://arxiv.org/abs/1607.06450) by Ba et al. (2016).
 The normalization equation is given below:
 
+<<<<<<< HEAD
 $$y = \frac{x - \mathbb{E}[x]}{\sqrt{Var[x] + \epsilon}} \times \gamma + \beta$$
+=======
+$$y = \frac{x - \mathbb{E}[x]}{\sqrt{Var[x] + \epsilon}} * \gamma + \beta$$
+>>>>>>> 522c130 (Fix latex bug)
 
 where, \\(\mathbb{E}[z]\\) and \\(Var[z]\\) are the expectation and variance
 of random variable \\(z\\), respectively. Note that in the above \\(\epsilon\\)
@@ -66,6 +70,7 @@ in that segment. The kernel code is broken down into 4 steps:
    $$\mathbb{E}[x] = \frac{1}{C} \sum_{i=1}^{C} x_i$$
 
 2. Variance and reciprocal of standard deviation (rstd) calculation
+<<<<<<< HEAD
 
    $$Var[x] = \frac{1}{C} \sum_{i=1}^{C} (x_i - \mathbb{E}[x])^2$$
 
@@ -76,6 +81,12 @@ in that segment. The kernel code is broken down into 4 steps:
 
    $$y_i = ((x_i - \mathbb{E}[x]) * rstd[x]) * \gamma_i + \beta_i$$
 
+=======
+$$Var[x] = \frac{1}{C} \sum_{i=1}^{C} (x_i - \mathbb{E}[x])^2$$
+$$rstd[x] = \frac{1}{\sqrt{Var[x] + \epsilon}}$$
+3. Apply mean and variance normalization and then scale and shift with the learnable weight and bias parameters
+$$y_i = ((x_i - \mathbb{E}[x]) * rstd[x]) * \gamma_i + \beta_i$$
+>>>>>>> 522c130 (Fix latex bug)
 4. Store mean and rstd for backward pass
 
 The kernel uses a 1D grid and block as shown in Figure-1a.
