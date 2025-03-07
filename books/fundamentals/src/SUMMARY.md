@@ -20,3 +20,6 @@
   - [ReLU](activations/relu.md)
   - [Leaky ReLU](activations/leaky_relu.md)
   - [GELU](activations/gelu.md)
+
+- [Normalization Operations](normalizations/README.md)
+  - [Layer Normalization](normalizations/layernorm.md)
