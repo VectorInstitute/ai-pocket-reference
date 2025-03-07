@@ -297,7 +297,7 @@ __global__ void layernorm_forward_kernel3(
 
 ## Kernel 4
 
-This kernel is similar to Kernel 3, except for the formula used to calculate variance. The variance is calculated as follows:
+This kernel is similar to Kernel 3, except for the formula used to calculate variance. The variance is calculated as follows, leading to fewer subtraction operations:
 
 $$\operatorname{Var}(x) = \mathbb{E}[x^2] - (\mathbb{E}[x])^2$$
 
