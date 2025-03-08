@@ -29,3 +29,5 @@ after = [ "github-authors" ]
 [output.html]
 mathjax-support = true
 additional-css = ["../_common/mdbook-ai-pocket-reference.css"]
+git-repository-url = "https://github.com/VectorInstitute/ai-pocket-reference"
+git-repository-icon = "fa-github"
