@@ -182,12 +182,12 @@ simultaneously or working with very long context windows.
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
-1. [Liu, Zirui, et al. "Kivi: A tuning-free asymmetric 2bit quantization for kv
-   cache." arXiv preprint arXiv:2402.02750 (2024).](https://arxiv.org/pdf/2402.02750)
+1. [_Liu, Zirui, et al. "Kivi: A tuning-free asymmetric 2bit quantization for kv
+   cache." arXiv preprint arXiv:2402.02750 (2024)._](https://arxiv.org/pdf/2402.02750)
 1. [_Raschka, Sebastian. Build a Large Language Model (From Scratch). Simon and
    Schuster, 2024._](https://www.amazon.com/Build-Large-Language-Model-Scratch/dp/1633437167)
-1. [Rajan, R. "KV Cache - Understanding the Mechanism behind it." R4J4N Blogs,
-   r4j4n.github.io/blogs/posts/kv/. Accessed 27 Feb. 2025.](https://r4j4n.github.io/blogs/posts/kv/)
+1. [_Rajan, R. "KV Cache - Understanding the Mechanism behind it." R4J4N Blogs,
+   r4j4n.github.io/blogs/posts/kv/. Accessed 27 Feb. 2025._](https://r4j4n.github.io/blogs/posts/kv/)
 
 <!-- Contributions -->
 
