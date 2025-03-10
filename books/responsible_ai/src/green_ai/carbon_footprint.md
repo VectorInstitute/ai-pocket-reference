@@ -1,5 +1,7 @@
 # Energy & Carbon Footprint Tracking in AI: A Quick Reference
 
+{{ #aipr_header }}
+
 ## Why Measure Carbon Footprint in AI?
 
 **Carbon footprint** refers to the total greenhouse gas (GHG) emissions caused by an activity. In machine learning, large-scale model training consumes significant energy, contributing to emissions. 
@@ -56,3 +58,5 @@ Tracking energy consumption and carbon footprint in AI/ML workloads is becoming 
 - **Transparency & compliance with sustainability goals**
 
 Researchers, engineers, and businesses can actively monitor and even reduce the carbon impact of AI using , while making their models more efficient and cost-effective.
+
+{{ #author shainarazavi }}
