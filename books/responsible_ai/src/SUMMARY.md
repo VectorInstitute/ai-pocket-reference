@@ -24,14 +24,48 @@
   - [Secure Model Deployment](./privacy_and_security/secure_model_deployment.md)
   - [Synthetic Data Generation](./privacy_and_security/synthetic_data_gen.md)
 
+# Green AI
+
+- [Introduction](./green_ai/README.md)
+  - [Carbon Footprint of AI Training](./green_ai/carbon_footprint.md)
+  - [Efficient Training Techniques](./green_ai/efficient_training.md)
+  - [Energy-Efficient Inference](./green_ai/energy_efficient_inference.md)
+  - [Sustainable Data Centres](./green_ai/sustainable_data_centres.md)
+  - [AI for Climate Action](./green_ai/ai_for_climate_action.md)
+
+# Responsible AI Product Development
+
+- [Introduction](./responsible_ai_product_dev/README.md)
+  - [AI Governance Frameworks & Risk Management](./responsible_ai_product_dev/ai_governance_frameworks.md)
+  - [Safety Evaluation of AI Models](./responsible_ai_product_dev/safety_evaluation.md)
+  - [Explainability & Interpretability](./responsible_ai_product_dev/explainability_and_interpretability.md)
+  - [Human-in-the-Loop Systems](./responsible_ai_product_dev/human_in_the_loop.md)
+  - [Ethical AI Policy & Compliance](./responsible_ai_product_dev/ethical_ai_policy_and_compliance.md)
+  - [Transparency & Model Cards](./responsible_ai_product_dev/transparency_and_model_cards.md)
+  - [Continuous Monitoring & Post-Deployment Oversight](./responsible_ai_product_dev/continuous_monitoring_and_post_deployment.md)
+
 <!--
 
-2.1. Differential Privacy in AI
-2.2. Federated Learning & Privacy-Preserving AI
-2.3. Membership Inference Attacks & Defenses
-2.4. Data Poisoning Attacks & Defenses
-2.5. AI and Cybersecurity (e.g., Adversarial Attacks & Red Teaming)
-2.6. Secure Model Deployment
-2.7 Synthetic Data Generation
+4 Responsible AI Product Development
+4.1. AI Governance Frameworks & Risk Management
+4.2. Safety Evaluation of AI Models
+4.3. Explainability & Interpretability
+4.4. Human-in-the-Loop Systems
+4.5. Ethical AI Policy & Compliance (e.g., AI Act)
+4.6. Transparency & Model Cards
+4.7. Continuous Monitoring & Post-Deployment Oversight
+
+5 Multimodal AI
+5.1. Vision-Language Models (e.g., CLIP, Flamingo)
+5.2. Text-Image-Video Fusion Techniques
+5.3. Cross-Modal Retrieval
+5.4. Audio & Speech Models (e.g., Whisper, SeamlessM4T)
+5.5. Multimodal Alignment Challenges
+
+6. Autonomous AI Systems & Decision-Making
+6.1. AI Agents
+6.2. Planning & Decision-Making
+6.3. AI in Robotics & Embodied AI
+6.4. AI for Scientific Discovery
 
  -->
