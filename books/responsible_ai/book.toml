@@ -4,10 +4,13 @@ description = "A streamlined reference manual for AI practitioners, students, an
 language = "en"
 multilingual = false
 src = "src"
-title = "AI Pocket Reference: NLP"
+title = "AI Pocket Reference: Responsible AI"
 editors = [
+    "Veronica Chatrath <veronica.chatrath@vectorinstitute.ai>",
+    "Shaina Raza <shaina.raza@vectorinstitute.ai>",
+    "Masoumeh Shafieinejad <masoumeh@vectorinstitute.ai>",
     "David Emerson <david.emerson@vectorinstitute.ai>",
-    "Andrei Fajardo <andrei.fajardo@vectorinstitute.ai>"
+    "Andrei Fajardo <andrei.fajardo@vectorinstitute.ai>",
 ]
 
 [build]

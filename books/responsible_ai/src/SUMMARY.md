@@ -1,13 +1,17 @@
 <!-- markdownlint-disable-file MD025 -->
+
 # Summary
 
 [Introduction](README.md)
 
-# AI Safety
+# Bias & Fairness
 
-- [Safety](ethics_and_fairness/safety/README.md)
-  - [Alignment](ethics_and_fairness/safety/alignment.md)
-  - [Catastrophic Risks](ethics_and_fairness/safety/catatosprohic_risks.md)
+- [Bias & Fairness](./bias_and_fairness/README.md)
+  - [Bias Taxonomy](./bias_and_fairness/taxonomy.md)
+  - [Bias Detection](./bias_and_fairness/detection.md)
+  - [Bias Mitigation Techniques](./bias_and_fairness/mitigation.md)
+  - [Intersectional Fairness & Multi-modal Biases](./bias_and_fairness/intersectional_fairness_and_multimodal_biases.md)
+  - [Harms in Generative AI](./bias_and_fairness/harms_in_genai.md)
 
 # AI Ethics & Fairness
 
