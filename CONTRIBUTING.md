@@ -60,7 +60,14 @@ You can contribute to the AI Pocket Reference project in several ways:
 
 2. **Install `mdbook` and Required Preprocessors**
 
+   > [!NOTE]
+   > This step requires Rust and Cargo to be installed on your machine.
+   > If not yet installed, run the command provided under "Install Rust/Cargo"
+
    ```bash
+   # Install Rust/Cargo
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
    # Install mdbook and required preprocessors
    cargo install mdbook
    cargo install mdbook-ai-pocket-reference    # For aipr preprocessors
