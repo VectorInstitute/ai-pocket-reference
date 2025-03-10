@@ -2,6 +2,10 @@
 
 # Summary
 
+[Awesome NLP]() <!-- (awesome_list.md) -->
+
+---
+
 [Introduction](README.md)
 
 # Natural Language Processing

@@ -2,6 +2,10 @@
 
 # Summary
 
+[Awesome High-Performance AI Compute]() <!-- (awesome_list.md) -->
+
+---
+
 [Introduction](README.md)
 
 # High-Performance AI Computing

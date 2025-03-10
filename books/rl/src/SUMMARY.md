@@ -1,11 +1,17 @@
-<!-- markdownlint-disable-file MD025 -->
+<!-- markdownlint-disable-file MD025 MD042 MD013 -->
+
 # Summary
+
+[Awesome RL]() <!-- (awesome_list.md) -->
+
+---
 
 [Introduction](README.md)
 
 # Reinforcement Learning
 
 - [Tabular Methods](rl/tabular/README.md)
+
   - [Q-Learning](rl/tabular/q_learning.md)
   - [SARSA](rl/tabular/sarsa.md)
 
