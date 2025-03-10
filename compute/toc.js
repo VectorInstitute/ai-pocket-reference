@@ -8,7 +8,7 @@ class MDBookSidebarScrollbox extends HTMLElement {
         super();
     }
     connectedCallback() {
-        this.innerHTML = '<ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">High-Performance AI Computing</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Parallel Computing</div></li><li class="chapter-item expanded "><a href="cuda/index.html"><strong aria-hidden="true">2.</strong> CUDA Programming</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="cuda/kernels.html"><strong aria-hidden="true">2.1.</strong> CUDA Kernels</a></li></ol></li></ol>';
+        this.innerHTML = '<ol class="chapter"><li class="chapter-item expanded affix "><div>Awesome High-Performance AI Compute</div></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">High-Performance AI Computing</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Parallel Computing</div></li><li class="chapter-item expanded "><a href="cuda/index.html"><strong aria-hidden="true">2.</strong> CUDA Programming</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="cuda/kernels.html"><strong aria-hidden="true">2.1.</strong> CUDA Kernels</a></li></ol></li></ol>';
         // Set the current, active page, and reveal it if it's hidden
         let current_page = document.location.href.toString().split("#")[0];
         if (current_page.endsWith("/")) {
