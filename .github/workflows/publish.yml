@@ -32,10 +32,10 @@ jobs:
         run: |
           mdbook build books/nlp
           mdbook build books/compute
+          mdbook build books/responsible_ai
           # mdbook build books/fundamentals
           # mdbook build books/cv
           # mdbook build books/rl
-          # mdbook build books/responsible_ai
           # mdbook build books/fl
 
       - name: Copy static assets to build folder
