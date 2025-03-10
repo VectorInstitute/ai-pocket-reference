@@ -44,28 +44,19 @@
   - [Transparency & Model Cards](./responsible_ai_product_dev/transparency_and_model_cards.md)
   - [Continuous Monitoring & Post-Deployment Oversight](./responsible_ai_product_dev/continuous_monitoring_and_post_deployment.md)
 
-<!--
+# Multimodal AI
 
-4 Responsible AI Product Development
-4.1. AI Governance Frameworks & Risk Management
-4.2. Safety Evaluation of AI Models
-4.3. Explainability & Interpretability
-4.4. Human-in-the-Loop Systems
-4.5. Ethical AI Policy & Compliance (e.g., AI Act)
-4.6. Transparency & Model Cards
-4.7. Continuous Monitoring & Post-Deployment Oversight
+- [Introduction](./multimodal_ai/README.md)
+  - [Vision-Language Model](./multimodal_ai/vlm.md)
+  - [Text-Image-Video Fusion Techniques](./multimodal_ai/text_image_video_fusion.md)
+  - [Cross-Modal Retrieval](./multimodal_ai/cross_modal_retrieval.md)
+  - [Audio & Speech Models](./multimodal_ai/audio_and_speech.md)
+  - [Multimodal Alignment Challenges](./multimodal_ai/alignment_challenges.md)
 
-5 Multimodal AI
-5.1. Vision-Language Models (e.g., CLIP, Flamingo)
-5.2. Text-Image-Video Fusion Techniques
-5.3. Cross-Modal Retrieval
-5.4. Audio & Speech Models (e.g., Whisper, SeamlessM4T)
-5.5. Multimodal Alignment Challenges
+# Autonomous AI Systems & Decision-Making
 
-6. Autonomous AI Systems & Decision-Making
-6.1. AI Agents
-6.2. Planning & Decision-Making
-6.3. AI in Robotics & Embodied AI
-6.4. AI for Scientific Discovery
-
- -->
+- [Introduction](./autonomous_ai/README.md)
+  - [AI Agents](./autonomous_ai/ai_agents.md)
+  - [Planning & Decision-Making](./autonomous_ai/planning_and_decision_making.md)
+  - [AI in Robotics & Embodied AI](./autonomous_ai/ai_robotics_embodied_ai.md)
+  - [AI for Scientific Discovery](./autonomous_ai/ai_for_scientific_discovery.md)
