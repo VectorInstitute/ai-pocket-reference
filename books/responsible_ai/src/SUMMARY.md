@@ -31,7 +31,7 @@
 # Green AI
 
 - [Introduction]() <!-- (./green_ai/README.md) -->
-  - [Carbon Footprint Tracking](./green_ai/carbon_footprint.md)  
+  - [Carbon Footprint Tracking](./green_ai/carbon_footprint.md)
   - [Efficient Training Techniques]() <!-- (./green_ai/efficient_training.md) -->
   - [Energy-Efficient Inference]() <!-- (./green_ai/energy_efficient_inference.md) -->
   - [Sustainable Data Centres]() <!-- (./green_ai/sustainable_data_centres.md) -->
