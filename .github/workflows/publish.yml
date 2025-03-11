@@ -22,6 +22,16 @@ jobs:
         with:
           toolchain: stable
 
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Install mdbook if needed  # Pin of mdbook should match the version used to generate theme.bbs template
         run: |
           (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "0.4.44" mdbook)
