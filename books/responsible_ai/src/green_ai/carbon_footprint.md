@@ -1,4 +1,4 @@
-# Energy & Carbon Footprint Tracking in AI: A Quick Reference
+# Energy & Carbon Footprint Tracking in AI
 
 {{ #aipr_header }}
 
@@ -21,7 +21,30 @@ energy, contributing to emissions.
 Measuring AI’s energy consumption allows **better optimization, improved
 sustainability, and transparency** in reporting emissions.
 
----
+## How is Carbon Footprint Measured?
+
+Measuring the carbon footprint of AI involves two main steps:
+
+1. **Energy Consumption Measurement**
+   Tools like [CodeCarbon](https://github.com/mlco2/codecarbon) use hardware
+   sensors—such as Intel RAPL for CPUs and NVIDIA NVML for GPUs—to track power
+   usage. We integrate power over time (kWh) to determine the total energy
+   consumed during model training or inference.
+
+2. **Carbon Emissions Calculation**
+   The total energy (in kWh) is multiplied by the regional carbon intensity
+   (gCO₂/kWh) to estimate emissions using the formula:
+   `Total CO₂ Emissions = Energy (kWh) × Carbon Intensity (gCO₂/kWh)`
+
+   _Where:_
+
+   - **Energy** = Sum of hardware power usage over runtime
+   - **Carbon Intensity** = Grid emission factor for the region
+
+   For example, the Regional Carbon Intensity fetches location-based CO₂ per kWh
+   data from public sources (e.g., [Ember Climate](https://ember-climate.org/)).
+   It can auto-detect cloud provider regions (AWS, Azure, GCP) or use user-provided
+   location.
 
 ## 📌 **Quick Reference to Energy/Carbon Tracking Tools**
 
@@ -62,31 +85,6 @@ energy consumption and carbon footprint in machine learning workloads.
   - _Powermeter_ (Nvidia-only), _Zeus_
 
 ---
-
-## How is Carbon Footprint Measured?
-
-Measuring the carbon footprint of AI involves two main steps:
-
-1. **Energy Consumption Measurement**
-   Tools like [CodeCarbon](https://github.com/mlco2/codecarbon) use hardware
-   sensors—such as Intel RAPL for CPUs and NVIDIA NVML for GPUs—to track power
-   usage. We integrate power over time (kWh) to determine the total energy
-   consumed during model training or inference.
-
-2. **Carbon Emissions Calculation**
-   The total energy (in kWh) is multiplied by the regional carbon intensity
-   (gCO₂/kWh) to estimate emissions using the formula:
-   `Total CO₂ Emissions = Energy (kWh) × Carbon Intensity (gCO₂/kWh)`
-
-   _Where:_
-
-   - **Energy** = Sum of hardware power usage over runtime
-   - **Carbon Intensity** = Grid emission factor for the region
-
-   For example, the Regional Carbon Intensity fetches location-based CO₂ per kWh
-   data from public sources (e.g., [Ember Climate](https://ember-climate.org/)).
-   It can auto-detect cloud provider regions (AWS, Azure, GCP) or use user-provided
-   location.
 
 ## 🌱 **Final Thoughts**
 
