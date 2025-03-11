@@ -63,6 +63,26 @@ energy consumption and carbon footprint in machine learning workloads.
 
 ---
 
+
+
+## How is Carbon Footprint Measured?
+
+Measuring the carbon footprint of AI involves two main steps:
+
+1. **Energy Consumption Measurement**  
+   Tools like [CodeCarbon](https://github.com/mlco2/codecarbon) use hardware sensors—such as Intel RAPL for CPUs and NVIDIA NVML for GPUs—to track power usage. We integrate power over time (kWh) to determine the total energy consumed during model training or inference.
+
+2. **Carbon Emissions Calculation**  
+   The total energy (in kWh) is multiplied by the regional carbon intensity (gCO₂/kWh) to estimate emissions using the formula:  
+   `Total CO₂ Emissions = Energy (kWh) × Carbon Intensity (gCO₂/kWh)`
+
+   *Where:*
+   - **Energy** = Sum of hardware power usage over runtime  
+   - **Carbon Intensity** = Grid emission factor for the region  
+
+   For example, the Regional Carbon Intensity fetches location-based CO₂ per kWh data from public sources (e.g., [Ember Climate](https://ember-climate.org/)). It can auto-detect cloud provider regions (AWS, Azure, GCP) or use user-provided location.
+
+
 ## 🌱 **Final Thoughts**
 
 Tracking energy consumption and carbon footprint in AI/ML workloads is becoming
@@ -73,7 +93,17 @@ Tracking energy consumption and carbon footprint in AI/ML workloads is becoming
 - **Improved algorithmic efficiency & optimization**
 - **Transparency & compliance with sustainability goals**
 
+
+
 Researchers, engineers, and businesses can actively monitor and even reduce the
 carbon impact of AI using , while making their models more efficient and cost-effective.
+
+## References
+
+- [Intel RAPL Documentation](https://www.intel.com/content/www/us/en/developer/articles/technical/power-management-states-and-rapl.html)
+- [NVIDIA NVML Library](https://docs.nvidia.com/deploy/nvml-api/)
+- [Ember Data on Grid Emissions](https://ember-climate.org/data/)
+- [CodeCarbon GitHub Repository](https://github.com/mlco2/codecarbon)
+
 
 {{ #author shainarazavi }}
