@@ -24,7 +24,7 @@ jobs:
 
       - name: Install mdbook if needed
         run: |
-          (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "^0.4.44" mdbook)
+          (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "0.4.44" mdbook)
           cargo install mdbook-ai-pocket-reference
           cargo install mdbook-github-authors
 
