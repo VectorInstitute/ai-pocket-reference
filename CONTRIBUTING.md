@@ -69,7 +69,7 @@ You can contribute to the AI Pocket Reference project in several ways:
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
    # Install mdbook and required preprocessors
-   cargo install mdbook
+   cargo install --vers "0.4.44" mdbook  # Pin required due to our custom themes
    cargo install mdbook-ai-pocket-reference    # For aipr preprocessors
    cargo install mdbook-github-authors  # For tracking contributors
    ```

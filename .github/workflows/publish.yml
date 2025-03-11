@@ -22,7 +22,7 @@ jobs:
         with:
           toolchain: stable
 
-      - name: Install mdbook if needed
+      - name: Install mdbook if needed  # Pin of mdbook should match the version used to generate theme.bbs template
         run: |
           (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "0.4.44" mdbook)
           cargo install mdbook-ai-pocket-reference
