@@ -35,8 +35,8 @@ jobs:
       - name: Install mdbook if needed  # Pin of mdbook should match the version used to generate theme.bbs template
         run: |
           (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "0.4.44" mdbook)
-          cargo install mdbook-ai-pocket-reference
-          cargo install mdbook-github-authors
+          (test -x $HOME/.cargo/bin/mdbook-ai-pocket-reference ||cargo install mdbook-ai-pocket-reference)
+          (test -x $HOME/.cargo/bin/mdbook-github-authors || cargo install mdbook-github-authors)
 
       - name: Build books
         run: |
