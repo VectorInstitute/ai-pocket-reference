@@ -67,8 +67,6 @@ energy consumption and carbon footprint in machine learning workloads.
 | **Tracarbon**                 | Device-level CPU/GPU + region-based emission                    | Mac, Linux, AWS                          | Requires code instrumentation      | Python package    | ❌ No real-time (post-run results)   | Apache 2.0 (Free)  | _(GitHub repo available, active dev.)_                               | Good for Mac & AWS                                  |
 | **Zeus**                      | Function-level measurement + optimization                       | Not specified                            | Requires code instrumentation      | Python package    | ❌ No real-time (post-run results)   | Apache 2.0 (Free)  | _(GitHub repo available)_                                            | Offers additional energy optimizations              |
 
----
-
 <!-- markdownlint-enable MD013 -->
 
 ## 🎯 **Which Tool Should You Choose?**
@@ -83,8 +81,6 @@ energy consumption and carbon footprint in machine learning workloads.
   - _CarbonTracker_, _experiment-impact-tracker_, _Powermeter_
 - **🔍 For GPU-only tracking:**
   - _Powermeter_ (Nvidia-only), _Zeus_
-
----
 
 ## 🌱 **Final Thoughts**
 
