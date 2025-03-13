@@ -2,7 +2,7 @@
 
 # Agents
 
-{{ #aipr_header}}
+{{ #aipr_header }}
 
 Agents are LLMs equipped with [tools](./tool_use.md) and memory to interact
 with the environment and complete specific, user-defined objectives.
