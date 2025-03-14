@@ -394,6 +394,204 @@ dynamic lora composition." arXiv preprint arXiv:2307.13269 (2023).</em></a></li>
     </a>
 </div>
 <div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
+<h1 id="agents"><a class="header" href="#agents">Agents</a></h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 5 min</small></p>
+  </div>
+</div>
+<p>Agents are LLMs equipped with <a href="llms/agents/./tool_use.html">tools</a> and memory to interact
+with the environment and complete specific, user-defined objectives.
+They go about this by following workflows which direct them in
+(i) <a href="llms/agents/./planning.html">planning</a> for what steps and tools are needed,
+(ii) executing an action, and (iii) <a href="llms/agents/./reflection.html">reflecting</a> on feedback
+from their action, looping through these steps when the initial plan requires
+multiple actions, or when reflection suggests additional actions are needed to
+achieve the objective.
+Compared to an LLM on its own, the "plan-action-reflect" workflow of agents
+give them a higher degree of agency and capacity for complex or long term
+tasks, while tools offer the ability to learn up-to-date information
+from the environment and offload certain computations.</p>
+<h2 id="components"><a class="header" href="#components">Components</a></h2>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/agent.svg" alt="agent"> <!-- markdownlint-disable-line MD013 -->
+</center>
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: Agent components
+</div>
+<h3 id="tools"><a class="header" href="#tools">Tools</a></h3>
+<p><a href="llms/agents/./tool_use.html">Tools</a> can include external data sets (including
+unstructured data such as PDF documents), web searches, APIs, custom functions,
+and even <a href="llms/agents/./multi_agents.html">other agents</a>.
+They should fulfill a clear objective which is clearly communicated
+to the LLM through a short, formatted description.
+This is so the LLM is aware of the tool's existence and can invoke it
+when necessary. However, since an LLM's input and output are text-based,
+invoking a tool means generating a structured output in a specific
+format—typically JSON or direct code. Standardized communication
+between tools and LLMs are also being established and propagated, with
+Anthropic's Model Context Procotol <a href="https://www.anthropic.com/news/model-context-protocol">(2024)</a>
+being a notable example.</p>
+<h3 id="memory"><a class="header" href="#memory">Memory</a></h3>
+<p>The information retrieved from a tool updates the agent's memory,
+which also contains the context of its objective: the original
+user-defined objective, any other user input, as well as the results
+of prior planning, actions, and reflection.
+This memory is vital for the agent to complete its objective coherently
+and not be stuck in endless loops, conducting unnecessary actions,
+or offering irrelevant results. Memory does not have to be one continuous
+block. It can be separated into multiple sections with different persistence
+and frequencies of use. This is the case with LlamaIndex's
+<a href="https://docs.llamaindex.ai/en/stable/examples/agent/memory/composable_memory/">composable memory</a>.</p>
+<h3 id="llm"><a class="header" href="#llm">LLM</a></h3>
+<p>The underlying LLM powering the agent's every move can be
+any language model, including the notable models listed in
+<a href="llms/agents/../../models/README.html">the pocket references of notable models</a>
+(e.g., <a href="llms/agents/../../models/llama_3.html">Llama-3</a>,
+<a href="llms/agents/../../models/deepseek_r1.html">DeepSeek-R1</a>, etc.).</p>
+<h3 id="framework"><a class="header" href="#framework">Framework</a></h3>
+<p>The final component of an agent that cannot be overlooked is the
+"connective tissue" that enables the LLM to work together with its memory
+and its tools. This is the code that structures the user-defined objective
+and the tool descriptions into a prompt for the LLM, that parses an LLM's
+output and directs their JSON/code to the corresponding tool, that incorporates
+tool results into memory and text to properly give back to
+the LLM for reflection. Some popular frameworks include <a href="https://github.com/crewAIInc/crewAI">CrewAI</a>,
+<a href="https://github.com/geekan/MetaGPT">MetaGPT</a>,
+<a href="https://github.com/huggingface/smolagents">smolagents</a>,
+<a href="https://github.com/langchain-ai/langgraph">LangGraph</a>,
+<a href="https://github.com/run-llama/llama_index">LlamaIndex</a>.</p>
+<h2 id="applications"><a class="header" href="#applications">Applications</a></h2>
+<p>The potential applications for agents are quite broad. Some examples include:</p>
+<ul>
+<li>Personal scheduling assistant</li>
+<li>Customer service queue specialist</li>
+<li>Internet-of-things (IoT) hub manager</li>
+<li>Discussion forum moderator</li>
+<li>Lab research assistant</li>
+<li>etc.</li>
+</ul>
+<p>While the above are theoretical applications, tangible agents have also begun
+making their way to the market. At the time of writing this reference,
+Deep Research <a href="https://openai.com/index/introducing-deep-research/">(2025)</a>,
+a research assistant for synthesizing literature,
+and Manus <a href="https://manus.im/">(2025)</a>,
+for broader analysis and development,
+are two agents that have made headlines. Furthermore, Casper et al. <a href="https://arxiv.org/pdf/2502.01635">(2025)</a>
+have compiled an <a href="https://aiagentindex.mit.edu/index/">index</a>
+to track existing agents and discover patterns. They
+have found agents "being deployed at a steadily increasing rate".</p>
+<h2 id="limitations-2"><a class="header" href="#limitations-2">Limitations</a></h2>
+<p>Built on LLMs, agents can be computationally expensive,
+and thus may be unnecessary for overly simplistic tasks.
+Due to their semi-supervised nature, the possibility of an agent
+making inefficient LLM calls or worse, getting stuck in feedback loops,
+should be kept in mind.
+Extra care should be taken when implementing multi-agent collaboration,
+as a hallucination in one agent would affect the whole system.
+Additionally with multi-agents, if they were all built on the same LLM,
+any reasoning deficiency would be shared across all agents.
+Lastly, more work and time are needed to foster community trust
+in the viability of agents for everyday life.</p>
+<p>Advances have been made to address these perceived shortcomings,
+with the foremost technique being <a href="llms/agents/../fine_tuning/README.html">fine-tuning</a>.
+Supervised fine-tuning with instructions
+<a href="https://arxiv.org/abs/2308.10792">(Zhang et al., 2024)</a>,
+alignment and safety fine-tuning
+<a href="https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives">(Raschka, 2023)</a>
+, and reasoning fine-tuning with reinforcement learning
+<a href="https://arxiv.org/abs/2401.08967">(Luong et al., 2024)</a>,
+are among the promising fine-tuning techniques proposed.</p>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<p>While there is general agreement on what agents do in the industry,
+the specifics vary between sources and application settings. Therefore,
+it would be useful to browse different definitions and see more perspectives.
+The links below include introductions to agents from
+<a href="https://huggingface.co/learn/agents-course/unit1/what-are-agents">Hugging Face</a>
+,
+<a href="https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb">LlamaIndex</a>
+,
+<a href="https://www.ibm.com/think/topics/ai-agents">IBM</a>
+,
+<a href="https://aiagentindex.mit.edu/">MIT</a>
+,
+and
+<a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic</a>.</p>
+<h4 id="references--useful-links-2"><a class="header" href="#references--useful-links-2">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<ol>
+<li><a href="https://www.anthropic.com/news/model-context-protocol"><em>Anthropic. "Introducing the Model Context Protocol." Anthropic News,
+anthropic.com/news/model-context-protocol. Accessed 14 Mar. 2025.</em></a></li>
+<li><a href="https://docs.llamaindex.ai/en/stable/examples/agent/memory/composable_memory/"><em>LlamaIndex. "Single composable memory." LlamaIndex Documentation,
+docs.llamaindex.ai/en/stable/examples/agent/memory/composable_memory/.
+Accessed 14 Mar. 2025.</em></a></li>
+<li><a href="https://openai.com/index/introducing-deep-research/"><em>OpenAI. "Introducing deep research." OpenAI Documentation,
+openai.com/index/introducing-deep-research/. Accessed 8 Mar. 2025.</em></a></li>
+<li><a href="https://manus.im/"><em>Manus. "Introducing Manus." Manus Home Page, manus.im/.
+Accessed 8 Mar. 2025.</em></a></li>
+<li><a href="https://arxiv.org/pdf/2502.01635"><em>Casper, S., Bailey, L., Hunter, R., Ezell, C., Cabalé, E.,
+Gerovitch, M., Slocum, S., Wei, K., Jurkovic, N., Khan, A.,
+Christoffersen, P.J.K., Ozisik, A.P., Trivedi, R., Hadfield-Menell, D.,
+and Kolt, N. "The AI Agent Index." (2025),
+DOI: 10.48550/arXiv.2502.01635.</em></a></li>
+<li><a href="https://arxiv.org/abs/2308.10792"><em>Zhang, S., Dong, L., Li, X., Zhang, S., Sun, X., Wang, S., Li, J., Hu, R.,
+Zhang, T., Wu, F., and Wang, G. "Instruction tuning for large
+language models: a survey." (2024),
+DOI: 10.48550/arXiv.2308.10792.</em></a></li>
+<li><a href="https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives"><em>Raschka, S. "LLM training: RLHF and its alternatives." (2023),
+Ahead of AI,
+magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives.
+Accessed 14, Mar. 2025.</em></a></li>
+<li><a href="https://arxiv.org/abs/2401.08967"><em>Luong, T.Q., Zhang, X., Jie, Z., Sun, P., Jin, X., and Li, H.
+"ReFT: reasoning with reinforced fine-tuning." (2024),
+DOI: doi.org/10.48550/arXiv.2401.08967.</em></a></li>
+<li><a href="https://huggingface.co/learn/agents-course/unit1/what-are-agents"><em>Hugging Face. "What is an agent?" Hugging Face Agents Course,
+huggingface.co/learn/agents-course/unit1/what-are-agents.
+Accessed 8 Mar. 2025.</em></a></li>
+<li><a href="https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb"><em>Fajardo, V.A. LlamaIndex GenAI Philippines talk, github.com/nerdai/
+talks/blob/main/2024/genai-philippines/genai-philippines.ipynb.
+Accessed 8 Mar. 2025.</em></a></li>
+<li><a href="https://www.ibm.com/think/topics/ai-agents"><em>IBM. "What are AI agents?" IBM Think, ibm.com/think/topics/ai-agents.
+Accessed 8 Mar. 2025.</em></a></li>
+<li><a href="https://www.anthropic.com/engineering/building-effective-agents"><em>Anthropic. "Building effective agents." Anthropic Engineering,
+anthropic.com/engineering/building-effective-agents.
+Accessed 14 Mar. 2025.</em></a></li>
+</ol>
+<h4 id="github-repositories-for-agent-frameworks"><a class="header" href="#github-repositories-for-agent-frameworks">GitHub Repositories for Agent Frameworks</a></h4>
+<ol>
+<li><a href="https://github.com/crewAIInc/crewAI"><em>crewAI. github.com/crewAIInc/crewAI</em></a></li>
+<li><a href="https://github.com/geekan/MetaGPT"><em>MetaGPT. github.com/geekan/MetaGPT</em></a></li>
+<li><a href="https://github.com/huggingface/smolagents"><em>smolagents. github.com/huggingface/smolagents</em></a></li>
+<li><a href="https://github.com/langchain-ai/langgraph"><em>LangGraph. github.com/langchain-ai/langgraph</em></a></li>
+<li><a href="https://github.com/run-llama/llama_index"><em>LlamaIndex. github.com/run-llama/llama_index</em></a></li>
+</ol>
+<!-- Contributions -->
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/c567wang">
+<img src="https://github.com/c567wang.png"
+  width="32px" alt="Contributor c567wang" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
 <h1 id="kv-cache"><a class="header" href="#kv-cache">KV Cache</a></h1>
 <!-- Header -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
@@ -542,7 +740,7 @@ Loop for each token generation step t &gt; n:<br />
 \(\quad\)Compute next token logits using \(c_t\)<br />
 \(\quad\)Generate \(x_{t+1}\) // (which becomes part of the next step's input)</p>
 </blockquote>
-<h2 id="limitations-2"><a class="header" href="#limitations-2">Limitations</a></h2>
+<h2 id="limitations-3"><a class="header" href="#limitations-3">Limitations</a></h2>
 <p>Note that LLMs use Multi-Head Attention modules with several Transformer layers.
 Each attention head would need to maintain its own KV Cache and as such, the memory
 requirements can be quite expensive. As one example, Liu et al (2024) note that
@@ -551,7 +749,7 @@ a KV Cache that can take upwards of 3TB of memory — more than the amount of me
 required to hold the model's weight parameters.</p>
 <p>This memory bottleneck becomes especially pronounced when serving multiple requests
 simultaneously or working with very long context windows.</p>
-<h4 id="references--useful-links-2"><a class="header" href="#references--useful-links-2">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<h4 id="references--useful-links-3"><a class="header" href="#references--useful-links-3">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li><a href="https://arxiv.org/pdf/2402.02750">Liu, Zirui, et al. "Kivi: A tuning-free asymmetric 2bit quantization for kv
 cache." arXiv preprint arXiv:2402.02750 (2024).</a></li>
@@ -716,7 +914,7 @@ great potential of RL and its overall place in AI as endeavour to reach new
 heights.</p>
 </li>
 </ol>
-<h2 id="limitations-3"><a class="header" href="#limitations-3">Limitations</a></h2>
+<h2 id="limitations-4"><a class="header" href="#limitations-4">Limitations</a></h2>
 <p>DeepSeek reported various limitations for DeepSeek-R1. Most notably, DeepSeek-R1
 is inferior to DeepSeek-V3 in general capabilities such as function calling, producing
 structured outputs (JSON), role-playing, and multi-turn conversations. Additionally,
@@ -724,7 +922,7 @@ due to its optimization for English and Chinese, the model sometimes suffers fro
 language mixing. Lastly, DeepSeek-R1 reportedly demonstrated a high sensitivity
 to prompts and long inference times, making it unsuitable for low-latency applications
 such as software-engineering tasks.</p>
-<h4 id="references--useful-links-3"><a class="header" href="#references--useful-links-3">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<h4 id="references--useful-links-4"><a class="header" href="#references--useful-links-4">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li><a href="https://arxiv.org/pdf/2501.12948"><em>Guo, Daya, et al. "Deepseek-r1: Incentivizing reasoning capability in llms
 via reinforcement learning." arXiv preprint arXiv:2501.12948 (2025).</em></a></li>
@@ -916,10 +1114,10 @@ that this pipeline improved reasononing performance while still maintaining the
 ability to produce desired outputs and efficient response lengths.</p>
 </li>
 </ol>
-<h2 id="limitations-4"><a class="header" href="#limitations-4">Limitations</a></h2>
+<h2 id="limitations-5"><a class="header" href="#limitations-5">Limitations</a></h2>
 <p>DeepSeek-V3 requires significant amounts of computation facilities to ensure efficient
 inference.</p>
-<h4 id="references--useful-links-4"><a class="header" href="#references--useful-links-4">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<h4 id="references--useful-links-5"><a class="header" href="#references--useful-links-5">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li><a href="https://arxiv.org/pdf/2412.19437"><em>Liu, Aixin, et al. "Deepseek-v3 technical report." arXiv preprint
 arXiv:2412.19437 (2024).</em></a></li>
