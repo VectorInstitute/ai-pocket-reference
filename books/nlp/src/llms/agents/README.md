@@ -102,7 +102,7 @@ have compiled an [index](https://aiagentindex.mit.edu/index/)
 to track existing agents and discover patterns. They
 have found agents "being deployed at a steadily increasing rate".
 
-## Limitations and Advances
+## Limitations
 
 Built on LLMs, agents can be computationally expensive,
 and thus may be unnecessary for overly simplistic tasks.
