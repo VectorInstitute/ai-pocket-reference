@@ -119,8 +119,10 @@ in the viability of agents for everyday life.
 Advances have been made to address these perceived shortcomings,
 with the foremost technique being [fine-tuning](../fine_tuning/README.md).
 Supervised fine-tuning with instructions
-[(Zhang et al., 2024)](https://arxiv.org/abs/2308.10792)
-and reasoning fine-tuning with reinforcement learning
+[(Zhang et al., 2024)](https://arxiv.org/abs/2308.10792),
+alignment and safety fine-tuning
+[(Raschka, 2023)](https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives)
+, and reasoning fine-tuning with reinforcement learning
 [(Luong et al., 2024)](https://arxiv.org/abs/2401.08967),
 are among the promising fine-tuning techniques proposed.
 
@@ -161,18 +163,22 @@ and
    Zhang, T., Wu, F., and Wang, G. "Instruction tuning for large
    language models: a survey." (2024),
    DOI: 10.48550/arXiv.2308.10792._](https://arxiv.org/abs/2308.10792)
-7. [_Luong, T.Q., Zhang, X., Jie, Z., Sun, P., Jin, X., and Li, H.
+7. [_Raschka, S. "LLM training: RLHF and its alternatives." (2023),
+   Ahead of AI,
+   magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives.
+   Accessed 14, Mar. 2025._](https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives)
+8. [_Luong, T.Q., Zhang, X., Jie, Z., Sun, P., Jin, X., and Li, H.
    "ReFT: reasoning with reinforced fine-tuning." (2024),
    DOI: doi.org/10.48550/arXiv.2401.08967._](https://arxiv.org/abs/2401.08967)
-8. [_Hugging Face. "What is an agent?" Hugging Face Agents Course,
+9. [_Hugging Face. "What is an agent?" Hugging Face Agents Course,
    huggingface.co/learn/agents-course/unit1/what-are-agents.
    Accessed 8 Mar. 2025._](https://huggingface.co/learn/agents-course/unit1/what-are-agents)
-9. [_Fajardo, V.A. LlamaIndex GenAI Philippines talk, github.com/nerdai/
+10. [_Fajardo, V.A. LlamaIndex GenAI Philippines talk, github.com/nerdai/
    talks/blob/main/2024/genai-philippines/genai-philippines.ipynb.
    Accessed 8 Mar. 2025._](https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb)
-10. [_IBM. "What are AI agents?" IBM Think, ibm.com/think/topics/ai-agents.
+11. [_IBM. "What are AI agents?" IBM Think, ibm.com/think/topics/ai-agents.
    Accessed 8 Mar. 2025._](https://www.ibm.com/think/topics/ai-agents)
-11. [_Anthropic. "Building effective agents." Anthropic Engineering,
+12. [_Anthropic. "Building effective agents." Anthropic Engineering,
    anthropic.com/engineering/building-effective-agents.
    Accessed 14 Mar. 2025._](https://www.anthropic.com/engineering/building-effective-agents)
 
