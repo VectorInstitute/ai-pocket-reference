@@ -62,7 +62,7 @@ and frequencies of use. This is the case with LlamaIndex's
 
 The underlying LLM powering the agent's every move can be
 any language model, including the notable models listed in
-[the pocket references of notable models](../../models/README.md)
+[the pocket references of notable models](../../models/index.html)
 (e.g., [Llama-3](../../models/llama_3.md),
 [DeepSeek-R1](../../models/deepseek_r1.md), etc.).
 
@@ -117,7 +117,7 @@ Lastly, more work and time are needed to foster community trust
 in the viability of agents for everyday life.
 
 Advances have been made to address these perceived shortcomings,
-with the foremost technique being [fine-tuning](../fine_tuning/README.md).
+with the foremost technique being [fine-tuning](../fine_tuning/index.html).
 Supervised fine-tuning with instructions
 [(Zhang et al., 2024)](https://arxiv.org/abs/2308.10792),
 alignment and safety fine-tuning
