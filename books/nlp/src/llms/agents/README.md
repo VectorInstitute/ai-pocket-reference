@@ -98,7 +98,8 @@ a research assistant for synthesizing literature,
 and Manus [(2025)](https://manus.im/),
 for broader analysis and development,
 are two agents that have made headlines. Furthermore, Casper et al. [(2025)](https://arxiv.org/pdf/2502.01635)
-have compiled an index to track existing agents and discover patterns. They
+have compiled an [index](https://aiagentindex.mit.edu/index/)
+to track existing agents and discover patterns. They
 have found agents "being deployed at a steadily increasing rate".
 
 ## Limitations and Advances
