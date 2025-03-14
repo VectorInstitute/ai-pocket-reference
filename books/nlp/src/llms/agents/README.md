@@ -20,7 +20,7 @@ from the environment and offload certain computations.
 ## Components
 
 <center>
-<img src="./agent.svg" alt="agent"> <!-- markdownlint-disable-line MD013 -->
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/agent.svg" alt="agent"> <!-- markdownlint-disable-line MD013 -->
 </center>
 
 <div
@@ -174,13 +174,13 @@ and
    huggingface.co/learn/agents-course/unit1/what-are-agents.
    Accessed 8 Mar. 2025._](https://huggingface.co/learn/agents-course/unit1/what-are-agents)
 10. [_Fajardo, V.A. LlamaIndex GenAI Philippines talk, github.com/nerdai/
-   talks/blob/main/2024/genai-philippines/genai-philippines.ipynb.
-   Accessed 8 Mar. 2025._](https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb)
+    talks/blob/main/2024/genai-philippines/genai-philippines.ipynb.
+    Accessed 8 Mar. 2025._](https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb)
 11. [_IBM. "What are AI agents?" IBM Think, ibm.com/think/topics/ai-agents.
-   Accessed 8 Mar. 2025._](https://www.ibm.com/think/topics/ai-agents)
+    Accessed 8 Mar. 2025._](https://www.ibm.com/think/topics/ai-agents)
 12. [_Anthropic. "Building effective agents." Anthropic Engineering,
-   anthropic.com/engineering/building-effective-agents.
-   Accessed 14 Mar. 2025._](https://www.anthropic.com/engineering/building-effective-agents)
+    anthropic.com/engineering/building-effective-agents.
+    Accessed 14 Mar. 2025._](https://www.anthropic.com/engineering/building-effective-agents)
 
 #### GitHub Repositories for Agent Frameworks
 
