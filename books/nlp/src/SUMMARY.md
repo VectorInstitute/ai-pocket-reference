@@ -62,7 +62,7 @@
     - [Rejection Sampling]() <!-- (llms/misc/rejection_sampling.md) -->
     - [Emergent]() <!-- (llms/misc/emergent.md) -->
     - [LLM As Judge]() <!-- (llms/misc/llm_as_judge.md) -->
-- [Notable Models]() <!-- (models/README.md) -->
+- [Notable Models](models/README.md)
   - [BERT]() <!-- (models/bert.md) -->
   - [Llama-3]() <!-- (models/llama_3.md) -->
   - [DeepSeek-R1](models/deepseek_r1.md) -->
