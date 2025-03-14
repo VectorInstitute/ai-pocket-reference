@@ -76,7 +76,9 @@ While the above are theoretical applications, tangible agents have also begun
 making their way to the market. At the time of writing this reference,
 Deep Research (2025), a research assistant for synthesizing literature,
 and Manus (2025), for broader analysis and development,
-are two agents that have made headlines.
+are two agents that have made headlines. Furthermore, Casper et al. (2025)
+have compiled an index to track existing agents and discover patterns. They
+have found agents "being deployed at a steadily increasing rate".
 
 ## Limitations
 
@@ -106,6 +108,11 @@ for the viability for agents in everyday life.
    openai.com/index/introducing-deep-research/. Accessed 8 Mar. 2025._](https://openai.com/index/introducing-deep-research/)
 5. [_Manus. "Introducing Manus." Manus Home Page, manus.im/.
    Accessed 8 Mar. 2025._](https://manus.im/)
+6. [_Casper, S., Bailey, L., Hunter, R., Ezell, C., Cabalé, E.,
+   Gerovitch, M., Slocum, S., Wei, K., Jurkovic, N., Khan, A.,
+   Christoffersen, P.J.K., Ozisik, A.P., Trivedi, R., Hadfield-Menell, D.,
+   and Kolt, N. "The AI Agent Index." (2025),
+   DOI: 10.48550/arXiv.2502.01635._](https://arxiv.org/pdf/2502.01635)
 
 <!-- Contributions -->
 
