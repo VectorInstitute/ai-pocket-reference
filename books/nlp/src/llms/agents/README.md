@@ -19,6 +19,17 @@ from the environment and offload certain computations.
 
 ## Components
 
+<center>
+<img src="./agent.svg" alt="agent"> <!-- markdownlint-disable-line MD013 -->
+</center>
+
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: Agent components
+</div>
+
 Tools: [Tools](./tool_use.md) can include external data sets (including
 unstructured data such as PDF documents), web searches, APIs, custom functions,
 and even [other agents](./multi_agents.md).
