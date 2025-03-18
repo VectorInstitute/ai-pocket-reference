@@ -13,7 +13,7 @@
 - [Parallel Computing]() <!-- (parallel_computing/README.md) -->
 
 - [CUDA Programming](cuda/README.md)
-  - [CUDA Kernels](cuda/kernels.md)
+  - [CUDA Kernels]()
     - [Attention](cuda/kernels/attention_forward.md)
     - [Encoder](cuda/kernels/encoder_forward.md)
     - [LayerNorm](cuda/kernels/layernorm_forward.md)
