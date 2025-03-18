@@ -9,7 +9,7 @@ a neural network from a high-precision datatype to a lower-precision datatype.
 The standard datatype for neural network weights and activations is fp32 (float32),
 but quantization methods enable use of lower-precision representations, most commonly
 8-bit integers (int8) and 16-bit floats (float16 or bfloat16). Even 4-bit integers
-see use used. Think of it like compressing a high-definition image into a
+see use. Think of it like compressing a high-definition image into a
 lower-resolution format – you lose some detail, but gain efficiency.
 
 **Why Quantization?**
