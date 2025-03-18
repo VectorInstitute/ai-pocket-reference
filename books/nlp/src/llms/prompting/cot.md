@@ -32,13 +32,13 @@ Figure: LLM producing a chain of thought.
 ## Original Implementation Details
 
 CoT was originally introduced as a few-shot prompting technique where each included
-examplar is augmented with a _chain of thought_ that explains how the final answer
-was determined. An example of such an examplar taken from the original paper is
+exemplar is augmented with a _chain of thought_ that explains how the final answer
+was determined. An example of such an exemplar taken from the original paper is
 provided below:
 
 ```yaml
-# An examplar
-examplar:
+# An exemplar
+exemplar:
   question: >
     Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each
     can has 3 tennis balls. How many tennis balls does he have now?
@@ -48,9 +48,9 @@ examplar:
   answer: The answer is 11.
 ```
 
-The authors used the same set of 8 examplars across all tested benchmarks, with
-the exception of [AQuA](https://github.com/google-deepmind/AQuA) for which 4
-examplars derived from the training set was used instead.
+The authors used the same set of 8 exemplars across all tested benchmarks, with
+the exception of [AQuA](https://github.com/google-deepmind/AQuA), for which 4
+exemplars derived from the training set were used instead."
 
 ## Performance
 
@@ -70,7 +70,7 @@ the issue of LLM hallucinations.
 
 ## Modern Implementations
 
-Since its introdcution, the CoT prompting technique has become more flexible.
+Since its introduction, the CoT prompting technique has become more flexible.
 Broadly speaking, it is widely recognized as a prompting technique that elicits a
 _chain of thought_ output in its generation. To do so, many include general
 instructions in the prompt, specifying the desired output format and other requirements.
