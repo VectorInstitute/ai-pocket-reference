@@ -101,7 +101,7 @@ prompt:
 
 1. [_Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large
    language models." Advances in neural information processing systems 35 (2022):
-   24824-24837._](https://arxiv.org/abs/2201.11903)
+   24824-24837._](https://arxiv.org/pdf/2201.11903)
 
 <!-- Contributions -->
 
