@@ -11,11 +11,18 @@
 
 The Layer Normalization (LayerNorm) operation applies normalization across the
 last D dimensions of the activation tensor as described in
+<<<<<<< HEAD
 [this foundational paper](https://arxiv.org/abs/1607.06450) by Ba et al. (2016).
 The normalization equation is given below:
+=======
+[this paper](https://arxiv.org/abs/1607.06450). The normalization equation is
+given below:
+
+> > > > > > > cf1c71d (Add references)
 
 $$y = \frac{x - \mathbb{E}[x]}{\sqrt{Var[x] + \epsilon}} \times \gamma + \beta$$
 
+<<<<<<< HEAD
 where, \\(\mathbb{E}[z]\\) and \\(Var[z]\\) are the expectation and variance
 of random variable \\(z\\), respectively. Note that in the above \\(\epsilon\\)
 is a small term for to avoid division by zero errors, whereas \\(\gamma\\) and \\(\beta\\)
@@ -42,28 +49,59 @@ For benchmarking purposes, we use the following configuration:
 - \\(T = 1024\\)
 - \\(C = 768\\)
 
-The following table shows memory bandwidth for each kernel on a **A40 GPU for
-block size 512**. The last column shows improvement **over the first kernel**:
+=======
+This book outlines and provides a detailed explanation of a series of CUDA
+kernel implementations of LayerNorm forward pass based on the
+[llm.c](https://github.com/karpathy/llm.c/tree/master/dev/cuda) repository.
+Please refer to the [Layer Normalization book](../../../../fundamentals/src/normalizations/layernorm.md)
+for conceptual understanding and other details about the operation. For the
+purpose of this book, lets implement kernels for LayerNorm in the
+[Transformer](../../../../nlp/src/llms/architecture/transformer.md) architecture
+for language modeling which expects **a tensor of shape $(B, T, C)$ as input**,
+where $B$ is the batch size, $T$ is the sequence length and $C$ is the hidden
+dimension size. LayerNorm is applied to the last dimension. $B = 8$, $T = 1024$
+and $C = 768$ is set for benchmarking.
+
+> > > > > > > cf1c71d (Add references)
+> > > > > > > The following table shows memory bandwidth for each kernel on a **A40 GPU for
+> > > > > > > block size 512**. The last column shows improvement **over the first kernel**:
 
 | Kernel # | Bandwidth (GB/s) | Improvement |
+<<<<<<< HEAD
 | :------- | ---------------: | :---------- |
-| 1        |            41.43 | -           |
-| 2        |           201.25 | 4.9x        |
-| 3        |           362.10 | 8.7x        |
-| 4        |           432.03 | 10.4x       |
-| 5        |           538.88 | 13x         |
+| 1 | 41.43 | - |
+| 2 | 201.25 | 4.9x |
+| 3 | 362.10 | 8.7x |
+| 4 | 432.03 | 10.4x |
+| 5 | 538.88 | 13x |
+=======
+|:---------|-----------------:|:------------|
+| 1 | 41.43 | - |
+| 2 | 201.25 | 4.9x |
+| 3 | 362.10 | 8.7x |
+| 4 | 432.03 | 10.4x |
+| 5 | 538.88 | 13x |
+
+> > > > > > > cf1c71d (Add references)
 
 ## Kernel 1
 
 The first kernel is a copy of the CPU implementation. It parallelizes
+<<<<<<< HEAD
 over the first 2 dimensions, \\(B\\) and \\(T\\), where \\(N = B\*T\\).
 **A single thread (see Figure-1a) is responsible for normalizing**
-**one segment of size C**, hence it loops over all elements
-in that segment. The kernel code is broken down into 4 steps:
+=======
+over the first 2 dimensions, $B$ and $T$, where $N = B*T$.
+**A single thread (see Figure-1) is responsible for normalizing**
+
+> > > > > > > cf1c71d (Add references)
+> > > > > > > **one segment of size C**, hence it loops over all elements
+> > > > > > > in that segment. The kernel code is broken down into 4 steps:
 
 1. Mean calculation
 
-   $$\mathbb{E}[x] = \frac{1}{C} \sum_{i=1}^{C} x_i$$
+<<<<<<< HEAD
+$$\mathbb{E}[x] = \frac{1}{C} \sum_{i=1}^{C} x_i$$
 
 2. Variance and reciprocal of standard deviation (rstd) calculation
 
@@ -78,8 +116,27 @@ in that segment. The kernel code is broken down into 4 steps:
 
 4. Store mean and rstd for backward pass
 
-The kernel uses a 1D grid and block as shown in Figure-1a.
-Also note that all operations are implemented in a single kernel.
+# The kernel uses a 1D grid and block as shown in Figure-1a.
+
+    $$\mathbb{E}[x] = \frac{1}{C} \sum_{i=1}^{C} x_i$$
+
+2. Variance and reciprocal of standard deviation (rstd) calculation
+
+   $$Var[x] = \frac{1}{C} \sum_{i=1}^{C} (x_i - \mathbb{E}[x])^2$$
+
+   $$rstd[x] = \frac{1}{\sqrt{Var[x] + \epsilon}}$$
+
+3. Apply mean and variance normalization and then scale and
+   shift with the learnable weight and bias parameters
+
+   $$y_i = ((x_i - \mathbb{E}[x]) * rstd[x]) * \gamma_i + \beta_i$$
+
+4. Store mean and rstd for backward pass
+
+The kernel uses a 1D grid and block as shown in Figure-1.
+
+> > > > > > > cf1c71d (Add references)
+> > > > > > > Also note that all operations are implemented in a single kernel.
 
 <center>
 <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/layernorm_kernel/layernorm_kernel1.svg" alt="layernorm_kernel1"> <!-- markdownlint-disable-line MD013 -->
@@ -91,6 +148,8 @@ Also note that all operations are implemented in a single kernel.
 >
 Figure-1a: Kernel 1 Illustration.
 </div>
+
+<<<<<<< HEAD
 
 <center>
 <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/layernorm_kernel/layernorm_kernel1_code.png" alt="layernorm_kernel1_code"> <!-- markdownlint-disable-line MD013 -->
@@ -117,6 +176,69 @@ thread sums corresponding elements and stores it in a _shared memory array_
 array_ are iteratively reduced to obtain the final sum. For more details,
 see the [thread coarsening](../concepts/thread_coarsening.md)
 and [reduction](../concepts/reduction.md) pocket references.
+=======
+
+```cpp
+__global__ void layernorm_forward_kernel1(
+    float* out, float* mean, float* rstd,
+    const float* inp, const float* weight, const float* bias,
+    int N, int C
+) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    float eps = 1.0e-5f;
+
+    if (idx < N) {
+        // Start index of the input segment for this thread, inp[idx, :]
+        const float* x = inp + idx * C;
+
+        // Compute mean
+        float m = 0.0f;
+        for (int i = 0; i < C; i++) {
+            m += x[i];
+        }
+        m /= C;
+
+        // Compute variance (without any bias correction)
+        float v = 0.0f;
+        for (int i = 0; i < C; i++) {
+            float diff = x[i] - m;
+            v += diff * diff;
+        }
+        v /= C;
+
+        // Compute rstd
+        float r = 1.0f / sqrt(v + eps);
+
+        // Compute output
+        // Start index of the output segment for this thread, out[idx, :]
+        float* y = out + idx * C;
+        for (int i = 0; i < C; i++) {
+            float o_prime = (x[i] - m) * r; // normalized output
+            float o = o_prime * weight[i] + bias[i]; // scale and shift
+            y[i] = o;
+        }
+
+        // Store mean and rstd for backward pass
+        mean[idx] = m;
+        rstd[idx] = r;
+    }
+}
+```
+
+## Kernel 2
+
+In Kernel 2, steps 1, 2 and 3 are implemented as separate kernels. For the _mean_
+and _rstd_ kernels, **each block is responsible for one segment of C** instead of
+each thread (see Figure-2) which allows for further parallelization. Whereas for
+the _normalization_ kernel (step 3), each thread calculates one output element.
+
+Since both the _mean_ and _rstd_ calculations involve the sum operation, they
+make use of _thread coarsening_ and _reduction_. In _thread coarsening_, each
+thread sums corresponding elements and stores it in a _shared memory array_
+(same size as the thread block). In _reduction_, the elements in the _shared
+array_ are iteratively reduced to obtain the final sum.
+
+> > > > > > > cf1c71d (Add references)
 
 These optimizations lead to an improvement of **~5x over Kernel 1** (for block
 size 512).
