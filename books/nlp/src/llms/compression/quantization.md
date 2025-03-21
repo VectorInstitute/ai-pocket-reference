@@ -18,7 +18,7 @@ lower-resolution format – you lose some detail, but gain efficiency.
 model memory footprint, saving memory capacity and bandwidth during model storage
 and inference. This also makes it feasible to deploy larger, more performant models
 on resource-constrained devices.
-* **Faster Throughput:** Lower precision, is significantly faster and more energy-efficient
+* **Faster Throughput:** Lower precision is significantly faster and more energy-efficient
 on modern hardware. Modern GPUs with tensor cores (like NVIDIA's Ampere and Hopper
 architectures) can perform low and mixed-precision matrix multiplications with
 significantly higher throughput than FP32.
@@ -39,11 +39,11 @@ values, which are common in neural networks (e.g., after ReLU activations).
 The relationship between a floating-point value (\\(x\\)) and its quantized
 integer representation (\\(x_q\\)) is defined by:
 
-$$x = S (x_q - Z)$$
+$$x = S (x_q - Z).$$
 
 To quantize a float value \\(x\\) to its integer representation \\(x_q\\), we solve:
 
-$$x_q = \text{round}\left(\frac{x}{S} + Z\right)$$
+$$x_q = \text{round}\left(\frac{x}{S} + Z\right).$$
 
 Values outside the representable range of the target type
 (e.g., [-128, 127] for int8) are typically clipped to the nearest representable
@@ -53,8 +53,12 @@ for quantization (e.g., [-max_abs_value, +max_abs_value]).
 
 ## 3. Types of Quantization & Calibration
 
-There are different quantization approaches, each with its trade-offs in terms
-of performance, and implementation complexity. In all cases, we need to determine
+To quantize a model, we need not only quantize the tensors holding the weights,
+but also the tensors holding the activations — otherwise the computation mix
+data types. There are different quantization approaches, each with its
+trade-offs in terms of performance, and implementation complexity.
+
+In all cases, we need to determine
 the range of values for the weights and activations. This is known as *calibration*.
 Calibrating weights is straightforward, because they are static, but calibrating
 activations is more challenging because they are data dependent:
@@ -89,13 +93,12 @@ It depends on the target hardware and the deep learning framework. Not all opera
 might have efficient quantized implementations on all platforms. Make sure to verify
 your framework and hardware documentation for compatibility.
 
-## 5. Further Reading
+#### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
-* **PyTorch Quantization Documentation:** [https://pytorch.org/docs/stable/quantization.html](https://pytorch.org/docs/stable/quantization.html)
-* **(Foundational Paper):** *Jacob, Benoit, et al. "Quantization and training of
-neural networks for efficient integer-arithmetic-only inference." Proceedings of
-the IEEE conference on computer vision and pattern recognition. 2018.* [https://arxiv.org/abs/1712.05877](https://arxiv.org/abs/1712.05877)
+1. [Jacob, Benoit, et al. "Quantization and training of
+neural networks for efficient integer-arithmetic-only inference", CVPR 2018](https://arxiv.org/abs/1712.05877)
+2. [PyTorch Quantization Documentation](https://pytorch.org/docs/stable/quantization.html)
 
-## 6. Contributors
+<!-- markdownlint-disable-file MD033 -->
 
 {{#author jwilles}}
