@@ -57,11 +57,10 @@ To quantize a model, we need not only quantize the tensors holding the weights,
 but also the tensors holding the activations — otherwise the computation mix
 data types. There are different quantization approaches, each with its
 trade-offs in terms of performance, and implementation complexity.
-
-In all cases, we need to determine
-the range of values for the weights and activations. This is known as *calibration*.
-Calibrating weights is straightforward, because they are static, but calibrating
-activations is more challenging because they are data dependent:
+In all cases, we need to determine the range of values for the weights
+and activations. This is known as *calibration*. Calibrating weights is
+straightforward, because they are static, but calibrating activations is more
+challenging because they are data dependent:
 
 * **Dynamic Quantization**
   * **How it works:** Weights are quantized when loading the model. Activations
