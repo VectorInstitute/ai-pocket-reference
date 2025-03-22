@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>KV Cache - AI Pocket Reference: NLP</title>
+        <title>Quantization - AI Pocket Reference: NLP</title>
 
 
         <!-- Custom HTML head -->
@@ -161,182 +161,118 @@
 
                 <div id="content" class="content">
                     <main>
-                        <!-- markdownlint-disable-file MD033 -->
-<h1 id="kv-cache"><a class="header" href="#kv-cache">KV Cache</a></h1>
-<!-- Header -->
+                        <h1 id="quantization"><a class="header" href="#quantization">Quantization</a></h1>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
   <div>
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
       <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
     </a>
-    <p style="margin: 0;"><small>Reading time: 5 min</small></p>
+    <p style="margin: 0;"><small>Reading time: 4 min</small></p>
   </div>
 </div>
-<!-- Main Body -->
-<p>With autoregressive models like decoder-only LLMs (i.e., GPTs), inference is performed
-by predicting one token at a time, using the past token generations as inputs for
-future ones. To predict future tokens, certain computed representations of these
-past tokens are required for every future token prediction. This makes it computationally
-inefficient to recalculate these representations at each token generation step."</p>
-<center>
-<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/kv-cache-final.excalidraw.svg" alt="kv-cache"> <!-- markdownlint-disable-line MD013 -->
-</center>
-<div
-  class="figure-caption"
-  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
->
-Figure: KV Cache for autoregressive inference
-</div>
-<p>To formalize this, let \(x_1,x_2, \ldots, x_{t-1}\) represent the input sequence
-of \(h\) dimensional embeddings i.e., \(x_i \in R^{1\times h}\). For simplicity,
-let's consider a single <a href="../architecture/attention.html">Attention</a> head and a single
-<a href="../architecture/transformer.html">Transformer</a> block. In order to get the logits
-for the next token, the LLM must compute the contextualized vector \(c_{t-1}\)
-given by:</p>
-<p>$$
-\begin{aligned}
-c_{t-1} &amp;= f_{attn}(x_1, x_2, \ldots, x_{t-1}; W_k, W_v, W_q),
-\end{aligned}
-$$</p>
-<p>where \(f_{attn}(\cdot)\) is the attention operator that produces a contextualized
-vector using all of the input embedding vectors, and \(W_k\), \(W_v\) and \(W_q\)
-are the \(h\times h\) projection matrices for keys, values, and queries, respectively.
-(Note that the Attention module computes the contextualized vectors of all input
-embeddings simultaneously, employing causal masking to ensure that each token
-only attends to itself and previous tokens in the sequence.)</p>
-<p>Recall that with the attention operator, we first need to compute the various keys
-and values representations of the input embeddings as well as the query
-representation of \(x_{t-1}\):</p>
-<p>$$
-K_{t-1} = \begin{bmatrix}
-x_1 W_k \\
-x_2 W_k \\
-\vdots \\
-x_{t-1} W_k
-\end{bmatrix},
-\quad
-V_{t-1} = \begin{bmatrix}
-x_1 W_v \\
-x_2 W_v \\
-\vdots \\
-x_{t-1} W_v
-\end{bmatrix},
-\quad
-\text{and}
-\quad
-q_{t-1} = x_{t-1}W_q.
-$$</p>
-<p>Using scaled-dot attention, we combine the keys with the query to derive an attention
-weights vector via:</p>
-<p>$$
-a_{t-1} = \text{Softmax}(q_{t-1} K_{t-1}^T / \sqrt{h}).
-$$</p>
-<p>Finally, the contextualized vector of the (\(t-1)\)-th token is the attention-weighted
-combination of the values vectors:</p>
-<p>$$
-c_{t-1} = a_{t-1} V_{t-1}.
-$$</p>
-<p>The LLM ultimately makes use of this contexualized vector to build the logits for
-the \(t\)-th token prediction. Let's suppose that \(x_t\) is generated from
-such logits.</p>
-<p>With \(x_t\) generated, we aim to predict the next token. To do so, we now
-need to build the contextualized vector, \(c_t\):</p>
-<p>$$
-\begin{aligned}
-c_t &amp;= f_{attn}(x_1, x_2, \ldots, x_{t-1}, x_t; W_k, W_v, W_q),
-\end{aligned}
-$$</p>
-<p>As before, we understand that in order to apply this operator, the following keys,
-values and query are required:</p>
-<p>$$
-K_{t} = \begin{bmatrix}
-x_1 W_k \\
-x_2 W_k \\
-\vdots \\
-x_{t-1} W_k \\
-x_t W_k
-\end{bmatrix},
-\quad
-V_{t} = \begin{bmatrix}
-x_1 W_v \\
-x_2 W_v \\
-\vdots \\
-x_{t-1} W_v \\
-x_t W_v
-\end{bmatrix},
-\quad
-\text{and}
-\quad
-q_t = x_{t}W_q.
-$$</p>
-<p>It immediately follows though that</p>
-<p>$$
-K_{t} = \begin{bmatrix}
-K_{t-1} \\
-x_t W_k
-\end{bmatrix}
-\quad
-\text{and}
-\quad
-V_{t} = \begin{bmatrix}
-V_{t-1} \\
-x_t W_v
-\end{bmatrix}.
-$$</p>
-<p>In other words, the keys and values required to build \(c_t\) consist of all the
-previous keys and values needed for \(c_{t-1}\) plus only the new key and value
-derived from the latest input embedding token \(x_t\).</p>
-<p>This insight presents an opportunity to significantly reduce computational overhead
-during generation by caching and reusing past keys and values rather than recomputing
-them.</p>
-<p>This is exactly the purpose of having a KV Cache. At each iteration of inference,
-we compute the newest key and value emanating from the latest input embedding
-token and add it to the respective caches, one for each keys and values.</p>
-<blockquote>
-<p><strong>Algorithm: KV Cache for Autoregressive Inference</strong></p>
-<p><em>Pre-fill Stage</em><br />
-Given input sequence \(x_1, x_2, \ldots, x_n\)<br />
-Initialize key cache \(K_n = [x_1W_k; x_2W_k; \ldots; x_nW_k]\)<br />
-Initialize value cache \(V_n = [x_1W_v; x_2W_v; \ldots; x_nW_v]\)</p>
-<p><em>Decode Stage</em><br />
-Loop for each token generation step t &gt; n:<br />
-\(\quad\)Compute new key and value: \(k_t = x_t W_k\), \(v_t = x_t W_v\)<br />
-\(\quad\)Update caches by appending new key and value:<br />
-\(\qquad\)\(K_t = [K_{t-1}; k_t]\)<br />
-\(\qquad\)\(V_t = [V_{t-1}; v_t]\)<br />
-\(\quad\)Compute attention using cached keys and values:<br />
-\(\qquad\)\(q_t = x_t W_q\)<br />
-\(\qquad\)\(c_t = \text{Softmax}(q_t K_t^T / \sqrt{h}) V_t\)<br />
-\(\quad\)Compute next token logits using \(c_t\)<br />
-\(\quad\)Generate \(x_{t+1}\) // (which becomes part of the next step's input)</p>
-</blockquote>
-<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
-<p>Note that LLMs use Multi-Head Attention modules with several Transformer layers.
-Each attention head would need to maintain its own KV Cache and as such, the memory
-requirements can be quite expensive. As one example, Liu et al (2024) note that
-with 540B PaLM, using a batch size of 512 and context length of 2048, would required
-a KV Cache that can take upwards of 3TB of memory — more than the amount of memory
-required to hold the model's weight parameters.</p>
-<p>This memory bottleneck becomes especially pronounced when serving multiple requests
-simultaneously or working with very long context windows.</p>
+<h2 id="1-introduction-to-quantization"><a class="header" href="#1-introduction-to-quantization">1. Introduction to Quantization</a></h2>
+<p>Quantization reduces the numerical precision of the weights and activations of
+a neural network from a high-precision datatype to a lower-precision datatype.
+The standard datatype for neural network weights and activations is fp32 (float32),
+but quantization methods enable use of lower-precision representations, most commonly
+8-bit integers (int8) and 16-bit floats (float16 or bfloat16). Even 4-bit integers
+see use. Think of it like compressing a high-definition image into a
+lower-resolution format – you lose some detail, but gain efficiency.</p>
+<p><strong>Why Quantization?</strong></p>
+<ul>
+<li><strong>Lower Memory Requirements:</strong> Reduced bit-depth directly translates to smaller
+model memory footprint, saving memory capacity and bandwidth during model storage
+and inference. This also makes it feasible to deploy larger, more performant models
+on resource-constrained devices.</li>
+<li><strong>Faster Throughput:</strong> Lower precision is significantly faster and more energy-efficient
+on modern hardware. Modern GPUs with tensor cores (like NVIDIA's Ampere and Hopper
+architectures) can perform low and mixed-precision matrix multiplications with
+significantly higher throughput than FP32.</li>
+</ul>
+<h2 id="2-how-quantization-works"><a class="header" href="#2-how-quantization-works">2. How Quantization Works</a></h2>
+<p>This mapping is typically done using <em>affine quantization</em> or <em>symmetric quantization</em>.
+For example, an affine quantization from fp32 to int8 involves two parameters for
+each tensor being quantized:</p>
+<ul>
+<li><strong>Scale (S):</strong> A positive floating-point number that determines the step size
+between quantized integer values. It essentially scales the integer range back
+to the floating-point range.</li>
+<li><strong>Zero-point (Z):</strong> An integer that represents the floating-point value 0 in
+the quantized integer space. This is important for accurately representing zero
+values, which are common in neural networks (e.g., after ReLU activations).</li>
+</ul>
+<p>The relationship between a floating-point value (\(x\)) and its quantized
+integer representation (\(x_q\)) is defined by:</p>
+<p>$$x = S (x_q - Z).$$</p>
+<p>To quantize a float value \(x\) to its integer representation \(x_q\), we solve:</p>
+<p>$$x_q = \text{round}\left(\frac{x}{S} + Z\right).$$</p>
+<p>Values outside the representable range of the target type
+(e.g., [-128, 127] for int8) are typically clipped to the nearest representable
+value. Symmetric quantization is a simplified version where the zero-point (Z)
+is forced to be 0. This is achieved by choosing a symmetric range around zero
+for quantization (e.g., [-max_abs_value, +max_abs_value]).</p>
+<h2 id="3-types-of-quantization--calibration"><a class="header" href="#3-types-of-quantization--calibration">3. Types of Quantization &amp; Calibration</a></h2>
+<p>To quantize a model, we need not only quantize the tensors holding the weights,
+but also the tensors holding the activations — otherwise the computation mix
+data types. There are different quantization approaches, each with its
+trade-offs in terms of performance, and implementation complexity.
+In all cases, we need to determine the range of values for the weights
+and activations. This is known as <em>calibration</em>. Calibrating weights is
+straightforward, because they are static, but calibrating activations is more
+challenging because they are data dependent:</p>
+<ul>
+<li>
+<p><strong>Dynamic Quantization</strong></p>
+<ul>
+<li><strong>How it works:</strong> Weights are quantized when loading the model. Activations
+are quantized <em>dynamically</em> just before compute operations and de-quantized back
+to high-precision afterwards.</li>
+<li><strong>Pros:</strong> Easiest to implement and reduces model weight memory footprint.</li>
+<li><strong>Cons:</strong> Activations are still stored and passed between layers in
+high-precision format, limiting memory bandwidth and throughput benefits.</li>
+</ul>
+</li>
+<li>
+<p><strong>Static Quantization</strong></p>
+<ul>
+<li><strong>How it works:</strong> Both weights and activations are quantized. <em>Static</em>
+quantization requires a calibration step to determine the ranges for activation
+tensors. This is done by running a representative dataset through the
+high-precision model to collect activation statistics and compute the activation
+ranges. These statistics are then used to calculate the (S, Z) parameters
+<em>before</em> run-time.</li>
+<li><strong>Pros:</strong> Better throughput than dynamic quantization as both weights and
+activations are quantized.</li>
+<li><strong>Cons:</strong> Requires collection of a calibration dataset and offline
+calibration step.</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-limitations-and-considerations"><a class="header" href="#4-limitations-and-considerations">4. Limitations and Considerations</a></h2>
+<ul>
+<li><strong>Performance Degradation:</strong> Quantization, especially to very low-precision
+datatypes, can lead to some loss of performance. Careful evaluation is needed
+for peformance-sensitive applications.</li>
+<li><strong>Hardware and Operator Support:</strong> Quantization support is not universal.
+It depends on the target hardware and the deep learning framework. Not all operators
+might have efficient quantized implementations on all platforms. Make sure to verify
+your framework and hardware documentation for compatibility.</li>
+</ul>
 <h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
-<li><a href="https://arxiv.org/pdf/2402.02750">Liu, Zirui, et al. "Kivi: A tuning-free asymmetric 2bit quantization for kv
-cache." arXiv preprint arXiv:2402.02750 (2024).</a></li>
-<li><a href="https://www.amazon.com/Build-Large-Language-Model-Scratch/dp/1633437167"><em>Raschka, Sebastian. Build a Large Language Model (From Scratch). Simon and
-Schuster, 2024.</em></a></li>
-<li><a href="https://r4j4n.github.io/blogs/posts/kv/">Rajan, R. "KV Cache - Understanding the Mechanism behind it." R4J4N Blogs,
-r4j4n.github.io/blogs/posts/kv/. Accessed 27 Feb. 2025.</a></li>
+<li><a href="https://arxiv.org/abs/1712.05877">Jacob, Benoit, et al. "Quantization and training of
+neural networks for efficient integer-arithmetic-only inference", CVPR 2018</a></li>
+<li><a href="https://pytorch.org/docs/stable/quantization.html">PyTorch Quantization Documentation</a></li>
 </ol>
-<!-- Contributions -->
+<!-- markdownlint-disable-file MD033 -->
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
 <small>
 <strong>Contributors:</strong>
 <div style="display: flex; gap: 8px; margin-top: 10px;">
-<a href="https://github.com/nerdai">
-<img src="https://github.com/nerdai.png"
-  width="32px" alt="Contributor nerdai" style="border-radius: 50%">
+<a href="https://github.com/jwilles">
+<img src="https://github.com/jwilles.png"
+  width="32px" alt="Contributor jwilles" style="border-radius: 50%">
 </a>
 </div>
 </small>
@@ -354,11 +290,11 @@ r4j4n.github.io/blogs/posts/kv/. Accessed 27 Feb. 2025.</a></li>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../llms/compression/quantization.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../llms/agents/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../models/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../llms/efficient_inference/kv_cache.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -368,11 +304,11 @@ r4j4n.github.io/blogs/posts/kv/. Accessed 27 Feb. 2025.</a></li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../llms/compression/quantization.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../llms/agents/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../models/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../llms/efficient_inference/kv_cache.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
