@@ -13,9 +13,9 @@ last D dimensions of the activation tensor as described in
 [this foundational paper](https://arxiv.org/abs/1607.06450) by Ba et al. (2016).
 The normalization equation is given below:
 
-$$y = \frac{x - \mathbb{E}[x]}{\sqrt{Var[x] + \epsilon}} * \gamma + \beta$$,
+$$y = \frac{x - \mathbb{E}[x]}{\sqrt{Var[x] + \epsilon}} * \gamma + \beta$$
 
-where \\(\mathbb{E}[z]\\) and \\(Var[z]\\) are the expectation and variance
+where, \\(\mathbb{E}[z]\\) and \\(Var[z]\\) are the expectation and variance
 of random variable \\(z\\), respectively. Note that in the above \\(\epsilon\\)
 is a small term for to avoid division by zero errors, whereas \\(\gamma\\) and \\(\beta\\)
 are scale and shift parameters, respectively.
@@ -248,7 +248,7 @@ for all kernels on a A40 GPU across different block sizes:
 Figure-5: A40 Memory Bandwidth Summary.
 </div>
 
-### References and Useful Links
+#### References and Useful Links <!-- markdownlint-disable-line MD001 -->
 
 1. Code for LayerNorm forward kernels
 from the [llm.c](https://github.com/karpathy/llm.c/blob/master/dev/cuda/layernorm_forward.cu)
