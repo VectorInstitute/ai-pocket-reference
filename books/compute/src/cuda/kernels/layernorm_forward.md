@@ -183,7 +183,8 @@ Figure-3a: Kernel 3 Illustration.
   style="text-align: center; font-size: 0.8em; margin-top: 10px;"
 >
 <!-- markdownlint-disable MD033 -->
-Figure-3b: Kernel 3 <a href="https://github.com/VectorInstitute/ai-pocket-reference-code/blob/90-new-request-layernorm-cuda-kernel/cuda/layernorm/layernorm_forward.cu#L233">Code</a>.
+Figure-3b: Kernel 3
+<a href="https://github.com/VectorInstitute/ai-pocket-reference-code/blob/90-new-request-layernorm-cuda-kernel/cuda/layernorm/layernorm_forward.cu#L233">Code</a>.
 <!-- markdownlint-disable MD033 -->
 </div>
 
@@ -228,7 +229,8 @@ Figure-4a: Kernel 5 Illustration.
   style="text-align: center; font-size: 0.8em; margin-top: 10px;"
 >
 <!-- markdownlint-disable MD033 -->
-Figure-4b: Kernel 5 <a href="https://github.com/VectorInstitute/ai-pocket-reference-code/blob/90-new-request-layernorm-cuda-kernel/cuda/layernorm/layernorm_forward.cu#L377">Code</a>.
+Figure-4b: Kernel 5
+<a href="https://github.com/VectorInstitute/ai-pocket-reference-code/blob/90-new-request-layernorm-cuda-kernel/cuda/layernorm/layernorm_forward.cu#L377">Code</a>.
 <!-- markdownlint-disable MD033 -->
 </div>
 
