@@ -114,7 +114,9 @@ Since both the _mean_ and _rstd_ calculations involve the sum operation, they
 make use of _thread coarsening_ and _reduction_. In _thread coarsening_, each
 thread sums corresponding elements and stores it in a _shared memory array_
 (same size as the thread block). In _reduction_, the elements in the _shared
-array_ are iteratively reduced to obtain the final sum.
+array_ are iteratively reduced to obtain the final sum. For more details,
+see the [thread coarsening](../concepts/thread_coarsening.md)
+and [reduction](../concepts/reduction.md) pocket references.
 
 These optimizations lead to an improvement of **~5x over Kernel 1** (for block
 size 512).

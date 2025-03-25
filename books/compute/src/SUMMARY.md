@@ -13,6 +13,9 @@
 - [Parallel Computing]() <!-- (parallel_computing/README.md) -->
 
 - [CUDA Programming](cuda/README.md)
+  - [CUDA Concepts]()
+    - [Thread Coarsening](cuda/concepts/thread_coarsening.md)
+    - [Reduction](cuda/concepts/reduction.md)
   - [CUDA Kernels]()
     - [Attention](cuda/kernels/attention_forward.md)
     - [Encoder](cuda/kernels/encoder_forward.md)
