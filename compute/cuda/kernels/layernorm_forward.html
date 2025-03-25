@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>AI Pocket Reference: High-Performance AI Computing</title>
-        <meta name="robots" content="noindex">
+        <title>LayerNorm - AI Pocket Reference: High-Performance AI Computing</title>
 
 
         <!-- Custom HTML head -->
@@ -13,35 +12,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../_common/mdbook-ai-pocket-reference.css">
+        <link rel="stylesheet" href="../../../_common/mdbook-ai-pocket-reference.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "";
+            var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="../../toc.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -93,7 +92,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
             </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -133,7 +132,7 @@
                         <a href="https://github.com/VectorInstitute/ai-pocket-reference" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -162,109 +161,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cuda-programming"><a class="header" href="#cuda-programming">CUDA Programming</a></h1>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="thread-coarsening"><a class="header" href="#thread-coarsening">Thread Coarsening</a></h1>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="reduction"><a class="header" href="#reduction">Reduction</a></h1>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="kernels-for-attention-forward-pass"><a class="header" href="#kernels-for-attention-forward-pass">Kernels for attention forward pass</a></h1>
-<!-- Header -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
-  <div>
-    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
-      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
-    </a>
-    <p style="margin: 0;"><small>Reading time: 0 min</small></p>
-  </div>
-</div>
-<!-- Main Body -->
-<!-- Contributors -->
- <!-- replace VectorInstitute with your github user -->
-<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-<div class="contributor-footnotes">
-<small>
-<strong>Contributors:</strong>
-<div style="display: flex; gap: 8px; margin-top: 10px;">
-<a href="https://github.com/VectorInstitute">
-<img src="https://github.com/VectorInstitute.png"
-  width="32px" alt="Contributor VectorInstitute" style="border-radius: 50%">
-</a>
-</div>
-</small>
-</div>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="kernels-for-positional-encoder-forward-pass-in-gpt-2"><a class="header" href="#kernels-for-positional-encoder-forward-pass-in-gpt-2">Kernels for positional encoder forward pass in GPT-2</a></h1>
-<!-- Header -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
-  <div>
-    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
-      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
-    </a>
-    <p style="margin: 0;"><small>Reading time: 0 min</small></p>
-  </div>
-</div>
-<!-- Main Body -->
-<!-- Contributors -->
- <!-- replace VectorInstitute with your github user -->
-<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-<div class="contributor-footnotes">
-<small>
-<strong>Contributors:</strong>
-<div style="display: flex; gap: 8px; margin-top: 10px;">
-<a href="https://github.com/VectorInstitute">
-<img src="https://github.com/VectorInstitute.png"
-  width="32px" alt="Contributor VectorInstitute" style="border-radius: 50%">
-</a>
-</div>
-</small>
-</div>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
+                        <!-- markdownlint-disable-file MD033 -->
 <!-- Header -->
 <h1 id="kernels-for-layernorm-forward-pass"><a class="header" href="#kernels-for-layernorm-forward-pass">Kernels for LayerNorm forward pass</a></h1>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
@@ -276,7 +173,7 @@
   </div>
 </div>
 <!-- Main Body -->
-<h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>The Layer Normalization (LayerNorm) operation applies normalization across the
 last D dimensions of the activation tensor as described in
 <a href="https://arxiv.org/abs/1607.06450">this foundational paper</a> by Ba et al. (2016).
@@ -289,10 +186,10 @@ are scale and shift parameters, respectively.</p>
 <p>This pocket reference outlines and provides a detailed explanation
 of a series of CUDA kernel implementations of LayerNorm forward pass based on the
 <a href="https://github.com/karpathy/llm.c/tree/master/dev/cuda">llm.c</a> github repository.
-Please refer to the <a href="cuda/kernels/../../../../fundamentals/src/normalizations/layernorm.html">Layer Normalization</a>
+Please refer to the <a href="../../../../fundamentals/src/normalizations/layernorm.html">Layer Normalization</a>
 pocket reference for conceptual understanding and other details about the operation.
 For the purpose of this pocket reference, lets implement kernels for LayerNorm
-in the <a href="cuda/kernels/../../../../nlp/src/llms/architecture/transformer.html">Transformer</a>
+in the <a href="../../../../nlp/src/llms/architecture/transformer.html">Transformer</a>
 architecture for language modeling. The input to the LayerNorm operation
 is expected to be <strong>a tensor of shape \((B, T, C)\) as input</strong>, where:</p>
 <ul>
@@ -372,8 +269,8 @@ make use of <em>thread coarsening</em> and <em>reduction</em>. In <em>thread coa
 thread sums corresponding elements and stores it in a <em>shared memory array</em>
 (same size as the thread block). In <em>reduction</em>, the elements in the <em>shared
 array</em> are iteratively reduced to obtain the final sum. For more details,
-see the <a href="cuda/kernels/../concepts/thread_coarsening.html">thread coarsening</a>
-and <a href="cuda/kernels/../concepts/reduction.html">reduction</a> pocket references.</p>
+see the <a href="../concepts/thread_coarsening.html">thread coarsening</a>
+and <a href="../concepts/reduction.html">reduction</a> pocket references.</p>
 <p>These optimizations lead to an improvement of <strong>~5x over Kernel 1</strong> (for block
 size 512).</p>
 <center>
@@ -527,111 +424,18 @@ github repository</li>
         <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
     </a>
 </div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="kernels-for-matmul-forward-pass"><a class="header" href="#kernels-for-matmul-forward-pass">Kernels for matmul forward pass</a></h1>
-<!-- Header -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
-  <div>
-    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
-      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
-    </a>
-    <p style="margin: 0;"><small>Reading time: 0 min</small></p>
-  </div>
-</div>
-<!-- Main Body -->
-<!-- Contributors -->
- <!-- replace VectorInstitute with your github user -->
-<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-<div class="contributor-footnotes">
-<small>
-<strong>Contributors:</strong>
-<div style="display: flex; gap: 8px; margin-top: 10px;">
-<a href="https://github.com/VectorInstitute">
-<img src="https://github.com/VectorInstitute.png"
-  width="32px" alt="Contributor VectorInstitute" style="border-radius: 50%">
-</a>
-</div>
-</small>
-</div>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="kernels-for-softmax-forward-pass"><a class="header" href="#kernels-for-softmax-forward-pass">Kernels for softmax forward pass</a></h1>
-<!-- Header -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
-  <div>
-    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
-      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
-    </a>
-    <p style="margin: 0;"><small>Reading time: 0 min</small></p>
-  </div>
-</div>
-<!-- Main Body -->
-<!-- Contributors -->
- <!-- replace VectorInstitute with your github user -->
-<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-<div class="contributor-footnotes">
-<small>
-<strong>Contributors:</strong>
-<div style="display: flex; gap: 8px; margin-top: 10px;">
-<a href="https://github.com/VectorInstitute">
-<img src="https://github.com/VectorInstitute.png"
-  width="32px" alt="Contributor VectorInstitute" style="border-radius: 50%">
-</a>
-</div>
-</small>
-</div>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="kernels-for-triangular-matmul-forward-pass"><a class="header" href="#kernels-for-triangular-matmul-forward-pass">Kernels for triangular matmul forward pass</a></h1>
-<!-- Header -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
-  <div>
-    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
-      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
-    </a>
-    <p style="margin: 0;"><small>Reading time: 0 min</small></p>
-  </div>
-</div>
-<!-- Main Body -->
-<!-- Contributors -->
- <!-- replace VectorInstitute with your github user -->
-<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-<div class="contributor-footnotes">
-<small>
-<strong>Contributors:</strong>
-<div style="display: flex; gap: 8px; margin-top: 10px;">
-<a href="https://github.com/VectorInstitute">
-<img src="https://github.com/VectorInstitute.png"
-  width="32px" alt="Contributor VectorInstitute" style="border-radius: 50%">
-</a>
-</div>
-</small>
-</div>
-<div class="vector-logo">
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
-    </a>
-    <a href="https://vectorinstitute.ai/">
-        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
-    </a>
-</div>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cuda/kernels/encoder_forward.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
+                            <a rel="next prefetch" href="../../cuda/kernels/matmul_forward.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -639,7 +443,13 @@ github repository</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cuda/kernels/encoder_forward.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
+                    <a rel="next prefetch" href="../../cuda/kernels/matmul_forward.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -652,23 +462,16 @@ github repository</li>
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
 
-        <script>
-        window.addEventListener('load', function() {
-            MathJax.Hub.Register.StartupHook('End', function() {
-                window.setTimeout(window.print, 100);
-            });
-        });
-        </script>
 
     </div>
     </body>
