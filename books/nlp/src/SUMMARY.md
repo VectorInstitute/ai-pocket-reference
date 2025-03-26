@@ -43,7 +43,7 @@
     - [Reflection]() <!-- (llms/agents/reflection.md) -->
     - [Multi Agent]() <!-- (llms/agents/multi_agents.md) -->
     - [Planning]() <!-- (llms/agents/planning.md) -->
-  - [RAG]() <!-- (llms/rag/README.md) -->
+  - [RAG](llms/rag/README.md)
     - [Chunks]() <!-- (llms/rag/chunks.md) -->
     - [Sliding Window]() <!-- (llms/rag/sliding_window.md) -->
     - [Graph RAG]() <!-- (llms/rag/graph.md) -->
