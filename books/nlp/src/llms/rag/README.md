@@ -4,10 +4,25 @@
 
 {{ #aipr_header colab=nlp/rag.ipynb }}
 
-## Intro
+## Intro and Motivation for RAG
 
-- parametric vs. non-parametric
-- what is RAG
+After an LLM has been pre-trained, its learning is captured in _parametric_ knowledge.
+This speak is jargon simply implying that the knowledge is captured in the LLM's
+weight parameters. If the LLM is further fine-tuned for improved instruction following
+or alignment, these knowledge specializations are still also considered to be parametric
+in nature (i.e., since these involve weight parameter updates).
+
+However, researchers have observed that relying only on the LLM's parametric knowledge,
+can be suboptimal and this is especially observed when performing knowledge-intensive
+tasks. Some pundits have argued that long-tail knowledge is not easily captured
+in parametric form.
+
+To remedy this drawback of an LLM's parametric knowledge, we can consider providing
+an LLM with non-parametric knowledge. Retrieval-Augmented Generation (RAG) is one
+such technique that aims to provide context to an LLM at inference time. As it's
+name suggests, this method involves retrieving facts (i.e., knowledge) from a
+data store and augmenting (e.g., by string concatenation) the original prompt or
+query to the LLM with these facts.
 
 ## Canonical RAG Pipeline
 
