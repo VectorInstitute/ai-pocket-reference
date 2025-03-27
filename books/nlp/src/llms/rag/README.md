@@ -131,6 +131,8 @@ LlamaIndex, 2024.)
 
 ## Frameworks
 
+### RAG Inference Frameworks
+
 There are a handful of popular open-source frameworks that exist that help to
 build RAG systems on top of the user's own data sources. These frameworks are
 useful for quick proto-typing of RAG systems, supporting both basic and advanced
@@ -143,6 +145,18 @@ Three popular frameworks for RAG include:
 1. LlamaIndex - [https://github.com/run-llama/llama_index](https://github.com/run-llama/llama_index)
 2. LangChain - [https://github.com/langchain-ai/langchain](https://github.com/langchain-ai/langchain)
 3. Haystack by Deepset - [https://github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)
+
+### RAG Finetuning Frameworks
+
+The previous section mentioned frameworks that are effective for building RAG inference
+systems. For fine-tuning RAG, under both centralized and federated settings, the
+Vector Institute for AI has developed, fedRAG:
+[https://github.com/VectorInstitute/fed-rag](https://github.com/VectorInstitute/fed-rag).
+
+The fedRAG framework features a lightweight
+interface to turn a centralized model training pipeline into a federated task.
+Additionally, it boasts integrations to popular deep-learning tools and frameworks
+including PyTorch and HuggingFace.
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
