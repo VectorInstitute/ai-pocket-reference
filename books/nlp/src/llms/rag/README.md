@@ -19,20 +19,98 @@ in parametric form.
 
 To remedy this drawback of an LLM's parametric knowledge, we can consider providing
 an LLM with non-parametric knowledge. Retrieval-Augmented Generation (RAG) is one
-such technique that aims to provide context to an LLM at inference time. As it's
-name suggests, this method involves retrieving facts (i.e., knowledge) from a
-data store and augmenting (e.g., by string concatenation) the original prompt or
-query to the LLM with these facts.
+such technique that aims to provide knowledge in the form of additional context
+to an LLM at inference time. As it's name suggests, this method involves
+retrieving facts (i.e., knowledge) from a data store and augmenting (e.g., by
+string concatenation) the original prompt or query to the LLM with these facts.
+
+## Components of a RAG System
+
+A RAG system is comprised of three main components, namely:
+
+- **Knowledge Store** — contains non-parametric knowledge facts that the system
+  can use at inference time in order to produce more accurate responses to queries.
+- **Retriever** — a model that takes in a user query and retrieves the most relevant
+  knowledge facts from the knowledge store. (NOTE: the retriever is also used to
+  populate or index the knowledge store during setup.)
+- **Generator** — a model that takes in the user's query and additional context
+  and provides a response to that query.
 
 ## Canonical RAG Pipeline
 
-### Evaluation
+The canonical pipeline for RAG is as follows:
+
+1. User submits a query to the RAG system
+2. **[Retrieval Step]** The RAG system matches the query with the relevant facts
+   from the knowledge store. The top k matched facts are retrieved.
+3. **[Generation Step]** The content of the retrieved facts are used to augment the
+   query and subsequently pass to the generator.
+4. Response is returned back to the user. (Post-processing steps may be applied
+   to the raw result from generator prior returning to the user.)
+
+## Evaluation of RAG Systems
+
+Evaluation of RAG systems is often not a trivial task. A common way that these
+systems are evaluated are by the evaluation of the respective components, namely:
+retriever and generator evaluation.
+
+### Evaluation of Retriever
+
+Retriever's are evaluated based on the correctness of the retrieved facts. Given
+a "labelled" example containing the query as well as associated facts, we can compute
+metrics such as hit rate, mean reciprocal rank (MRR) and normalized discounted
+cumulative gain (NDCG).
+
+### Evaluation of Generator
+
+Generator responses can be done via human scoring where a human assess the response
+to the query given the context. The human can provide a numerical score to indicate
+how well the generator answers the query with the provided context. Metrics such
+as faithfulness and accuracy are often computed. However, human marking is expensive
+and thus another strategy makes use of LLMs (i.e., LLM As A Judge) to perform the
+grading.
 
 ## Limitations
 
+While RAG has demonstrated success in providing the LLM with sufficient context
+in order to perform well across various knowledge-intensive benchmarks, there are
+many systems parameters that go into building a RAG system and tuning these to reach
+sufficient levels of performance is non trivial.
+
+Examples of these systems parameters include:
+
+- _On representing knowledge (i.e., knowledge store setup)_
+  - **chunk size** — when populating the knowledge store, texts are chunked in
+    order to ensure that queries along with context are within the context windows
+    of the LLM generator
+  - **hierarchical representations** — knowledge facts may depend on one another
+    or may contain levels of hierarchy that should be captured in the knowledge store.
+    Advance knowledged representations via knowledge graphs are also an option but
+    come with its own challenges to reach a satisfactory performance (i.e., how to
+    setup the knowledge graph optimally).
+- _On retrieval_
+  - **matching query to knowledge facts** — the raw user query may need some
+    processing in order to increase the chances of finding relevant facts from the
+    knowledge store. (e.g., query re-write or agentic planning)
+- _On generation_
+  - **hallucinations** — in the event that there are no retrieved facts, there are
+    still risks for LLM hallucinations.
+
 ## Advanced Techniques
 
-### Two Requirements For Success
+In this section, we present a few advanced techniques for building RAG systems.
+Generally speaking, advanced methods aim to address the two main requirements
+for success of a RAG system, namely:
+
+1. Retrieval must be able to find the most relevant knowledge facts for the user
+   query.
+2. Generation must be able to make good use of the retrieved knowledge facts.
+
+Advanced techniques can be viewed as addressing one of these requirements or both
+simultaneously. Examples include individual fine-tuning of embedding or LLM model
+in order improve retrieval and generation, alone. However, dual fine-tuning of
+these can be considered to address both requirements simultaneously. See the
+cheat sheet below for more advanced RAG designs.
 
 <center>
 <img src="https://d3ddy8balm3goa.cloudfront.net/llamaindex/rag-cheat-sheet-final.svg" alt="rag-cheat-sheet"> <!-- markdownlint-disable-line MD013 -->
@@ -52,6 +130,8 @@ LlamaIndex, 2024.)
 </div>
 
 ## Frameworks
+
+[Generation Step]
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
