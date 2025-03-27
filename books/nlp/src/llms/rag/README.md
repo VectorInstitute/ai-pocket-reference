@@ -131,7 +131,18 @@ LlamaIndex, 2024.)
 
 ## Frameworks
 
-[Generation Step]
+There are a handful of popular open-source frameworks that exist that help to
+build RAG systems on top of the user's own data sources. These frameworks are
+useful for quick proto-typing of RAG systems, supporting both basic and advanced
+designs. Another major advantage of these frameworks is their vast integrations
+to other tools in the tech stack i.e., vector stores, llm providers (both closed
+and open options), embedding models, observability tools, etc.
+
+Three popular frameworks for RAG include:
+
+1. LlamaIndex - [https://github.com/run-llama/llama_index](https://github.com/run-llama/llama_index)
+2. LangChain - [https://github.com/langchain-ai/langchain](https://github.com/langchain-ai/langchain)
+3. Haystack by Deepset - [https://github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
