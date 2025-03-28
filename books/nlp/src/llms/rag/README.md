@@ -193,5 +193,7 @@ including PyTorch and HuggingFace.
 1. [_A Cheat Sheet and Some Recipes For Building Advanced RAG." LlamaIndex Blog,
    Andrei Fajardo, 5 Jan. 2024, medium.com/llamaindex-blog/a-cheat-sheet-and-some-recipes-for-building-advanced-rag_](https://medium.com/llamaindex-blog/a-cheat-sheet-and-some-recipes-for-building-advanced-rag-803a9d94c41b).
 1. [_Rag Bootcamp. GitHub, Vector Institute, github.com/VectorInstitute/rag_bootcamp_](https://github.com/VectorInstitute/rag_bootcamp).
+1. [_Lewis, Patrick, et al. "Retrieval-augmented generation for knowledge-intensive
+   nlp tasks." Advances in neural information processing systems 33 (2020): 9459-947_](https://arxiv.org/pdf/2005.11401)
 
 {{#author nerdai}}
