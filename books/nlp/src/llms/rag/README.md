@@ -38,6 +38,19 @@ A RAG system is comprised of three main components, namely:
 
 ## Canonical RAG Pipeline
 
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/rag-message-flow.excalidraw.svg" alt="rag-message-flow"> <!-- markdownlint-disable-line MD013 -->
+</center>
+
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: Depicting the canonical RAG message flow diagram. A user submits a query
+to the RAG system, which ultimately returns the response back to the user only after
+completing both retrieval and generation steps in sequence.
+</div>
+
 The canonical pipeline for RAG is as follows:
 
 1. User submits a query to the RAG system
