@@ -26,6 +26,17 @@ string concatenation) the original prompt or query to the LLM with these facts.
 
 ## Components of a RAG System
 
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/rag-components.excalidraw.svg" alt="rag-components"> <!-- markdownlint-disable-line MD013 -->
+</center>
+
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: The components of RAG.
+</div>
+
 A RAG system is comprised of three main components, namely:
 
 - **Knowledge Store** — contains non-parametric knowledge facts that the system
