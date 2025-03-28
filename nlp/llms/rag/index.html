@@ -1,0 +1,421 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RAG - AI Pocket Reference: NLP</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A streamlined reference manual for AI practitioners, students, and developers to quickly look up core concepts and mock implementations">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../../_common/mdbook-ai-pocket-reference.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Pocket Reference: NLP</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://vectorinstitute.github.io/ai-pocket-reference/" title="Home" aria-label="Home">
+                            <i id="home-button" class="fa fa-home"></i>
+                        </a>
+                        <a href="https://github.com/VectorInstitute/ai-pocket-reference" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- markdownlint-disable-file MD033 -->
+<h1 id="rag"><a class="header" href="#rag">RAG</a></h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <a target="_blank" href="https://colab.research.google.com/github/VectorInstitute/ai-pocket-reference-code/blob/main/notebooks/nlp/rag.ipynb">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 7 min</small></p>
+  </div>
+</div>
+<h2 id="intro-and-motivation-for-rag"><a class="header" href="#intro-and-motivation-for-rag">Intro and Motivation for RAG</a></h2>
+<p>After an LLM has been pre-trained, its learning is captured in <em>parametric</em> knowledge.
+This speak is jargon simply implying that the knowledge is captured in the LLM's
+weight parameters. If the LLM is further fine-tuned for improved instruction following
+or alignment, these knowledge specializations are parametric in nature (i.e.,
+since these involve weight parameter updates).</p>
+<p>However, researchers have observed that relying only on the LLM's parametric knowledge,
+can be suboptimal and this is especially observed when performing knowledge-intensive
+tasks. Some pundits have argued that long-tail knowledge is not easily captured
+in parametric form.</p>
+<p>To remedy this drawback of an LLM's parametric knowledge, we can consider providing
+an LLM with non-parametric knowledge. Retrieval-Augmented Generation (RAG) is one
+such technique that aims to provide knowledge in the form of additional context
+to an LLM at inference time. As it's name suggests, this method involves
+retrieving facts (i.e., knowledge) from a data store and augmenting (e.g., by
+string concatenation) the original prompt or query to the LLM with these facts.</p>
+<h2 id="components-of-a-rag-system"><a class="header" href="#components-of-a-rag-system">Components of a RAG System</a></h2>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/rag-components.excalidraw.svg" alt="rag-components"> <!-- markdownlint-disable-line MD013 -->
+</center>
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: The components of RAG.
+</div>
+<p>A RAG system is comprised of three main components, namely:</p>
+<ul>
+<li><strong>Knowledge Store</strong> — contains non-parametric knowledge facts that the system
+can use at inference time in order to produce more accurate responses to queries.</li>
+<li><strong>Retriever</strong> — a model that takes in a user query and retrieves the most relevant
+knowledge facts from the knowledge store. (NOTE: the retriever is also used to
+populate or index the knowledge store during setup.)</li>
+<li><strong>Generator</strong> — a model that takes in the user's query and additional context
+and provides a response to that query.</li>
+</ul>
+<h2 id="canonical-rag-pipeline"><a class="header" href="#canonical-rag-pipeline">Canonical RAG Pipeline</a></h2>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/nlp/rag-message-flow.excalidraw.svg" alt="rag-message-flow"> <!-- markdownlint-disable-line MD013 -->
+</center>
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: Depicting the canonical RAG message flow diagram. A user submits a query
+to the RAG system, which ultimately returns the response back to the user only after
+completing both retrieval and generation steps in sequence.
+</div>
+<p>The canonical pipeline for RAG is as follows:</p>
+<ol>
+<li>User submits a query to the RAG system</li>
+<li><strong>[Retrieval Step]</strong> The RAG system matches the query with the relevant facts
+from the knowledge store. The top k matched facts are retrieved.</li>
+<li><strong>[Generation Step]</strong> The content of the retrieved facts are used to augment the
+query and subsequently pass to the generator.</li>
+<li>Response is returned back to the user. (Post-processing steps may be applied
+to the raw result from the generator prior to returning it to the user.)</li>
+</ol>
+<h2 id="evaluation-of-rag-systems"><a class="header" href="#evaluation-of-rag-systems">Evaluation of RAG Systems</a></h2>
+<p>Evaluation of RAG systems is often not a trivial task. A common way that these
+systems are evaluated are by the evaluation of the respective components, namely:
+retriever and generator evaluation.</p>
+<h3 id="evaluation-of-retriever"><a class="header" href="#evaluation-of-retriever">Evaluation of Retriever</a></h3>
+<p>Retriever's are evaluated based on the correctness of the retrieved facts. Given
+a "labelled" example containing the query as well as associated facts, we can compute
+metrics such as hit rate and normalized discounted cumulative gain (NDCG). The
+former computes the fraction of retrievals that returned the correct knowledge
+artifact over the number of queries (or retrieval tasks). While hit rate doesn't
+take into account the order in which knowledge facts are retrieved, NDCG incorporates
+this ordering in its calculation, considering retrievals successful when the correct
+knowledge artifacts appear in the highest-ranked positions.</p>
+<h3 id="evaluation-of-generator"><a class="header" href="#evaluation-of-generator">Evaluation of Generator</a></h3>
+<p>Generator responses can be done via human scoring where a human assess the response
+to the query given the context. The human can provide a numerical score to indicate
+how well the generator answers the query with the provided context. Metrics such
+as faithfulness and accuracy are often computed. However, human marking is expensive
+and thus another strategy makes use of LLMs (i.e., LLM As A Judge) to perform the
+grading.</p>
+<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
+<p>While RAG has demonstrated success in providing LLMs with sufficient context in
+order to perform well across various knowledge-intensive benchmarks, building a
+RAG system involves many system-level parameters, and tuning these to achieve
+sufficient performance is non-trivial.</p>
+<p>Examples of these system-level parameters include:</p>
+<ul>
+<li><em>On representing knowledge (i.e., knowledge store setup)</em>
+<ul>
+<li><strong>chunk size</strong> — when populating the knowledge store, texts are chunked in
+order to ensure that queries along with context are within the context windows
+of the LLM generator</li>
+<li><strong>hierarchical representations</strong> — knowledge facts may depend on one another
+or may contain levels of hierarchy that should be captured in the knowledge store.
+Advance knowledged representations via knowledge graphs are also an option but
+come with its own challenges to reach a satisfactory performance (i.e., how to
+setup the knowledge graph optimally).</li>
+</ul>
+</li>
+<li><em>On retrieval</em>
+<ul>
+<li><strong>matching query to knowledge facts</strong> — the raw user query may need some
+processing in order to increase the chances of finding relevant facts from the
+knowledge store. (e.g., query re-write or agentic planning)</li>
+</ul>
+</li>
+<li><em>On generation</em>
+<ul>
+<li><strong>hallucinations</strong> — in the event that there are no retrieved facts, there are
+still risks for LLM hallucinations.</li>
+</ul>
+</li>
+</ul>
+<h2 id="advanced-techniques"><a class="header" href="#advanced-techniques">Advanced Techniques</a></h2>
+<p>In this section, we present a few advanced techniques for building RAG systems.
+Generally speaking, advanced methods aim to address the two main requirements
+for success of a RAG system, namely:</p>
+<ol>
+<li>Retrieval must be able to find the most relevant knowledge facts for the user
+query.</li>
+<li>Generation must be able to make good use of the retrieved knowledge facts.</li>
+</ol>
+<p>Advanced techniques can be viewed as addressing one of these requirements or both
+simultaneously. Examples include individual fine-tuning of embedding or LLM model
+in order improve retrieval and generation, alone. However, dual fine-tuning of
+these can be considered to address both requirements simultaneously. See the
+cheat sheet below for more advanced RAG designs.</p>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/llamaindex/rag-cheat-sheet-final.svg" alt="rag-cheat-sheet"> <!-- markdownlint-disable-line MD013 -->
+</center>
+<div
+  class="figure-caption"
+  style="text-align: center; font-size: 0.8em; margin-top: 10px;"
+>
+Figure: A RAG cheat sheet displaying various techniques for building advanced
+retrieval-augmented generation systems. The left side shows methods for
+independently addressing generation requirements (including compression, re-ranking,
+and adapter methods), while the right side illustrates techniques for simultaneously
+addressing multiple requirements (including fine-tuning, foundational models,
+and iterative retrieval-generation). (Created by author while working at
+LlamaIndex, 2024.)
+</div>
+<h2 id="frameworks"><a class="header" href="#frameworks">Frameworks</a></h2>
+<h3 id="rag-inference-frameworks"><a class="header" href="#rag-inference-frameworks">RAG Inference Frameworks</a></h3>
+<p>There are a handful of popular open-source frameworks that exist that help to
+build RAG systems on top of the user's own data sources. These frameworks are
+useful for quick proto-typing of RAG systems, supporting both basic and advanced
+designs. Another major advantage of these frameworks is their vast integrations
+to other tools in the tech stack i.e., vector stores, llm providers (both closed
+and open options), embedding models, observability tools, etc.</p>
+<p>Three popular frameworks for RAG include:</p>
+<ol>
+<li>LlamaIndex - <a href="https://github.com/run-llama/llama_index">https://github.com/run-llama/llama_index</a></li>
+<li>LangChain - <a href="https://github.com/langchain-ai/langchain">https://github.com/langchain-ai/langchain</a></li>
+<li>Haystack by Deepset - <a href="https://github.com/deepset-ai/haystack">https://github.com/deepset-ai/haystack</a></li>
+</ol>
+<h3 id="rag-finetuning-frameworks"><a class="header" href="#rag-finetuning-frameworks">RAG Finetuning Frameworks</a></h3>
+<p>The previous section mentioned frameworks that are effective for building RAG inference
+systems. For fine-tuning RAG, under both centralized and federated settings, the
+Vector Institute has developed, fedRAG:
+<a href="https://github.com/VectorInstitute/fed-rag">https://github.com/VectorInstitute/fed-rag</a>.</p>
+<p>The fedRAG framework features a lightweight
+interface to turn a centralized model training pipeline into a federated task.
+Additionally, it boasts integrations to popular deep-learning tools and frameworks
+including PyTorch and HuggingFace.</p>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<ol>
+<li><a href="https://github.com/run-llama/llama_index"><em>Liu, Jerry. "LlamaIndex." GitHub, Nov. 2022. DOI: 10.5281/zenodo.1234.
+github.com/run-llama/llama_index</em></a></li>
+<li><a href="https://medium.com/llamaindex-blog/a-cheat-sheet-and-some-recipes-for-building-advanced-rag-803a9d94c41b"><em>A Cheat Sheet and Some Recipes For Building Advanced RAG." LlamaIndex Blog,
+Andrei Fajardo, 5 Jan. 2024, medium.com/llamaindex-blog/a-cheat-sheet-and-some-recipes-for-building-advanced-rag</em></a>.</li>
+<li><a href="https://github.com/VectorInstitute/rag_bootcamp"><em>Rag Bootcamp. GitHub, Vector Institute, github.com/VectorInstitute/rag_bootcamp</em></a>.</li>
+<li><a href="https://arxiv.org/pdf/2005.11401"><em>Lewis, Patrick, et al. "Retrieval-augmented generation for knowledge-intensive
+nlp tasks." Advances in neural information processing systems 33 (2020): 9459-947</em></a></li>
+</ol>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/nerdai">
+<img src="https://github.com/nerdai.png"
+  width="32px" alt="Contributor nerdai" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../llms/agents/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../llms/compression/quantization.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../llms/agents/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../llms/compression/quantization.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
