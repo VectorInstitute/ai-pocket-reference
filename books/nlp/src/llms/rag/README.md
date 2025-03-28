@@ -9,8 +9,8 @@
 After an LLM has been pre-trained, its learning is captured in _parametric_ knowledge.
 This speak is jargon simply implying that the knowledge is captured in the LLM's
 weight parameters. If the LLM is further fine-tuned for improved instruction following
-or alignment, these knowledge specializations are still also considered to be parametric
-in nature (i.e., since these involve weight parameter updates).
+or alignment, these knowledge specializations are parametric in nature (i.e.,
+since these involve weight parameter updates).
 
 However, researchers have observed that relying only on the LLM's parametric knowledge,
 can be suboptimal and this is especially observed when performing knowledge-intensive
@@ -70,7 +70,7 @@ The canonical pipeline for RAG is as follows:
 3. **[Generation Step]** The content of the retrieved facts are used to augment the
    query and subsequently pass to the generator.
 4. Response is returned back to the user. (Post-processing steps may be applied
-   to the raw result from generator prior returning to the user.)
+   to the raw result from the generator prior to returning it to the user.)
 
 ## Evaluation of RAG Systems
 
@@ -82,8 +82,12 @@ retriever and generator evaluation.
 
 Retriever's are evaluated based on the correctness of the retrieved facts. Given
 a "labelled" example containing the query as well as associated facts, we can compute
-metrics such as hit rate, mean reciprocal rank (MRR) and normalized discounted
-cumulative gain (NDCG).
+metrics such as hit rate and normalized discounted cumulative gain (NDCG). The
+former computes the fraction of retrievals that returned the correct knowledge
+artifact over the number of queries (or retrieval tasks). While hit rate doesn't
+take into account the order in which knowledge facts are retrieved, NDCG incorporates
+this ordering in its calculation, considering retrievals successful when the correct
+knowledge artifacts appear in the highest-ranked positions.
 
 ### Evaluation of Generator
 
@@ -96,12 +100,12 @@ grading.
 
 ## Limitations
 
-While RAG has demonstrated success in providing the LLM with sufficient context
-in order to perform well across various knowledge-intensive benchmarks, there are
-many systems parameters that go into building a RAG system and tuning these to reach
-sufficient levels of performance is non trivial.
+While RAG has demonstrated success in providing LLMs with sufficient context in
+order to perform well across various knowledge-intensive benchmarks, building a
+RAG system involves many system-level parameters, and tuning these to achieve
+sufficient performance is non-trivial.
 
-Examples of these systems parameters include:
+Examples of these system-level parameters include:
 
 - _On representing knowledge (i.e., knowledge store setup)_
   - **chunk size** — when populating the knowledge store, texts are chunked in
@@ -174,7 +178,7 @@ Three popular frameworks for RAG include:
 
 The previous section mentioned frameworks that are effective for building RAG inference
 systems. For fine-tuning RAG, under both centralized and federated settings, the
-Vector Institute for AI has developed, fedRAG:
+Vector Institute has developed, fedRAG:
 [https://github.com/VectorInstitute/fed-rag](https://github.com/VectorInstitute/fed-rag).
 
 The fedRAG framework features a lightweight
