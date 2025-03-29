@@ -32,17 +32,13 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Install mdbook if needed  # Pin of mdbook should match the version used to generate theme.bbs template
+      - name: Install mdbook and preprocessors if needed  # Pin of mdbook should match the version used to generate theme.bbs template
         run: |
           (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "0.4.44" mdbook)
           (test -x $HOME/.cargo/bin/mdbook-ai-pocket-reference ||cargo install mdbook-ai-pocket-reference)
           (test -x $HOME/.cargo/bin/mdbook-github-authors || cargo install mdbook-github-authors)
-
-      - name: Install cargo-update
-        run: cargo install cargo-update
-
-      - name: Update mdbook plugins if needed
-        run: cargo install-update mdbook-ai-pocket-reference mdbook-github-authors
+          (test -x $HOME/.cargo/bin/cargo-update || cargo install cargo-update)
+          cargo install-update mdbook-ai-pocket-reference mdbook-github-authors
 
       - name: Build books
         run: |
