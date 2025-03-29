@@ -204,7 +204,7 @@ when necessary. However, since an LLM's input and output are text-based,
 invoking a tool means generating a structured output in a specific
 format—typically JSON or direct code. Standardized communication
 between tools and LLMs are also being established and propagated, with
-Anthropic's Model Context Procotol <a href="https://www.anthropic.com/news/model-context-protocol">(2024)</a>
+Anthropic's Model Context Procotol <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener noreferrer">(2024)</a>
 being a notable example.</p>
 <h3 id="memory"><a class="header" href="#memory">Memory</a></h3>
 <p>The information retrieved from a tool updates the agent's memory,
@@ -216,7 +216,7 @@ and not be stuck in endless loops, conducting unnecessary actions,
 or offering irrelevant results. Memory does not have to be one continuous
 block. It can be separated into multiple sections with different persistence
 and frequencies of use. This is the case with LlamaIndex's
-<a href="https://docs.llamaindex.ai/en/stable/examples/agent/memory/composable_memory/">composable memory</a>.</p>
+<a href="https://docs.llamaindex.ai/en/stable/examples/agent/memory/composable_memory/" target="_blank" rel="noopener noreferrer">composable memory</a>.</p>
 <h3 id="llm"><a class="header" href="#llm">LLM</a></h3>
 <p>The underlying LLM powering the agent's every move can be
 any language model, including the notable models listed in
@@ -230,11 +230,11 @@ and its tools. This is the code that structures the user-defined objective
 and the tool descriptions into a prompt for the LLM, that parses an LLM's
 output and directs their JSON/code to the corresponding tool, that incorporates
 tool results into memory and text to properly give back to
-the LLM for reflection. Some popular frameworks include <a href="https://github.com/crewAIInc/crewAI">CrewAI</a>,
-<a href="https://github.com/geekan/MetaGPT">MetaGPT</a>,
-<a href="https://github.com/huggingface/smolagents">smolagents</a>,
-<a href="https://github.com/langchain-ai/langgraph">LangGraph</a>,
-<a href="https://github.com/run-llama/llama_index">LlamaIndex</a>.</p>
+the LLM for reflection. Some popular frameworks include <a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">CrewAI</a>,
+<a href="https://github.com/geekan/MetaGPT" target="_blank" rel="noopener noreferrer">MetaGPT</a>,
+<a href="https://github.com/huggingface/smolagents" target="_blank" rel="noopener noreferrer">smolagents</a>,
+<a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">LangGraph</a>,
+<a href="https://github.com/run-llama/llama_index" target="_blank" rel="noopener noreferrer">LlamaIndex</a>.</p>
 <h2 id="applications"><a class="header" href="#applications">Applications</a></h2>
 <p>The potential applications for agents are quite broad. Some examples include:</p>
 <ul>
@@ -247,12 +247,12 @@ the LLM for reflection. Some popular frameworks include <a href="https://github.
 </ul>
 <p>While the above are theoretical applications, tangible agents have also begun
 making their way to the market. At the time of writing this reference,
-Deep Research <a href="https://openai.com/index/introducing-deep-research/">(2025)</a>,
+Deep Research <a href="https://openai.com/index/introducing-deep-research/" target="_blank" rel="noopener noreferrer">(2025)</a>,
 a research assistant for synthesizing literature,
-and Manus <a href="https://manus.im/">(2025)</a>,
+and Manus <a href="https://manus.im/" target="_blank" rel="noopener noreferrer">(2025)</a>,
 for broader analysis and development,
-are two agents that have made headlines. Furthermore, Casper et al. <a href="https://arxiv.org/pdf/2502.01635">(2025)</a>
-have compiled an <a href="https://aiagentindex.mit.edu/index/">index</a>
+are two agents that have made headlines. Furthermore, Casper et al. <a href="https://arxiv.org/pdf/2502.01635" target="_blank" rel="noopener noreferrer">(2025)</a>
+have compiled an <a href="https://aiagentindex.mit.edu/index/" target="_blank" rel="noopener noreferrer">index</a>
 to track existing agents and discover patterns. They
 have found agents "being deployed at a steadily increasing rate".</p>
 <h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
@@ -270,73 +270,73 @@ in the viability of agents for everyday life.</p>
 <p>Advances have been made to address these perceived shortcomings,
 with the foremost technique being <a href="../fine_tuning/index.html">fine-tuning</a>.
 Supervised fine-tuning with instructions
-<a href="https://arxiv.org/abs/2308.10792">(Zhang et al., 2024)</a>,
+<a href="https://arxiv.org/abs/2308.10792" target="_blank" rel="noopener noreferrer">(Zhang et al., 2024)</a>,
 alignment and safety fine-tuning
-<a href="https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives">(Raschka, 2023)</a>
+<a href="https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives" target="_blank" rel="noopener noreferrer">(Raschka, 2023)</a>
 , and reasoning fine-tuning with reinforcement learning
-<a href="https://arxiv.org/abs/2401.08967">(Luong et al., 2024)</a>,
+<a href="https://arxiv.org/abs/2401.08967" target="_blank" rel="noopener noreferrer">(Luong et al., 2024)</a>,
 are among the promising fine-tuning techniques proposed.</p>
 <h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
 <p>While there is general agreement on what agents do in the industry,
 the specifics vary between sources and application settings. Therefore,
 it would be useful to browse different definitions and see more perspectives.
 The links below include introductions to agents from
-<a href="https://huggingface.co/learn/agents-course/unit1/what-are-agents">Hugging Face</a>
+<a href="https://huggingface.co/learn/agents-course/unit1/what-are-agents" target="_blank" rel="noopener noreferrer">Hugging Face</a>
 ,
-<a href="https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb">LlamaIndex</a>
+<a href="https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb" target="_blank" rel="noopener noreferrer">LlamaIndex</a>
 ,
-<a href="https://www.ibm.com/think/topics/ai-agents">IBM</a>
+<a href="https://www.ibm.com/think/topics/ai-agents" target="_blank" rel="noopener noreferrer">IBM</a>
 ,
-<a href="https://aiagentindex.mit.edu/">MIT</a>
+<a href="https://aiagentindex.mit.edu/" target="_blank" rel="noopener noreferrer">MIT</a>
 ,
 and
-<a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic</a>.</p>
+<a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Anthropic</a>.</p>
 <h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
-<li><a href="https://www.anthropic.com/news/model-context-protocol"><em>Anthropic. "Introducing the Model Context Protocol." Anthropic News,
+<li><a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener noreferrer"><em>Anthropic. "Introducing the Model Context Protocol." Anthropic News,
 anthropic.com/news/model-context-protocol. Accessed 14 Mar. 2025.</em></a></li>
-<li><a href="https://docs.llamaindex.ai/en/stable/examples/agent/memory/composable_memory/"><em>LlamaIndex. "Single composable memory." LlamaIndex Documentation,
+<li><a href="https://docs.llamaindex.ai/en/stable/examples/agent/memory/composable_memory/" target="_blank" rel="noopener noreferrer"><em>LlamaIndex. "Single composable memory." LlamaIndex Documentation,
 docs.llamaindex.ai/en/stable/examples/agent/memory/composable_memory/.
 Accessed 14 Mar. 2025.</em></a></li>
-<li><a href="https://openai.com/index/introducing-deep-research/"><em>OpenAI. "Introducing deep research." OpenAI Documentation,
+<li><a href="https://openai.com/index/introducing-deep-research/" target="_blank" rel="noopener noreferrer"><em>OpenAI. "Introducing deep research." OpenAI Documentation,
 openai.com/index/introducing-deep-research/. Accessed 8 Mar. 2025.</em></a></li>
-<li><a href="https://manus.im/"><em>Manus. "Introducing Manus." Manus Home Page, manus.im/.
+<li><a href="https://manus.im/" target="_blank" rel="noopener noreferrer"><em>Manus. "Introducing Manus." Manus Home Page, manus.im/.
 Accessed 8 Mar. 2025.</em></a></li>
-<li><a href="https://arxiv.org/pdf/2502.01635"><em>Casper, S., Bailey, L., Hunter, R., Ezell, C., Cabalé, E.,
+<li><a href="https://arxiv.org/pdf/2502.01635" target="_blank" rel="noopener noreferrer"><em>Casper, S., Bailey, L., Hunter, R., Ezell, C., Cabalé, E.,
 Gerovitch, M., Slocum, S., Wei, K., Jurkovic, N., Khan, A.,
 Christoffersen, P.J.K., Ozisik, A.P., Trivedi, R., Hadfield-Menell, D.,
 and Kolt, N. "The AI Agent Index." (2025),
 DOI: 10.48550/arXiv.2502.01635.</em></a></li>
-<li><a href="https://arxiv.org/abs/2308.10792"><em>Zhang, S., Dong, L., Li, X., Zhang, S., Sun, X., Wang, S., Li, J., Hu, R.,
+<li><a href="https://arxiv.org/abs/2308.10792" target="_blank" rel="noopener noreferrer"><em>Zhang, S., Dong, L., Li, X., Zhang, S., Sun, X., Wang, S., Li, J., Hu, R.,
 Zhang, T., Wu, F., and Wang, G. "Instruction tuning for large
 language models: a survey." (2024),
 DOI: 10.48550/arXiv.2308.10792.</em></a></li>
-<li><a href="https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives"><em>Raschka, S. "LLM training: RLHF and its alternatives." (2023),
+<li><a href="https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives" target="_blank" rel="noopener noreferrer"><em>Raschka, S. "LLM training: RLHF and its alternatives." (2023),
 Ahead of AI,
 magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives.
 Accessed 14, Mar. 2025.</em></a></li>
-<li><a href="https://arxiv.org/abs/2401.08967"><em>Luong, T.Q., Zhang, X., Jie, Z., Sun, P., Jin, X., and Li, H.
+<li><a href="https://arxiv.org/abs/2401.08967" target="_blank" rel="noopener noreferrer"><em>Luong, T.Q., Zhang, X., Jie, Z., Sun, P., Jin, X., and Li, H.
 "ReFT: reasoning with reinforced fine-tuning." (2024),
 DOI: doi.org/10.48550/arXiv.2401.08967.</em></a></li>
-<li><a href="https://huggingface.co/learn/agents-course/unit1/what-are-agents"><em>Hugging Face. "What is an agent?" Hugging Face Agents Course,
+<li><a href="https://huggingface.co/learn/agents-course/unit1/what-are-agents" target="_blank" rel="noopener noreferrer"><em>Hugging Face. "What is an agent?" Hugging Face Agents Course,
 huggingface.co/learn/agents-course/unit1/what-are-agents.
 Accessed 8 Mar. 2025.</em></a></li>
-<li><a href="https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb"><em>Fajardo, V.A. LlamaIndex GenAI Philippines talk, github.com/nerdai/
+<li><a href="https://github.com/nerdai/talks/blob/main/2024/genai-philippines/genai-philippines.ipynb" target="_blank" rel="noopener noreferrer"><em>Fajardo, V.A. LlamaIndex GenAI Philippines talk, github.com/nerdai/
 talks/blob/main/2024/genai-philippines/genai-philippines.ipynb.
 Accessed 8 Mar. 2025.</em></a></li>
-<li><a href="https://www.ibm.com/think/topics/ai-agents"><em>IBM. "What are AI agents?" IBM Think, ibm.com/think/topics/ai-agents.
+<li><a href="https://www.ibm.com/think/topics/ai-agents" target="_blank" rel="noopener noreferrer"><em>IBM. "What are AI agents?" IBM Think, ibm.com/think/topics/ai-agents.
 Accessed 8 Mar. 2025.</em></a></li>
-<li><a href="https://www.anthropic.com/engineering/building-effective-agents"><em>Anthropic. "Building effective agents." Anthropic Engineering,
+<li><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer"><em>Anthropic. "Building effective agents." Anthropic Engineering,
 anthropic.com/engineering/building-effective-agents.
 Accessed 14 Mar. 2025.</em></a></li>
 </ol>
 <h4 id="github-repositories-for-agent-frameworks"><a class="header" href="#github-repositories-for-agent-frameworks">GitHub Repositories for Agent Frameworks</a></h4>
 <ol>
-<li><a href="https://github.com/crewAIInc/crewAI"><em>crewAI. github.com/crewAIInc/crewAI</em></a></li>
-<li><a href="https://github.com/geekan/MetaGPT"><em>MetaGPT. github.com/geekan/MetaGPT</em></a></li>
-<li><a href="https://github.com/huggingface/smolagents"><em>smolagents. github.com/huggingface/smolagents</em></a></li>
-<li><a href="https://github.com/langchain-ai/langgraph"><em>LangGraph. github.com/langchain-ai/langgraph</em></a></li>
-<li><a href="https://github.com/run-llama/llama_index"><em>LlamaIndex. github.com/run-llama/llama_index</em></a></li>
+<li><a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer"><em>crewAI. github.com/crewAIInc/crewAI</em></a></li>
+<li><a href="https://github.com/geekan/MetaGPT" target="_blank" rel="noopener noreferrer"><em>MetaGPT. github.com/geekan/MetaGPT</em></a></li>
+<li><a href="https://github.com/huggingface/smolagents" target="_blank" rel="noopener noreferrer"><em>smolagents. github.com/huggingface/smolagents</em></a></li>
+<li><a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer"><em>LangGraph. github.com/langchain-ai/langgraph</em></a></li>
+<li><a href="https://github.com/run-llama/llama_index" target="_blank" rel="noopener noreferrer"><em>LlamaIndex. github.com/run-llama/llama_index</em></a></li>
 </ol>
 <!-- Contributions -->
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">

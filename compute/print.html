@@ -279,7 +279,7 @@
 <h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
 <p>The Layer Normalization (LayerNorm) operation applies normalization across the
 last D dimensions of the activation tensor as described in
-<a href="https://arxiv.org/abs/1607.06450">this foundational paper</a> by Ba et al. (2016).
+<a href="https://arxiv.org/abs/1607.06450" target="_blank" rel="noopener noreferrer">this foundational paper</a> by Ba et al. (2016).
 The normalization equation is given below:</p>
 <p>$$y = \frac{x - \mathbb{E}[x]}{\sqrt{Var[x] + \epsilon}} \times \gamma + \beta$$</p>
 <p>where, \(\mathbb{E}[z]\) and \(Var[z]\) are the expectation and variance
@@ -288,7 +288,7 @@ is a small term for to avoid division by zero errors, whereas \(\gamma\) and \(\
 are scale and shift parameters, respectively.</p>
 <p>This pocket reference outlines and provides a detailed explanation
 of a series of CUDA kernel implementations of LayerNorm forward pass based on the
-<a href="https://github.com/karpathy/llm.c/tree/master/dev/cuda">llm.c</a> github repository.
+<a href="https://github.com/karpathy/llm.c/tree/master/dev/cuda" target="_blank" rel="noopener noreferrer">llm.c</a> github repository.
 Please refer to the <a href="cuda/kernels/../../../../fundamentals/src/normalizations/layernorm.html">Layer Normalization</a>
 pocket reference for conceptual understanding and other details about the operation.
 For the purpose of this pocket reference, lets implement kernels for LayerNorm
@@ -417,10 +417,10 @@ size 4 is used for simplicity). Also note that all operations are again combined
 in a single kernel.</p>
 <p>This kernel also includes a few additional changes:</p>
 <ol>
-<li>Use of the <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#restrict"><code>__restrict__</code> keyword</a>:
+<li>Use of the <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#restrict" target="_blank" rel="noopener noreferrer">`<strong>restrict</strong>` keyword</a>:
 This allows the compiler to perform further optimizations through reduced
 memory accesses and computation.</li>
-<li>Use of <a href="https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#cache-operators">Cache Operators</a>:
+<li>Use of <a href="https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#cache-operators" target="_blank" rel="noopener noreferrer">Cache Operators</a>:
 <code>__stcs()</code> and <code>__ldcs()</code> limit cache pollution.</li>
 </ol>
 <p>These optimizations lead to an improvement of <strong>~1.8x over Kernel 2</strong> (for block
@@ -500,11 +500,11 @@ Figure-5: A40 Memory Bandwidth Summary.
 <h4 id="references-and-useful-links"><a class="header" href="#references-and-useful-links">References and Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
 <li>Code for LayerNorm forward kernels
-from the <a href="https://github.com/karpathy/llm.c/blob/master/dev/cuda/layernorm_forward.cu">llm.c</a>
+from the <a href="https://github.com/karpathy/llm.c/blob/master/dev/cuda/layernorm_forward.cu" target="_blank" rel="noopener noreferrer">llm.c</a>
 github repository</li>
-<li><a href="https://arxiv.org/abs/1607.06450">Layer Normalization paper</a></li>
-<li><a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">CUDA C++ Programming Guide</a></li>
-<li><a href="https://docs.nvidia.com/cuda/parallel-thread-execution/index.html">CUDA Parallel Thread Execution (PTX) Guide</a></li>
+<li><a href="https://arxiv.org/abs/1607.06450" target="_blank" rel="noopener noreferrer">Layer Normalization paper</a></li>
+<li><a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html" target="_blank" rel="noopener noreferrer">CUDA C++ Programming Guide</a></li>
+<li><a href="https://docs.nvidia.com/cuda/parallel-thread-execution/index.html" target="_blank" rel="noopener noreferrer">CUDA Parallel Thread Execution (PTX) Guide</a></li>
 </ol>
 <!-- Contributors -->
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">

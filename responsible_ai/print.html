@@ -170,7 +170,7 @@ modern AI techniques.</p>
 <p>These concise references are designed for AI practitioners, researchers, and
 decision-makers who need quick understanding and practical application of responsible
 AI concepts.</p>
-<p>Be sure to check out our other collections of <a href="https://vectorinstitute.github.io/ai-pocket-reference/">AI Pocket References</a>,
+<p>Be sure to check out our other collections of <a href="https://vectorinstitute.github.io/ai-pocket-reference/" target="_blank" rel="noopener noreferrer">AI Pocket References</a>,
 including AI Fundamentals, NLP, and High-Performance AI Computing!</p>
 <div class="vector-logo">
     <a href="https://vectorinstitute.ai/">
@@ -210,7 +210,7 @@ sustainability, and transparency</strong> in reporting emissions.</p>
 <ol>
 <li>
 <p><strong>Energy Consumption Measurement</strong>
-Tools like <a href="https://github.com/mlco2/codecarbon">CodeCarbon</a> use hardware
+Tools like <a href="https://github.com/mlco2/codecarbon" target="_blank" rel="noopener noreferrer">CodeCarbon</a> use hardware
 sensors—such as Intel RAPL for CPUs and NVIDIA NVML for GPUs—to track power
 usage. We integrate power over time (kWh) to determine the total energy
 consumed during model training or inference.</p>
@@ -226,7 +226,7 @@ The total energy (in kWh) is multiplied by the regional carbon intensity
 <li><strong>Carbon Intensity</strong> = Grid emission factor for the region</li>
 </ul>
 <p>For example, the Regional Carbon Intensity fetches location-based CO₂ per kWh
-data from public sources (e.g., <a href="https://ember-climate.org/">Ember Climate</a>).
+data from public sources (e.g., <a href="https://ember-climate.org/" target="_blank" rel="noopener noreferrer">Ember Climate</a>).
 It can auto-detect cloud provider regions (AWS, Azure, GCP) or use user-provided
 location.</p>
 </li>
@@ -236,15 +236,15 @@ location.</p>
 energy consumption and carbon footprint in machine learning workloads.</p>
 <!-- markdownlint-disable MD013 -->
 <div class="table-wrapper"><table><thead><tr><th><strong>Tool</strong></th><th><strong>Measurement Level</strong></th><th><strong>Compatibility</strong></th><th><strong>Ease of Use</strong></th><th><strong>Installation</strong></th><th><strong>Real-Time Monitoring?</strong></th><th><strong>License</strong></th><th><strong>Docs &amp; Support</strong></th><th><strong>Notes</strong></th></tr></thead><tbody>
-<tr><td><strong>CentML DeepView</strong></td><td>Code + model level, predicts usage on different GPUs/clouds</td><td>Most GPUs, cloud providers</td><td>Intuitive UI, runs in IDE (VSCode)</td><td>VSCode plugin</td><td>✅ Inline monitoring, interactive UI</td><td>Apache 2.0 (Free)</td><td><a href="https://github.com/CentML/DeepView.Profile">GitHub Repo</a></td><td>Best for real-time analysis in VSCode</td></tr>
-<tr><td><strong>AIPowerMeter</strong></td><td>Function-level CPU/GPU (Intel CPU only, GPU not always covered)</td><td>Intel processors (no guarantee for GPUs)</td><td>Requires experiment setup</td><td>Script to install</td><td>❌ No real-time (post-run results)</td><td>Free</td><td><a href="https://greenai-uppa.github.io/AIPowerMeter/">Docs</a></td><td>Best for CPU-centric measurement</td></tr>
-<tr><td><strong>CarbonAI</strong></td><td>Function-level monitoring</td><td>Most platforms</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Free</td><td><a href="https://github.com/Capgemini-Invent-France/CarbonAI">GitHub Repo</a></td><td>Simple setup, minimal overhead</td></tr>
-<tr><td><strong>CarbonTracker</strong></td><td>Code-level usage (Nvidia GPU, Intel CPU, Slurm, Colab, Jupyter)</td><td>Nvidia GPU, Intel CPU, HPC platforms</td><td>Requires code annotations</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>MIT License (Free)</td><td><a href="https://github.com/lfwa/carbontracker">GitHub Repo</a></td><td>Good for ML workflows in HPC</td></tr>
-<tr><td><strong>CodeCarbon</strong></td><td>Hardware-level (GPU + CPU + RAM) + regional carbon intensity</td><td>Online/Offline tracking supported</td><td>Requires experiment setup</td><td>Python package</td><td>📊 Dashboard after execution</td><td>Free</td><td><a href="https://github.com/mlco2/codecarbon">GitHub Repo</a></td><td>Supports regional carbon intensity</td></tr>
-<tr><td><strong>Eco2AI</strong></td><td>Function-level CPU/GPU + region-based emission coefficient</td><td>Most platforms</td><td>Requires experiment setup</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Apache 2.0 (Free)</td><td><a href="https://github.com/sb-ai-lab/Eco2AI">GitHub Repo</a></td><td>Similar to CodeCarbon, with function-level insights</td></tr>
-<tr><td><strong>experiment-impact-tracker</strong></td><td>Function-level measurement</td><td>Linux, MacOS (Nvidia GPU &amp; Intel CPU)</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Free</td><td><a href="https://github.com/Breakend/experiment-impact-tracker">GitHub Repo</a></td><td>Best for tracking on HPC clusters</td></tr>
+<tr><td><strong>CentML DeepView</strong></td><td>Code + model level, predicts usage on different GPUs/clouds</td><td>Most GPUs, cloud providers</td><td>Intuitive UI, runs in IDE (VSCode)</td><td>VSCode plugin</td><td>✅ Inline monitoring, interactive UI</td><td>Apache 2.0 (Free)</td><td><a href="https://github.com/CentML/DeepView.Profile" target="_blank" rel="noopener noreferrer">GitHub Repo</a></td><td>Best for real-time analysis in VSCode</td></tr>
+<tr><td><strong>AIPowerMeter</strong></td><td>Function-level CPU/GPU (Intel CPU only, GPU not always covered)</td><td>Intel processors (no guarantee for GPUs)</td><td>Requires experiment setup</td><td>Script to install</td><td>❌ No real-time (post-run results)</td><td>Free</td><td><a href="https://greenai-uppa.github.io/AIPowerMeter/" target="_blank" rel="noopener noreferrer">Docs</a></td><td>Best for CPU-centric measurement</td></tr>
+<tr><td><strong>CarbonAI</strong></td><td>Function-level monitoring</td><td>Most platforms</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Free</td><td><a href="https://github.com/Capgemini-Invent-France/CarbonAI" target="_blank" rel="noopener noreferrer">GitHub Repo</a></td><td>Simple setup, minimal overhead</td></tr>
+<tr><td><strong>CarbonTracker</strong></td><td>Code-level usage (Nvidia GPU, Intel CPU, Slurm, Colab, Jupyter)</td><td>Nvidia GPU, Intel CPU, HPC platforms</td><td>Requires code annotations</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>MIT License (Free)</td><td><a href="https://github.com/lfwa/carbontracker" target="_blank" rel="noopener noreferrer">GitHub Repo</a></td><td>Good for ML workflows in HPC</td></tr>
+<tr><td><strong>CodeCarbon</strong></td><td>Hardware-level (GPU + CPU + RAM) + regional carbon intensity</td><td>Online/Offline tracking supported</td><td>Requires experiment setup</td><td>Python package</td><td>📊 Dashboard after execution</td><td>Free</td><td><a href="https://github.com/mlco2/codecarbon" target="_blank" rel="noopener noreferrer">GitHub Repo</a></td><td>Supports regional carbon intensity</td></tr>
+<tr><td><strong>Eco2AI</strong></td><td>Function-level CPU/GPU + region-based emission coefficient</td><td>Most platforms</td><td>Requires experiment setup</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Apache 2.0 (Free)</td><td><a href="https://github.com/sb-ai-lab/Eco2AI" target="_blank" rel="noopener noreferrer">GitHub Repo</a></td><td>Similar to CodeCarbon, with function-level insights</td></tr>
+<tr><td><strong>experiment-impact-tracker</strong></td><td>Function-level measurement</td><td>Linux, MacOS (Nvidia GPU &amp; Intel CPU)</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Free</td><td><a href="https://github.com/Breakend/experiment-impact-tracker" target="_blank" rel="noopener noreferrer">GitHub Repo</a></td><td>Best for tracking on HPC clusters</td></tr>
 <tr><td><strong>Powermeter</strong></td><td>GPU-level (Nvidia-only)</td><td>Nvidia GPUs</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Free</td><td><em>(GitHub repo not well maintained)</em></td><td>Focused purely on Nvidia GPU tracking</td></tr>
-<tr><td><strong>PyJoules</strong></td><td>Machine-level monitoring</td><td>Linux-only (no MacOS support)</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>MIT License (Free)</td><td><a href="https://github.com/powerapi-ng/pyJoules">GitHub Repo</a></td><td>Good for system-wide tracking</td></tr>
+<tr><td><strong>PyJoules</strong></td><td>Machine-level monitoring</td><td>Linux-only (no MacOS support)</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>MIT License (Free)</td><td><a href="https://github.com/powerapi-ng/pyJoules" target="_blank" rel="noopener noreferrer">GitHub Repo</a></td><td>Good for system-wide tracking</td></tr>
 <tr><td><strong>Tracarbon</strong></td><td>Device-level CPU/GPU + region-based emission</td><td>Mac, Linux, AWS</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Apache 2.0 (Free)</td><td><em>(GitHub repo available, active dev.)</em></td><td>Good for Mac &amp; AWS</td></tr>
 <tr><td><strong>Zeus</strong></td><td>Function-level measurement + optimization</td><td>Not specified</td><td>Requires code instrumentation</td><td>Python package</td><td>❌ No real-time (post-run results)</td><td>Apache 2.0 (Free)</td><td><em>(GitHub repo available)</em></td><td>Offers additional energy optimizations</td></tr>
 </tbody></table>
@@ -290,10 +290,10 @@ energy consumption and carbon footprint in machine learning workloads.</p>
 carbon impact of AI using , while making their models more efficient and cost-effective.</p>
 <h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <ol>
-<li><a href="https://www.intel.com/content/www/us/en/developer/articles/technical/power-management-states-and-rapl.html">Intel RAPL Documentation</a></li>
-<li><a href="https://docs.nvidia.com/deploy/nvml-api/">NVIDIA NVML Library</a></li>
-<li><a href="https://ember-climate.org/data/">Ember Data on Grid Emissions</a></li>
-<li><a href="https://github.com/mlco2/codecarbon">CodeCarbon GitHub Repository</a></li>
+<li><a href="https://www.intel.com/content/www/us/en/developer/articles/technical/power-management-states-and-rapl.html" target="_blank" rel="noopener noreferrer">Intel RAPL Documentation</a></li>
+<li><a href="https://docs.nvidia.com/deploy/nvml-api/" target="_blank" rel="noopener noreferrer">NVIDIA NVML Library</a></li>
+<li><a href="https://ember-climate.org/data/" target="_blank" rel="noopener noreferrer">Ember Data on Grid Emissions</a></li>
+<li><a href="https://github.com/mlco2/codecarbon" target="_blank" rel="noopener noreferrer">CodeCarbon GitHub Repository</a></li>
 </ol>
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
