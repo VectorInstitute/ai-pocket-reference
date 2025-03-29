@@ -37,8 +37,20 @@ jobs:
           (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "0.4.44" mdbook)
           (test -x $HOME/.cargo/bin/mdbook-ai-pocket-reference ||cargo install mdbook-ai-pocket-reference)
           (test -x $HOME/.cargo/bin/mdbook-github-authors || cargo install mdbook-github-authors)
-          (test -x $HOME/.cargo/bin/cargo-update || cargo install cargo-update)
-          cargo install-update mdbook-ai-pocket-reference mdbook-github-authors
+
+      - name: Update preprocessors if necessary
+        run: |
+          LATEST_AIPR=$(cargo search mdbook-ai-pocket-reference | grep -o "mdbook-ai-pocket-reference = \"[0-9.]*\"" | cut -d'"' -f2)
+          CURRENT_AIPR=$($HOME/.cargo/bin/mdbook-ai-pocket-reference --version | grep -o "[0-9.]*")
+          if [ "$CURRENT_AIPR" != "$LATEST_AIPR" ]; then
+            cargo install mdbook-ai-pocket-reference
+          fi
+
+          LATEST_GH=$(cargo search mdbook-github-authors | grep -o "mdbook-github-authors = \"[0-9.]*\"" | cut -d'"' -f2)
+          CURRENT_GH=$($HOME/.cargo/bin/mdbook-github-authors --version | grep -o "[0-9.]*")
+          if [ "$CURRENT_GH" != "$LATEST_GH" ]; then
+            cargo install mdbook-github-authors
+          fi
 
       - name: Build books
         run: |
