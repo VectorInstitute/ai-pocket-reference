@@ -42,4 +42,5 @@ repos:
           "--skip=*/algolia.js",
           "--ignore-words-list",
           "rouge",
+          "crate"
         ]
