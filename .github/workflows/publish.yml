@@ -38,6 +38,12 @@ jobs:
           (test -x $HOME/.cargo/bin/mdbook-ai-pocket-reference ||cargo install mdbook-ai-pocket-reference)
           (test -x $HOME/.cargo/bin/mdbook-github-authors || cargo install mdbook-github-authors)
 
+      - name: Install cargo-update
+        run: cargo install cargo-update
+
+      - name: Update mdbook plugins if needed
+        run: cargo install-update mdbook-ai-pocket-reference mdbook-github-authors
+
       - name: Build books
         run: |
           mdbook build books/nlp

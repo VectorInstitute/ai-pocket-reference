@@ -187,6 +187,22 @@ We use several mdBook preprocessors to enhance our pocket references:
 - [mdbook-github-authors](https://github.com/VectorInstitute/mdbook-github-authors)
   — for listing Contributors of a pocket reference
 
+### Updating mdBook Preprocessors
+
+To update our preprocessors, we make use of the `cargo-update` crate. To install
+it use the command below:
+
+```sh
+cargo install cargo-update
+```
+
+After installation, you can run the command below to update our preprocessors
+when needed:
+
+```sh
+cargo install-update mdbook-ai-pocket-reference mdbook-github-authors
+```
+
 ### Adding the AI Pocket Reference Header
 
 To add the default header to your pocket reference, you can need to use the
