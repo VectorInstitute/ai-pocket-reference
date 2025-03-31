@@ -8,6 +8,12 @@
 
 <!-- Main Body -->
 
+## Intro and Motivation for RLHF
+
+## How Perform RLHF
+
+## Limitations
+
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
 1. [_Raschka, Sebastian. "LLM Training: RLHF and Its Alternatives." Sebastian
