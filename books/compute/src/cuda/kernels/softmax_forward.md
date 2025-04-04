@@ -33,6 +33,14 @@ Softmax is applied along the vocabulary dimension $V$. For benchmarking purposes
 - $T = 1024$
 - $V = 50257$ (Vocabulary size for GPT-2 and GPT-3)
 
+We use the above configuration on an NVIDIA T4 GPU with a block size of 512:
+
+| Kernel   | Execution Time (ms) | Improvement (%) |
+|----------|---------------------|-----------------|
+| Kernel 1 | 162.3272            | 0.0%            |
+| Kernel 2 | 48.6429             | 70.0%           |
+| Kernel 4 | 50.7793             | 68.7%           |
+
 ## Kernel 1
 
 Kernel 1 is a naive port from CPU code. It parallelizes over $B$ and $T$, where each thread independently computes one segment corresponding to the vocabulary dimension $V$. Therefore, each thread iterates sequentially over all elements in its assigned vocabulary segment.The kernel logic for each row ($i$) is executed in the following steps:
