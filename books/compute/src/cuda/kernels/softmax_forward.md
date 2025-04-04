@@ -41,6 +41,8 @@ We use the above configuration on an NVIDIA T4 GPU with a block size of 512:
 | Kernel 2 | 48.6429             | 70.0%           |
 | Kernel 4 | 50.7793             | 68.7%           |
 
+<img width="600" alt="mem_v_blk" src="https://github.com/user-attachments/assets/91836c75-3f5e-4f49-a873-7972cfee9630">
+
 ## Kernel 1
 
 Kernel 1 is a naive port from CPU code. It parallelizes over $B$ and $T$, where each thread independently computes one segment corresponding to the vocabulary dimension $V$. Therefore, each thread iterates sequentially over all elements in its assigned vocabulary segment.The kernel logic for each row ($i$) is executed in the following steps:
@@ -62,6 +64,8 @@ $$
 $$
 y_i = \frac{e^{x_i - x_{\text{max}}}}{expSum}
 $$
+
+<img width="600" src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/layernorm_kernel/layernorm_kernel1.svg" alt="layernorm_kernel1"> <!-- markdownlint-disable-line MD013 -->
 
 This kernel uses a straightforward 1D grid and block structure to map threads to segments in the  $B * T$ space. Here is the CUDA code for kernel 1
 
@@ -111,6 +115,8 @@ Kernel 2 is a fused kernel that parallelizes across all 3 dimensions of $B$, $T$
   * Instead of one thread computing just one element, each thread computes multiple elements, better utilizing memory bandwidth.
 * **Parallel reduction** for both max and sum calculations.
   * Efficiently computes scalar reductions by parallelizing operations within each CUDA block, significantly reducing computational overhead and latency.
+ 
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/layernorm_kernel/layernorm_kernel2.svg" alt="layernorm_kernel2"> <!-- markdownlint-disable-line MD013 -->
 
 Kernel 2 can be broken down into the following steps:
 
@@ -247,6 +253,8 @@ __global__ void softmax_forward_kernel2(float* out, const float* inp, int N, int
     }
 }
 ```
+
+
 
 <!-- Contributors -->
 
