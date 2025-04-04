@@ -33,16 +33,6 @@ Softmax is applied along the vocabulary dimension $V$. For benchmarking purposes
 - $T = 1024$
 - $V = 50257$ (Vocabulary size for GPT-2 and GPT-3)
 
-We use the above configuration on an NVIDIA T4 GPU with a block size of 512:
-
-| Kernel   | Execution Time (ms) | Improvement (%) |
-|----------|---------------------|-----------------|
-| Kernel 1 | 162.3272            | 0.0%            |
-| Kernel 2 | 48.6429             | 70.0%           |
-| Kernel 4 | 50.7793             | 68.7%           |
-
-<img width="600" alt="mem_v_blk" src="https://github.com/user-attachments/assets/91836c75-3f5e-4f49-a873-7972cfee9630">
-
 ## Kernel 1
 
 Kernel 1 is a naive port from CPU code. It parallelizes over $B$ and $T$, where each thread independently computes one segment corresponding to the vocabulary dimension $V$. Therefore, each thread iterates sequentially over all elements in its assigned vocabulary segment.The kernel logic for each row ($i$) is executed in the following steps:
@@ -253,6 +243,31 @@ __global__ void softmax_forward_kernel2(float* out, const float* inp, int N, int
     }
 }
 ```
+
+## Benchmarks
+
+We use the above configuration on an NVIDIA T4 GPU with a block size of 512:
+
+| Kernel   | Execution Time (ms) | Improvement (%) |
+|----------|---------------------|-----------------|
+| Kernel 1 | 162.3272            | -            |
+| Kernel 2 | 48.6429             | 70.0%           |
+| Kernel 4 | 50.7793             | 68.7%           |
+
+<img width="600" alt="mem_v_blk" src="https://github.com/user-attachments/assets/91836c75-3f5e-4f49-a873-7972cfee9630">
+
+A40 benchmarks with the same block size:
+
+| Kernel   | Execution Time (ms) | Improvement (%) |
+|----------|---------------------|-----------------|
+| Kernel 1 | 89.3141             | -               |
+| Kernel 2 | 25.3547             | 71.6%           |
+| Kernel 4 | 24.5903             | 72.5%           |
+
+<img width="600" alt="mem_v_blk_a40" src="https://github.com/user-attachments/assets/3d41c604-1ea8-4a45-8780-3dd5b5fff846">
+
+<img width="600" alt="t4_v_a40" src="https://github.com/user-attachments/assets/73bbaae2-33a8-4ab0-99b1-82c52ff29c82">
+
 
 
 
