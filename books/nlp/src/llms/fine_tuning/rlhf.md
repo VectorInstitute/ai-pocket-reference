@@ -24,9 +24,24 @@ is to adjust the LLM so that it responds in the preferred manner. Preference can
 range in more serious forms such as less toxic or harmful as well as less more playful
 in the sense of certain styles as well as verbosity and tone.
 
-## Alignment with RLHF
+One of the more well-known methods for alignment fine-tuning is called Reinforcement
+Learning with Human Feedback (RLHF), which is the main topic for this pocket reference.
+In the next sections, we provide a brief overview of what RLHF involves and its limitations.
 
-### Steps for alignment
+## Reinforcement Learning for Alignment of LLMs
+
+We already know that (decoder-style) LLMs can perform text generation (which can
+be re-purposed or targeted to solve a wide range of tasks). The next question, whose
+answer may not be so obvious is how can we one use methods from reinforcement learning
+to align these LLMs?
+
+### A brief primer on reinforcement learning
+
+- environments: states, actions, rewards
+- policies
+- PPO
+
+### Steps to perform RLHF
 
 ## Limitations
 
