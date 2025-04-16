@@ -30,23 +30,41 @@ In the next sections, we provide a brief overview of what RLHF involves and its 
 
 ## Reinforcement Learning for Alignment of LLMs
 
-We already know that (decoder-style) LLMs can perform text generation (which can
-be re-purposed or targeted to solve a wide range of tasks). The next question, whose
-answer may not be so obvious is how can we one use methods from reinforcement learning
-to align these LLMs?
+Just how reinforcement learning techniques apply to LLMs may not be immediately
+apparent. In this section, we clarify specifically how these techniques can be
+leveraged for alignment fine-tuning of LLMs.
 
 ### A brief primer on reinforcement learning
 
-- environments: states, actions, rewards
-- policies
-- PPO
+In reinforcement learning, there is an environment and a so-called agent which
+interacts with it. The agent observes the current state of the environment, takes
+an action, which then alters the environment's state and produces a quantifiable
+reward for the agent. The main objective of reinforcement learning is to optimize
+these rewards by learning an optimal policy—a strategy for taking actions based
+on the current environmental state.
+
+Methods for finding the optimal policy depend on certain parameters of the reinforcement
+learning problem, such as whether or not the state space and action spaces are finite.
+
+#### Policy Gradient Methods
+
+For LLM alignment fine-tuning, we make use of a branch of reinforcement learning
+techniques called _Policy Gradient Methods_ which approximates the optimal policy
+by first representing it as a smooth parametric function from the state space to
+the action space.
+
+#### Proximal Policy Optimization (PPO)
 
 ### Steps to perform RLHF
+
+- (pre-step) instruction
 
 ## Limitations
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
+1. [_Barto, Andrew G. "Reinforcement learning: An introduction. by richard’s sutton."
+   SIAM Rev 6.2 (2021): 423._](http://www.incompleteideas.net/book/the-book.html)
 1. [_Raschka, Sebastian. "LLM Training: RLHF and Its Alternatives." Sebastian
    Raschka's Magazine, accessed 8 Mar. 2025,
    magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives._](https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives)
