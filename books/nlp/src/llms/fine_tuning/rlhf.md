@@ -57,9 +57,24 @@ the action space.
 
 ### Steps to perform RLHF
 
-- (pre-step) instruction
+Performing RLHF on an LLM involves the following two high-level steps:
+
+1. **Building a reward model**
+2. **Fine-tuning the LLM using PPO**
+
+#### Building a reward model
+
+- Still an LLM
+- Change prediction head to a classification head
+- [Bradley-Terry model] Predict which of two generated responses preferred by human
+
+#### Fine-tuning the LLM using PPO
 
 ## Limitations
+
+## Alternatives
+
+### DPO
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
@@ -68,9 +83,11 @@ the action space.
 1. [_Raschka, Sebastian. "LLM Training: RLHF and Its Alternatives." Sebastian
    Raschka's Magazine, accessed 8 Mar. 2025,
    magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives._](https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives)
-1. [_Raschka, Sebastian. "LLM Topics: Tips for LLM Pretraining and Evaluating RMS Norm."
+1. [_Raschka, Sebastian. "Tips for LLM Pretraining and Evaluating Reward Models"
    Sebastian Raschka's Magazine, accessed 8 Mar. 2025,
-   magazine.sebastianraschka.com/p/tips-for-llm-pretraining-and-evaluating-rms._](https://magazine.sebastianraschka.com/p/tips-for-llm-pretraining-and-evaluating-rms?open=false#%C2%A7rlhf-vs-direct-preference-optimization-dpo)
+   magazine.sebastianraschka.com/p/tips-for-llm-pretraining-and-evaluating-rms._](https://magazine.sebastianraschka.com/p/tips-for-llm-pretraining-and-evaluating-rms)
+1. [_Lambert, Nathan, et al. "Rewardbench: Evaluating reward models for language
+   modeling." arXiv preprint arXiv:2403.13787 (2024)._](https://arxiv.org/abs/2403.13787)
 
 <!-- Contributions -->
 
