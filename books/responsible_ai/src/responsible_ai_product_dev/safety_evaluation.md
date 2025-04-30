@@ -148,17 +148,28 @@ align with human values and societal expectations.
 
 [^safety-eval-def]: Adapted from:
 
-- Amodei, D. et al. (2016). *Concrete Problems in AI Safety*. [arXiv:1606.06565](https://arxiv.org/abs/1606.06565)
-- Bai, Y. et al. (2022). *Constitutional AI: Harmlessness from AI Feedback*. [arXiv:2212.08073](https://arxiv.org/abs/2212.08073)
-- National Institute of Standards and Technology (2023).
-*AI Risk Management Framework 1.0*. [NIST.gov](https://www.nist.gov/itl/ai-risk-management-framework)
-- Li, X. et al. (2022). *Holistic Evaluation of Language Models (HELM)*. [HELM Report](https://crfm.stanford.edu/helm/)
+- Amodei, D. et al. (2016). <a href="https://arxiv.org/abs/1606.06565"
+target="_blank" rel="noopener noreferrer">*Concrete Problems in AI Safety*</a>
+- Bai, Y. et al. (2022). <a href="https://arxiv.org/abs/2212.08073"
+target="_blank" rel="noopener noreferrer">*Constitutional AI:
+Harmlessness from AI Feedback*</a>
+- National Institute of Standards and Technology (2023). <a href="https://www.nist.gov/itl/ai-risk-management-framework"
+target="_blank" rel="noopener noreferrer">*AI Risk Management Framework 1.0*</a>
+- Li, X. et al. (2022). <a href="https://crfm.stanford.edu/helm/"
+target="_blank" rel="noopener noreferrer">*Holistic Evaluation
+of Language Models (HELM)*</a>
 
-[^1]: Gehman et al. (2020). [REALToxicityPrompts](https://arxiv.org/abs/2009.11462) – Realistic prompts for evaluating unsafe LMs.
-[^2]: Hartvigsen et al. (2022). [ToxiGen](https://aclanthology.org/2022.naacl-main.148/) – Generating and detecting hate speech in multiple languages.
-[^3]: Li et al. (2022). [HELM](https://crfm.stanford.edu/helm/) – Stanford’s Holistic Evaluation of Language Models.
-[^4]: Microsoft Responsible AI Resources. [RAI Toolbox](https://github.com/microsoft/responsible-ai-toolbox).
-[^5]: Bai et al. (2022). [Constitutional AI](https://arxiv.org/abs/2212.08073) – Training helpful and harmless AI via self-critiquing and red-teaming.
-[^6]: Vector Institute (2024). [Safety Evaluation Leaderboard](https://huggingface.co/spaces/vector-institute/eval-leaderboard) – Open safety benchmarking platform for LLMs.
+[^1]: Gehman et al. (2020). <a href="https://arxiv.org/abs/2009.11462"
+target="_blank" rel="noopener noreferrer">*REALToxicityPrompts*</a> – Realistic prompts for evaluating unsafe LMs.
+[^2]: Hartvigsen et al. (2022). <a href="https://arxiv.org/abs/2203.09509"
+target="_blank" rel="noopener noreferrer">*ToxiGen*</a> – Generating and detecting hate speech in multiple languages.
+[^3]: Li et al. (2022). <a href="https://crfm.stanford.edu/helm/"
+target="_blank" rel="noopener noreferrer">*HELM*</a> – Stanford’s Holistic Evaluation of Language Models.
+[^4]: Microsoft Responsible AI Resources. <a href="https://github.com/microsoft/responsible-ai-toolbox"
+target="_blank" rel="noopener noreferrer">*RAI Toolbox*</a>.
+[^5]: Bai et al. (2022). <a href="https://arxiv.org/abs/2212.08073"
+target="_blank" rel="noopener noreferrer">*Constitutional AI*</a> – Training helpful and harmless AI via self-critiquing and red-teaming.
+[^6]: Vector Institute (2024). <a href="https://huggingface.co/spaces/vector-institute/eval-leaderboard"
+target="_blank" rel="noopener noreferrer">*Safety Evaluation Leaderboard*</a> – Open safety benchmarking platform for LLMs.
 
 {{ #author viky397 }}

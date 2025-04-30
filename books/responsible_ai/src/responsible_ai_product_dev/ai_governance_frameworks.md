@@ -113,9 +113,9 @@ just for regulatory compliance, but for building systems that are safe,
 Hadfield, G., ... & Dafoe, A. (2020). *Toward Trustworthy AI
 Development: Mechanisms for Supporting Verifiable Claims*. arXiv preprint
 <a href="https://arxiv.org/abs/2004.07213" target="_blank"
-rel="noopener noreferrer">arXiv:2004.07213</a>.
+rel="noopener noreferrer">arXiv:2004.07213</a>
 
-[^2]: <a href="www.nist.gov/itl/ai-risk-management-framework"
+[^2]: <a href="https://www.nist.gov/itl/ai-risk-management-framework"
 target="_blank" rel="noopener noreferrer">NIST AI Risk Management Framework</a>
 
 [^3]:  <a href="https://artificialintelligenceact.eu/" target="_blank"
