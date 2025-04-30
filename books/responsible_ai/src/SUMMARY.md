@@ -39,9 +39,9 @@
 
 # Responsible AI Product Development
 
-- [Introduction]() (./responsible_ai_product_dev/README.md)
+- [Introduction](./responsible_ai_product_dev/README.md)
   - [AI Governance Frameworks & Risk Management](./responsible_ai_product_dev/ai_governance_frameworks.md)
-  - [Safety Evaluation of AI Models]() <!-- (./responsible_ai_product_dev/safety_evaluation.md) -->
+  - [Safety Evaluation of AI Models](./responsible_ai_product_dev/safety_evaluation.md)
   - [Explainability & Interpretability]() <!-- (./responsible_ai_product_dev/explainability_and_interpretability.md) -->
   - [Human-in-the-Loop Systems]() <!-- (./responsible_ai_product_dev/human_in_the_loop.md) -->
   - [Ethical AI Policy & Compliance]() <!-- (./responsible_ai_product_dev/ethical_ai_policy_and_compliance.md) -->
