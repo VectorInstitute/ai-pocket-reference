@@ -1,4 +1,4 @@
-<!-- markdownlint-disable-file MD033 MD013 -->
+<!-- markdownlint-disable-file MD033 MD013, MD053 -->
 
 # Foundational FL Techniques
 
@@ -37,8 +37,9 @@ above, as \\(d\\).
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
-1. H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
-   Communication-efficient learning of deep networks from decentralized data.
-   Proceedings of the 20th AISTATS, 2017.
+[^1]:
+    H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
+    Communication-efficient learning of deep networks from decentralized data.
+    Proceedings of the 20th AISTATS, 2017.
 
 {{#author emersodb}}

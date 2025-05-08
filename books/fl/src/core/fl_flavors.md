@@ -6,22 +6,22 @@
 
 Machine-learning (ML) models are most commonly trained on a centralized pool of
 data, meaning that all training data is accessible to a single training
-process. Federate Learning (FL) is used to train ML models on decentralized
+process. Federated learning (FL) is used to train ML models on decentralized
 data, such that data is compartmentalized. The sites at which the data is held
 and trained are typically referred to as clients. Training data is most often
 decentralized when it cannot or should not be moved from its location. This
 might be the case for various reasons, including privacy regulations, security
 concerns, or resource constraints. Many industries are subject to strict
 privacy laws, compliance requirements, or data handling requirements, among
-other important considerations. As such data centralization is often
+other important considerations. As such, data centralization is often
 infeasible or ill-advised. On the other hand, it is well known that access to
 larger quantities of representative training data often leads to better ML
-models<sup>1</sup>. As such, in spite of the potential challenges associated
+models.[^1] Thus, in spite of the potential challenges associated
 with decentralized training, there is significant incentive to facilitate
 distributed model training.
 
 There are many different flavors of FL. Covering the full set of variations is
-beyond the scope of these reference. However, this reference will cover a few
+beyond the scope of these references. However, this reference will cover a few
 of the major types considered in practice.
 
 <center>
@@ -42,8 +42,8 @@ set of features and targets. That is, across the distributed datasets, each
 training point has the same set of features with the same set of
 interpretations, pre-processing steps, and ranges of potential values, for
 example. The goal in Horizontal FL is to facilitate access to
-**additional data points** during the training of a model. For more details see
-[Horizontal FL](../horizontal//README.md).
+**additional data points** during the training of a model. For more details, see
+[Horizontal FL](../horizontal/index.md).
 
 <figure>
 <center>
@@ -68,7 +68,7 @@ that, when combined, might improve prediction performance.
 <figure>
 <center>
 <img src="../assets/vertical_fl.png" alt="Vertical FL", width="500">
-<figcaption>Data "generators" are shared between clients with unique features.</figcaption>
+<figcaption>"Data generators" are shared between clients with unique features.</figcaption>
 </center>
 </figure>
 
@@ -78,9 +78,9 @@ considered in training. In most cases, the datasets are ordered to ensure that
 disparate features are meaningfully aligned by the underlying generator.
 Depending on the properties of the datasets, fewer individual data points may
 be available for training, but hopefully they have been enriched with
-additional important features. For more details see [Vertical FL](../vertical/README.md).
+additional important features. For more details, see [Vertical FL](../vertical/index.md).
 
-## Cross Device Vs. Cross Silo FL
+## Cross-Device Vs. Cross-Silo FL
 
 An important distinction between standard ML training and decentralized model
 training is the presence of multiple, and potentially diverse, compute
@@ -112,15 +112,15 @@ Knowing which category of FL one is operating in helps inform design decisions
 and FL component choices. For example, the model being trained may need to be
 below a certain size or the memory/compute needs of an FL technique might be
 prohibitive. A good example of the latter is [Ditto](../horizontal/personalized/ditto.md),
-which requires large compute resources than many other methods.
+which requires larger compute resources than many other methods.
 
 ## One Model or a Model Zoo
 
-The final distinction that is highlight here is whether the model architecture
+The final distinction that is highlighted here is whether the model architecture
 to be trained is the same (homogeneous) across disparate sites or if it differs
 (heterogeneous). In many settings, the goal is to train a homogeneous model
 architecture across FL participants. In the context of Horizontal FL, this
-implies that client has an identical copy of the architecture with shared
+implies that each client has an identical copy of the architecture with shared
 feature and label dimensions, as in the figure below.
 
 <figure>
@@ -131,7 +131,7 @@ feature and label dimensions, as in the figure below.
 </figure>
 
 Alternatively, there are FL techniques which aim to federally train collections
-of heterogeneous architectures across clients.<sup>2</sup> That is, each
+of heterogeneous architectures across clients.[^2] That is, each
 participant in the FL system might be training a **different** model
 architecture. Such a setting may arise, for example, if participants would
 like to benefit from the expanded training data pool offered through Horizontal
@@ -153,9 +153,12 @@ each of the different flavors of FL discussed above.
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
-1. C. Sun, A. Shrivastava, S. Singh, and A. Gupta. Revisiting unreasonable
-   effectiveness of data in deep learning era. In ICCV 2017, pages 843–852, 2017. doi: 10.1109/ICCV.2017.97.
-2. Ye, M.; et al. 2023. Heterogeneous Federated Learning: State-of-the-art and Research Challenges. CoRR,
-   abs/2307.10616:1
+[^1]:
+    C. Sun, A. Shrivastava, S. Singh, and A. Gupta. Revisiting unreasonable
+    effectiveness of data in deep learning era. In ICCV 2017, pages 843–852, 2017. doi: 10.1109/ICCV.2017.97.
+
+[^2]:
+    Ye, M.; et al. 2023. Heterogeneous Federated Learning: State-of-the-art and Research Challenges. CoRR,
+    abs/2307.10616:1
 
 {{#author emersodb}}

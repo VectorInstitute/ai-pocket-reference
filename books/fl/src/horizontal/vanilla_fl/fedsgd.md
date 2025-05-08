@@ -1,14 +1,14 @@
 <!-- markdownlint-disable-file MD033 MD013 -->
 
-# FedSGD<sup>1</sup>
+# FedSGD
 
 {{ #aipr_header }}
 
-Given the Horizontal FL setup, the general idea of FedSGD is fairly
-straightforwards
+Given the Horizontal FL setup, the general idea of FedSGD[^1] is fairly
+straightforward.
 
 1. During each server round, participating clients compute a gradient based on
-   the loss function, using to the current model weights, \\(\\mathbf{w}\\),
+   their local loss function, using the current model weights, \\(\\mathbf{w}\\),
    applied to their local dataset. These gradients are sent to the server.
 2. The server uses the client gradients to update the weights of a model.
 3. The server sends the updated model weights back to the clients, who proceed
@@ -17,8 +17,10 @@ straightforwards
 ## The math
 
 Leveraging the notation set out in the previous section
-([Foundational FL Techniques](README.md)), denote by \\(P_k\\) be the indices
-of samples from client \\(k\\) and denote \\(n_k = \\vert P_k \\vert\\).
+([Foundational FL Techniques](index.md)), denote by \\(P_k\\) the indices
+of samples from client \\(k\\) in the total dataset \\(D\\), and denote
+\\(n_k = \\vert P_k \\vert\\). Then we can write the loss over the entire
+dataset as
 
 $$
 \begin{align*}
@@ -51,7 +53,7 @@ L\_k(\\mathbf{w_t}) = \\frac{1}{n_k} \\sum\_{i \\in P_k} \\ell\_i(\\mathbf{w_t})
 $$
 
 Note that \\(L_k(\\mathbf{w}\_t)\\) is simply the local loss for client \\(k\\) across all
-data points in its dataset \\(D_k\\). Then
+data points in its dataset, \\(D_k\\). Then
 
 $$
 \begin{align*}
@@ -67,11 +69,11 @@ As the gradient is a linear operator, the gradient of the global loss is
 
 $$
 \begin{align*}
-\\nabla \\ell_t(\\mathbf{w}\_t) = \\sum\_{k \\in C_t} \\frac{n_k}{n_s} \nabla L_k(\\mathbf{w}_t),
+\\nabla \\ell_t(\\mathbf{w}\_t) = \\sum\_{k \\in C_t} \\frac{n_k}{n_s} \nabla L_k(\\mathbf{w}_t).
 \end{align*}
 $$
 
-implying that model weights \\(\mathbf{w}\_t\\) are updated
+This implies that model weights \\(\mathbf{w}\_t\\) are updated as
 
 $$
 \begin{align}
@@ -95,9 +97,9 @@ $$
 \end{align*}
 $$
 
-where \\(\\ell_t\\) denoted the loss function over all data in each of the
+where \\(\\ell_t\\) denotes the loss function over all data in each of the
 clients in \\(C_t\\). As such, FedSGD, in spite of leveraging gradients
-computed in a distributed fashion on each individual client, is the same as
+computed in a distributed fashion on each individual client, is equivalent to
 performing centralized batch SGD, where the batch is of size
 \\(n_s = \\displaystyle{\\sum\_{k \\in C_t} n_k}\\).
 
@@ -106,13 +108,13 @@ standard batch SGD is directly applicable to the FedSGD procedure.
 
 ## The algorithm
 
-We are now in a position to fill in the details of the Horizontal FL algorithm
-presenting in [Horizontal Federated Learning](../README.md). The full workflow
+We are now in a position to fill in the details of the general Horizontal FL algorithm
+presented in [Horizontal Federated Learning](../index.md). The full workflow
 of FedSGD is summarized in the algorithm below. Inputs are \\(N\\),
 the number of clients, \\(T\\), the number of server rounds to perform,
 \\(\\eta\\) the learning rate, and \\(\\mathbf{w}\\), the initial weights for
 the model to be trained. After the final server round is complete, each
-client receives the final model as described by the weights \\(\mathbf{w}_T\\).
+client receives the final model as described by the weights \\(\mathbf{w}\_T\\).
 
 <figure>
 <center>
@@ -125,8 +127,8 @@ client receives the final model as described by the weights \\(\mathbf{w}_T\\).
 The FedSGD algorithm has several benefits, including the mathematical
 equivalence discussed above. However, it has at least one significant drawback.
 Communication between the clients and server occurs for every SGD step. That
-is, for each model update, there clients are required to communicate their
-gradients and the server must send updated model weights back. In most settings,
+is, for each model update, participating clients are required to communicate their
+gradients, and the server must send updated model weights back. In most settings,
 latency associated with communication between clients and servers will be
 significantly higher than that of computing the local gradients or performing
 the weight updates. As such communication overhead become a significant
@@ -135,8 +137,9 @@ driving motivation behind the FedAvg approach.
 
 #### References & Useful Links
 
-1. H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
-   Communication-efficient learning of deep networks from decentralized data.
-   Proceedings of the 20th AISTATS, 2017.
+[^1]:
+    H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
+    Communication-efficient learning of deep networks from decentralized data.
+    Proceedings of the 20th AISTATS, 2017.
 
 {{#author emersodb}}

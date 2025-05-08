@@ -9,7 +9,7 @@ behavior, coordinating communication, facilitating information exchange, and
 synchronizing training results across clients participating in the FL system.
 In many settings, for example, the server is responsible for
 
-1. Selecting clients to participate in federate training.
+1. Selecting clients to participate in federated training.
 2. Gathering the results of their local training processes.
 3. Combining these results into a single result for further federated training.
 4. Requesting model evaluations.
@@ -25,9 +25,9 @@ methods should play a part in any system design choices.
 
 The figure below provides a simple illustrative example of one role that a
 server typically plays in a Horizontal FL system. That is, after each client
-has trained a model on their local training data. They send the model weights
-to the server to be combined, in some way, into a single new set of weights
-and sent back to the clients.
+has trained a model on their local training data, they send the model weights
+to the server to be combined, in some way, into a single new set of weights,
+which are sent back to the clients for further training.
 
 <figure>
 <center>
@@ -40,10 +40,11 @@ A fundamental tenant of FL is that raw data never leaves the local
 repositories of each client. As such, FL servers never receive raw training
 data from participating clients. However, the exchange of information is not
 necessarily restricted to model weights. For example, in adaptive forms of
-FedProx<sup>1</sup>, the server is responsible for adjusting the proximal loss
-weight used in client training in response to a global view of the loss
-landscape across participating clients. This requires transmitting such
-adjustments to the clients at the appropriate times.
+[FedProx](../horizontal/robust_global_fl/fedprox.md),[^1] the server is
+responsible for adjusting the proximal loss weight used in client training in
+response to a global view of the loss landscape across participating clients.
+This requires transmitting such adjustments to the clients at the appropriate
+times.
 
 In subsequent chapters, the exact role that the server plays in various forms
 of FL will be discussed in detail. In each setting, the compute burden of the
@@ -56,9 +57,10 @@ responsibility may rotate between clients.
 
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
-1. T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith.
-   Federated optimization in heterogeneous networks. In I. Dhillon,
-   D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and
-   Systems, volume 2, pages 429–450, 2020.
+[^1]:
+    T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith.
+    Federated optimization in heterogeneous networks. In I. Dhillon,
+    D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and
+    Systems, volume 2, pages 429–450, 2020.
 
 {{#author emersodb}}

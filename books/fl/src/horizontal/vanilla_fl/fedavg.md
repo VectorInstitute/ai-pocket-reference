@@ -1,17 +1,17 @@
 <!-- markdownlint-disable-file MD033 MD013 -->
 
-# FedAvg<sup>1</sup>
+# FedAvg
 
 {{ #aipr_header }}
 
-The FedAvg algorithm builds on the same principles of FedSGD, but aims to
+The FedAvg algorithm[^1] builds on the same principles of FedSGD, but aims to
 reduce the communication costs incurred by the [FedSGD](fedsgd.md`) approach.
 Recall that the major shortcoming of FedSGD was that it required clients to
 send local gradients for every training step in order to perform model updates.
 The FedAvg algorithm attempts to reduce this overhead by pushing additional
 computation onto the clients.
 
-## The Math
+## The math
 
 Assume a fixed learning rate of \\(\eta > 0\\), and denote
 
@@ -25,7 +25,7 @@ Note that \\(\\mathbf{w}\_t - \\eta \\nabla L_k(\\mathbf{w}\_t)\\) is just a
 local (full) gradient step on client \\(k\\). That is,
 \\(\\nabla L_k(\\mathbf{w}\_t)\\) is the gradient with respect to all training
 data on client \\(k\\). So the weights \\(\\mathbf{w}\_{t+1}^k\\) represent
-a new model using the data of client \\(k\\) to update the weights
+a new model using only the data of client \\(k\\) to update the weights,
 \\(\\mathbf{w}\_t\\). Then we can rewrite the server update in FedSGD in terms
 of \\(\\mathbf{w}\_{t+1}^k\\) with a little algebra as
 
@@ -37,17 +37,17 @@ $$
 \end{align}
 $$
 
-The final line of of Equation (2) implies that the updated weights
-\\(\\mathbf{w}\_{t+1}\\) in FedSGD can be written as the linearly weighted
+The final line of Equation (2) implies that the updated weights,
+\\(\\mathbf{w}\_{t+1}\\), in FedSGD can be rewritten as the linearly weighted
 average of **local** weight updates performed by the clients themselves. That
 is, \\(\\mathbf{w}\_{t+1}\\) is just a weighted average of locally updated
-weights, where the weights are the proportion of data points (\\(n_k\\)) on
-each client relative the the size of all data points used to compute the
+weights, where the weights are the proportion of data points on
+each client (\\(n_k\\)) relative the the size of all data points used to compute the
 update (\\(n_s\\)).
 
 With this in hand, we can push responsibility for updating model weights onto
 the clients participating in a round of FL training. Only model weights are
-communicated back and forth and the server need only average the locally
+communicated back and forth, and the server need only average the locally
 updated weights to obtain the new model. This procedure remains mathematically
 equivalent to centralized large batch SGD, as is the case for FedSGD. The bad
 news is that we haven't saved any communication yet. This still relies on
@@ -68,13 +68,13 @@ $$
 
 This allows for each client to perform multiple local batch SGD updates to
 the model weights. As in standard ML training, these updates can be performed
-for a certain number epochs through each client's local data. Only after
-completing such updates are the updated weights communicated to the server for
+for a certain number epochs, iterating through each client's local data. Only after
+completing such iterations are the updated weights communicated to the server for
 aggregation using the same formula in Equation (2) on the server side. In this
 manner, we have decoupled model updates from communication with the server and
 are free to communicate as frequently or infrequently as we choose.
 
-## The Algorithm
+## The algorithm
 
 With the new approach proposed in the previous section, the full FedAvg
 algorithm may be summarized in the algorithm below. Inputs to the algorithm
@@ -99,8 +99,8 @@ model as described by the weights \\(\mathbf{w}\_T\\).
 Note that, in the algorithm above, the local updates are performed with
 standard batch SGD. There is nothing stopping us from using a different
 training procedure on the client side. For example, one might instead perform
-such updates using an AdamW optimizer<sup>2</sup>. As with standard ML
-training, the best optimizers is problem dependent.
+such updates using an AdamW optimizer.[^2] As with standard ML
+training, the type of optimizer that works best is problem dependent.
 
 ### A broken equivalence can have consequences
 
@@ -114,18 +114,22 @@ mathematical equivalence to global large-batch SGD enjoyed by FedSGD.
 
 When the training data spread across clients is identically and independently
 distributed (i.e. drawn independently from the same distribution), this loss
-of equivalence is generally of less importance. On the other hand, when
-client data distributions become more heterogeneous the lack of true
+of equivalence is generally less consequential. On the other hand, when
+client data distributions become more heterogeneous, the lack of true
 equivalence materially impacts the convergence properties of FedAvg and can
 lead to suboptimal performance. As such, many approaches have since been
-proposed to improve upon FedAvg while maintaining its desirable qualities like
+proposed to improve upon FedAvg while maintaining its desirable qualities, like
 communication efficiency.
 
 #### References & Useful Links
 
-1. H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
-   Communication-efficient learning of deep networks from decentralized data.
-   Proceedings of the 20th AISTATS, 2017.
-2. I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM, 2018.386
+[^1]:
+    H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
+    Communication-efficient learning of deep networks from decentralized data.
+    Proceedings of the 20th AISTATS, 2017.
+
+[^2]:
+    I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM,
+    2018.386
 
 {{#author emersodb}}

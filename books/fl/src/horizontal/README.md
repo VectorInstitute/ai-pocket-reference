@@ -19,12 +19,12 @@ the system.
 </center>
 </figure>
 
-In a general Horizontal FL system, some fundamental elements are generally
+In an Horizontal FL system, some fundamental elements are generally
 present. In most cases, communication and computation between the server and
 clients is broken into iterations known as _server rounds_. Typically, the
-number of such rounds is simply specified as a hyper-parameter \\(T > 0\\).
+number of such rounds is simply specified as a hyper-parameter, \\(T > 0\\).
 During each round, the server chooses a subset of all possible clients of size
-\\(m \\geq N \\) to participate in that round. Note that one may choose to
+\\(m \\leq N \\) to participate in that round. Note that one may choose to
 include all clients or a proper subset thereof. These clients perform some
 kind of training using their local datasets and send the results of that
 training back to the server. The contents of these "training results" varies
@@ -50,27 +50,27 @@ such algorithms that modify or add to the basic framework below.
 
 This section of the book is organized as follows:
 
-- [Vanilla FL](horizontal/vanilla_fl/README.md)
-  - [FedSGD](horizontal/vanilla_fl/fedsgd.md)
-  - [FedAvg](horizontal/vanilla_fl/fedavg.md)
-- [Robust Global FL](horizontal/robust_global_fl/README.md)
-  - [FedAdam](horizontal/robust_global_fl/fedadam.md)
-  - [FedProx](horizontal/robust_global_fl/fedprox.md)
-  - [MOON](horizontal/robust_global_fl/moon.md)
-- [Personalized FL](horizontal/personalized/README.md)
-  - [FedPer](horizontal/personalized/fedper.md)
-  - [FENDA-FL](horizontal/personalized/fenda.md)
-  - [Ditto](horizontal/personalized/ditto.md)
+- [Vanilla FL](vanilla_fl/index.md)
+  - [FedSGD](vanilla_fl/fedsgd.md)
+  - [FedAvg](vanilla_fl/fedavg.md)
+- [Robust Global FL](robust_global_fl/index.md)
+  - [FedAdam](robust_global_fl/fedadam.md)
+  - [FedProx](robust_global_fl/fedprox.md)
+  - [MOON](robust_global_fl/moon.md)
+- [Personalized FL](personalized/index.md)
+  - [FedPer](personalized/fedper.md)
+  - [FENDA-FL](personalized/fenda.md)
+  - [Ditto](personalized/ditto.md)
 
 Each of the chapters covers a different aspect of Horizontal FL and provides
 deeper details on the inner workings of the various algorithms. In
-[Vanilla FL](horizontal/vanilla_fl/README.md), the foundational Horizontal FL
+[Vanilla FL](vanilla_fl/index.md), the foundational Horizontal FL
 algorithms are discussed. In
-[Robust Global FL](horizontal/robust_global_fl/README.md), extensions to these
+[Robust Global FL](robust_global_fl/index.md), extensions to these
 foundational algorithms are detailed. Such extensions aim to improve things
 like convergence and robustness to heterogeneous data challenges common in FL
 applications while still producing a single generalizable model. Finally,
-[Personalized FL](horizontal/personalized/README.md) discusses methods for
+[Personalized FL](personalized/index.md) discusses methods for
 robust and effective methods for training individual models per client that
 still benefit from the global perspective of other clients. The end result
 is a set of models individually optimized to perform well on each clients
