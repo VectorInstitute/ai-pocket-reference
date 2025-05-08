@@ -76,12 +76,6 @@ You can contribute to the AI Pocket Reference project in several ways:
 
 3. **Install `pre-commit`**
 
-   ```bash
-   # Install and set up pre-commit hooks
-   pip install pre-commit
-   pre-commit install
-   ```
-
    The pre-commit hooks help maintain consistent code quality across contributions
    by:
 
@@ -90,6 +84,16 @@ You can contribute to the AI Pocket Reference project in several ways:
 
    These checks run automatically before each commit to maintain the quality of
    our pocket references.
+
+   pre-commit requires a valid python and pip installation. We recommend that
+   you create a virtual environment associated with this repository into
+   which you use the code below to install pre-commit
+
+   ```bash
+   # Install and set up pre-commit hooks
+   pip install pre-commit
+   pre-commit install
+   ```
 
 4. **Make Your Changes**
 

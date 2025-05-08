@@ -11,22 +11,22 @@
 # Federated Learning
 
 - [Core Concepts](core/README.md)
-
+  - [Flavors of FL](core/fl_flavors.md)
   - [Client](core/client.md)
   - [Server](core/server.md)
-  - [Aggregation Strategy](core/strategy.md)
-
+  - [Aggregation](core/aggregation.md)
 - [Horizontal FL](horizontal/README.md)
-
-  - [Aggregation Strategies](horizontal/aggregation/README.md)
-    - [FedAdam](horizontal/personalized/fedadam.md)
-    - [FedProx](horizontal/personalized/fedprox.md)
-    - [MOON](horizontal/personalized/moon.md)
+  - [Vanilla FL](horizontal/vanilla_fl/README.md)
+    - [FedSGD](horizontal/vanilla_fl/fedsgd.md)
+    - [FedAvg](horizontal/vanilla_fl/fedavg.md)
+  - [Robust Global FL](horizontal/robust_global_fl/README.md)
+    - [FedAdam](horizontal/robust_global_fl/fedadam.md)
+    - [FedProx](horizontal/robust_global_fl/fedprox.md)
+    - [MOON](horizontal/robust_global_fl/moon.md)
   - [Personalized FL](horizontal/personalized/README.md)
-    - [Ditto](horizontal/personalized/ditto.md)
     - [FedPer](horizontal/personalized/fedper.md)
-    - [Fenda](horizontal/personalized/fenda.md)
+    - [FENDA-FL](horizontal/personalized/fenda.md)
+    - [Ditto](horizontal/personalized/ditto.md)
 
 - [Vertical FL](vertical/README.md)
-
   - [Advanced Strategies](vertical/advanced/README.md)
