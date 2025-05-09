@@ -31,7 +31,7 @@ which are sent back to the clients for further training.
 
 <figure>
 <center>
-<img src="../assets/Distributed Data Diagram Weights.svg" alt="Exchanging of Weights ", width="350">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/Distributed Data Diagram Weights.svg" alt="Exchanging of Weights ", width="350">
 <figcaption>Among many other roles, an FL server may receive and combine model weights from FL clients.</figcaption>
 </center>
 </figure>

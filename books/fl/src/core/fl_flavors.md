@@ -25,7 +25,7 @@ beyond the scope of these references. However, this reference will cover a few
 of the major types considered in practice.
 
 <center>
-<img src="../assets/Distributed Data Diagram.svg" alt="Decentralized Datasets", width="400">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/Distributed Data Diagram.svg" alt="Decentralized Datasets", width="400">
 </center>
 
 ## Horizontal Vs. Vertical FL
@@ -47,7 +47,7 @@ example. The goal in Horizontal FL is to facilitate access to
 
 <figure>
 <center>
-<img src="../assets/horizontal_fl.svg" alt="Horizontal FL", width="500">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/horizontal_fl.svg" alt="Horizontal FL", width="500">
 <figcaption>Feature spaces are shared between clients, enabling access to more unique training data points.</figcaption>
 </center>
 </figure>
@@ -67,7 +67,7 @@ that, when combined, might improve prediction performance.
 
 <figure>
 <center>
-<img src="../assets/vertical_fl.svg" alt="Vertical FL", width="500">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/vertical_fl.svg" alt="Vertical FL", width="500">
 <figcaption>"Data generators" are shared between clients with unique features.</figcaption>
 </center>
 </figure>
@@ -125,7 +125,7 @@ feature and label dimensions, as in the figure below.
 
 <figure>
 <center>
-<img src="../assets/shared_labels.svg" alt="Homogeneous Architectures">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/shared_labels.svg" alt="Homogeneous Architectures">
 <figcaption>Each client participating in Horizontal FL typically trains the same architecture.</figcaption>
 </center>
 </figure>
@@ -142,7 +142,7 @@ manageable size given the resources at their disposal.
 
 <figure>
 <center>
-<img src="../assets/heterogeneous_architectures.svg" alt="Homogeneous Architectures">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/heterogeneous_architectures.svg" alt="Homogeneous Architectures">
 <figcaption>Model heterogeneous FL attempts to wrangle a zoo of model architectures across participants.</figcaption>
 </center>
 </figure>

@@ -14,7 +14,7 @@ the system.
 
 <figure>
 <center>
-<img src="../assets/horizontal_fl.svg" alt="Horizontal FL", width="500">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/horizontal_fl.svg" alt="Horizontal FL", width="500">
 <figcaption>Feature spaces are shared between clients, enabling access to more unique training data points.</figcaption>
 </center>
 </figure>
@@ -44,7 +44,7 @@ such algorithms that modify or add to the basic framework below.
 
 <figure>
 <center>
-<img src="../assets/algorithm-hfl-outline.svg" alt="Horizontal FL Algorithm Outline">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-hfl-outline.svg" alt="Horizontal FL Algorithm Outline">
 </center>
 </figure>
 

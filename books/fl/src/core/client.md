@@ -30,7 +30,7 @@ features in each client.
 
 <figure>
 <center>
-<img src="../assets/ClientDiagram.svg" alt="Client ", width="350">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/ClientDiagram.svg" alt="Client ", width="350"> <!-- markdownlint-disable-line MD013 -->
 <figcaption>Visualization of some assets for FL clients.</figcaption>
 </center>
 </figure>
