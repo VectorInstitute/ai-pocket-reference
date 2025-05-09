@@ -44,7 +44,7 @@ such algorithms that modify or add to the basic framework below.
 
 <figure>
 <center>
-<img src="../assets/hfl_outline.png" alt="Horizontal FL Algorithm Outline">
+<img src="../assets/algorithm-hfl-outline.svg" alt="Horizontal FL Algorithm Outline">
 </center>
 </figure>
 

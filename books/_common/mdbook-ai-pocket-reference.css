@@ -19,3 +19,17 @@
 .coal .vector-logo .dark-logo,
 .navy .vector-logo .dark-logo,
 .ayu .vector-logo .dark-logo { display: block; }
+
+/* Only invert algorithm SVGs in dark themes */
+.coal img[src*="algorithm-"][src$=".svg"],
+.navy img[src*="algorithm-"][src$=".svg"],
+.ayu img[src*="algorithm-"][src$=".svg"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* But don't invert logos or other specific SVGs */
+.coal .vector-logo img,
+.navy .vector-logo img,
+.ayu .vector-logo img {
+  filter: none;
+}

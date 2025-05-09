@@ -118,7 +118,7 @@ client receives the final model as described by the weights \\(\mathbf{w}\_T\\).
 
 <figure>
 <center>
-<img src="../../assets/fedsgd_algorithm.png" alt="FedSGD Algorithm">
+<img src="../../assets/algorithm-fedsgd.svg" alt="FedSGD Algorithm">
 </center>
 </figure>
 

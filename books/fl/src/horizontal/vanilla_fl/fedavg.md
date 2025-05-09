@@ -92,7 +92,7 @@ model as described by the weights \\(\mathbf{w}\_T\\).
 
 <figure>
 <center>
-<img src="../../assets/fedavg_algorithm.png" alt="FedAvg Algorithm">
+<img src="../../assets/algorithm-fedavg.svg" alt="FedAvg Algorithm">
 </center>
 </figure>
 
