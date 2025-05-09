@@ -24,7 +24,7 @@ various forms. For example, in Vertical FL, the clients must synthesize
 partial gradient information received from other clients in the system in order
 to properly perform gradient descent for their local model split in SplitNN
 algorithms.[^2] This process, however, isn't necessarily the responsibility of
-an FL server Nevertheless, aggregation strategies are most prominently
+an FL server. Nevertheless, aggregation strategies are most prominently
 featured and the subject of significant research in Horizontal FL frameworks.
 As is seen in the sections of [Horizontal Federated Learning](../horizontal/index.md),
 many variations and extensions of FedAvg have been proposed to improve
@@ -35,13 +35,13 @@ in subsequent chapters.
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
 [^1]:
-    H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
+    [H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
     Communication-efficient learning of deep networks from decentralized data.
-    Proceedings of the 20th AISTATS, 2017.
+    Proceedings of the 20th AISTATS, 2017.](https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf)
 
 [^2]:
-    Gupta, Otkrist and Raskar, Ramesh, Distributed learning of deep neural
+    [Gupta, Otkrist and Raskar, Ramesh, Distributed learning of deep neural
     network over multiple agents, Journal of Network and Computer Applications,
-    Vol.116, pp.1–8, 2018.
+    Vol.116, pp.1–8, 2018.](https://arxiv.org/pdf/1810.06060)
 
 {{#author emersodb}}

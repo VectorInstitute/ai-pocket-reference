@@ -31,7 +31,7 @@ which are sent back to the clients for further training.
 
 <figure>
 <center>
-<img src="../assets/Distributed Data Diagram Weights.png" alt="Exchanging of Weights ", width="350">
+<img src="../assets/Distributed Data Diagram Weights.svg" alt="Exchanging of Weights ", width="350">
 <figcaption>Among many other roles, an FL server may receive and combine model weights from FL clients.</figcaption>
 </center>
 </figure>
@@ -58,9 +58,9 @@ responsibility may rotate between clients.
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
 [^1]:
-    T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith.
+    [T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith.
     Federated optimization in heterogeneous networks. In I. Dhillon,
     D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and
-    Systems, volume 2, pages 429–450, 2020.
+    Systems, volume 2, pages 429–450, 2020.](https://arxiv.org/pdf/1812.06127)
 
 {{#author emersodb}}

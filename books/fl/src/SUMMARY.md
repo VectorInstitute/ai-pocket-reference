@@ -16,17 +16,18 @@
   - [Server](core/server.md)
   - [Aggregation](core/aggregation.md)
 - [Horizontal FL](horizontal/README.md)
+
   - [Vanilla FL](horizontal/vanilla_fl/README.md)
     - [FedSGD](horizontal/vanilla_fl/fedsgd.md)
     - [FedAvg](horizontal/vanilla_fl/fedavg.md)
-  - [Robust Global FL](horizontal/robust_global_fl/README.md)
-    - [FedAdam](horizontal/robust_global_fl/fedadam.md)
-    - [FedProx](horizontal/robust_global_fl/fedprox.md)
-    - [MOON](horizontal/robust_global_fl/moon.md)
-  - [Personalized FL](horizontal/personalized/README.md)
-    - [FedPer](horizontal/personalized/fedper.md)
-    - [FENDA-FL](horizontal/personalized/fenda.md)
-    - [Ditto](horizontal/personalized/ditto.md)
+  - [Robust Global FL]() <-- (horizontal/robust_global_fl/README.md) -->
+    - [FedAdam]() <-- (horizontal/robust_global_fl/fedadam.md) -->
+    - [FedProx]() <-- (horizontal/robust_global_fl/fedprox.md) -->
+    - [MOON]() <-- (horizontal/robust_global_fl/moon.md) -->
+  - [Personalized FL]() <-- (horizontal/personalized/README.md) -->
+    - [FedPer]() <-- (horizontal/personalized/fedper.md) -->
+    - [FENDA-FL]() <-- (horizontal/personalized/fenda.md) -->
+    - [Ditto]() <-- (horizontal/personalized/ditto.md) -->
 
-- [Vertical FL](vertical/README.md)
-  - [Advanced Strategies](vertical/advanced/README.md)
+- [Vertical FL]() <-- (vertical/README.md) -->
+  - [Advanced Strategies]() <-- (vertical/advanced/README.md) -->

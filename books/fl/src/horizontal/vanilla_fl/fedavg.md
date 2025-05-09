@@ -124,12 +124,12 @@ communication efficiency.
 #### References & Useful Links
 
 [^1]:
-    H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
+    [H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
     Communication-efficient learning of deep networks from decentralized data.
-    Proceedings of the 20th AISTATS, 2017.
+    Proceedings of the 20th AISTATS, 2017.](https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf)
 
 [^2]:
-    I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM,
-    2018.386
+    [I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM,
+    2018.386](https://arxiv.org/pdf/1711.05101)
 
 {{#author emersodb}}

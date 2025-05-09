@@ -14,7 +14,7 @@ the system.
 
 <figure>
 <center>
-<img src="../assets/horizontal_fl.png" alt="Horizontal FL", width="500">
+<img src="../assets/horizontal_fl.svg" alt="Horizontal FL", width="500">
 <figcaption>Feature spaces are shared between clients, enabling access to more unique training data points.</figcaption>
 </center>
 </figure>

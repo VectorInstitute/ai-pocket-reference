@@ -4,7 +4,7 @@
 
 {{ #aipr_header }}
 
-Machine-learning (ML) models are most commonly trained on a centralized pool of
+Machine learning (ML) models are most commonly trained on a centralized pool of
 data, meaning that all training data is accessible to a single training
 process. Federated learning (FL) is used to train ML models on decentralized
 data, such that data is compartmentalized. The sites at which the data is held
@@ -25,7 +25,7 @@ beyond the scope of these references. However, this reference will cover a few
 of the major types considered in practice.
 
 <center>
-<img src="../assets/Distributed Data Diagram.png" alt="Decentralized Datasets", width="400">
+<img src="../assets/Distributed Data Diagram.svg" alt="Decentralized Datasets", width="400">
 </center>
 
 ## Horizontal Vs. Vertical FL
@@ -47,7 +47,7 @@ example. The goal in Horizontal FL is to facilitate access to
 
 <figure>
 <center>
-<img src="../assets/horizontal_fl.png" alt="Horizontal FL", width="500">
+<img src="../assets/horizontal_fl.svg" alt="Horizontal FL", width="500">
 <figcaption>Feature spaces are shared between clients, enabling access to more unique training data points.</figcaption>
 </center>
 </figure>
@@ -67,7 +67,7 @@ that, when combined, might improve prediction performance.
 
 <figure>
 <center>
-<img src="../assets/vertical_fl.png" alt="Vertical FL", width="500">
+<img src="../assets/vertical_fl.svg" alt="Vertical FL", width="500">
 <figcaption>"Data generators" are shared between clients with unique features.</figcaption>
 </center>
 </figure>
@@ -125,7 +125,7 @@ feature and label dimensions, as in the figure below.
 
 <figure>
 <center>
-<img src="../assets/shared_labels.png" alt="Homogeneous Architectures">
+<img src="../assets/shared_labels.svg" alt="Homogeneous Architectures">
 <figcaption>Each client participating in Horizontal FL typically trains the same architecture.</figcaption>
 </center>
 </figure>
@@ -142,7 +142,7 @@ manageable size given the resources at their disposal.
 
 <figure>
 <center>
-<img src="../assets/heterogeneous_architecture.png" alt="Homogeneous Architectures">
+<img src="../assets/heterogeneous_architectures.svg" alt="Homogeneous Architectures">
 <figcaption>Model heterogeneous FL attempts to wrangle a zoo of model architectures across participants.</figcaption>
 </center>
 </figure>
@@ -154,11 +154,12 @@ each of the different flavors of FL discussed above.
 #### References & Useful Links <!-- markdownlint-disable-line MD001 -->
 
 [^1]:
-    C. Sun, A. Shrivastava, S. Singh, and A. Gupta. Revisiting unreasonable
-    effectiveness of data in deep learning era. In ICCV 2017, pages 843–852, 2017. doi: 10.1109/ICCV.2017.97.
+    [C. Sun, A. Shrivastava, S. Singh, and A. Gupta. Revisiting unreasonable
+    effectiveness of data in deep learning era. In ICCV 2017, pages 843–852, 2017. doi: 10.1109/ICCV.2017.97.](https://openaccess.thecvf.com/content_ICCV_2017/papers/Sun_Revisiting_Unreasonable_Effectiveness_ICCV_2017_paper.pdf)
 
 [^2]:
-    Ye, M.; et al. 2023. Heterogeneous Federated Learning: State-of-the-art and Research Challenges. CoRR,
-    abs/2307.10616:1
+    [Mang Ye, Xiuwen Fang, Bo Du, Pong C. Yuen, and Dacheng Tao. 2023.
+    Heterogeneous Federated Learning: State-of-the-art and Research Challenges.
+    ACM Comput. Surv. 56, 3, Article 79 (March 2024), 44 pages. https://doi.org/10.1145/3625558](https://arxiv.org/pdf/2307.10616)
 
 {{#author emersodb}}
