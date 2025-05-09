@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Horizontal FL - AI Pocket Reference: FL</title>
+        <title>Flavors of FL - AI Pocket Reference: FL</title>
 
 
         <!-- Custom HTML head -->
@@ -162,89 +162,150 @@
                 <div id="content" class="content">
                     <main>
                         <!-- markdownlint-disable-file MD033 MD013 -->
-<h1 id="horizontal-federated-learning"><a class="header" href="#horizontal-federated-learning">Horizontal Federated Learning</a></h1>
+<h1 id="the-different-flavors-of-federated-learning"><a class="header" href="#the-different-flavors-of-federated-learning">The Different Flavors of Federated Learning</a></h1>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
   <div>
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
       <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
     </a>
-    <p style="margin: 0;"><small>Reading time: 3 min</small></p>
+    <p style="margin: 0;"><small>Reading time: 6 min</small></p>
   </div>
 </div>
-<p>As outlined in <a href="../core/fl_flavors.html">The Different Flavors of Federated Learning</a>,
-Horizontal FL considers the setting where \(i=1, \ldots, N\) clients each hold a
-distributed training dataset, \(D_{i}\), on their local compute
-environment. Each of the datasets share the same feature and label spaces. The
-goal of Horizontal FL is to train a high-performing model (or models) using
-all of the training data, \(\{D_i\}_{i=1}^N\), residing on each of the clients in
-the system.</p>
+<p>Machine learning (ML) models are most commonly trained on a centralized pool of
+data, meaning that all training data is accessible to a single training
+process. Federated learning (FL) is used to train ML models on decentralized
+data, such that data is compartmentalized. The sites at which the data is held
+and trained are typically referred to as clients. Training data is most often
+decentralized when it cannot or should not be moved from its location. This
+might be the case for various reasons, including privacy regulations, security
+concerns, or resource constraints. Many industries are subject to strict
+privacy laws, compliance requirements, or data handling requirements, among
+other important considerations. As such, data centralization is often
+infeasible or ill-advised. On the other hand, it is well known that access to
+larger quantities of representative training data often leads to better ML
+models.<sup class="footnote-reference"><a href="#1">1</a></sup> Thus, in spite of the potential challenges associated
+with decentralized training, there is significant incentive to facilitate
+distributed model training.</p>
+<p>There are many different flavors of FL. Covering the full set of variations is
+beyond the scope of these references. However, this reference will cover a few
+of the major types considered in practice.</p>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/Distributed Data Diagram.svg" alt="Decentralized Datasets", width="400">
+</center>
+<h2 id="horizontal-vs-vertical-fl"><a class="header" href="#horizontal-vs-vertical-fl">Horizontal Vs. Vertical FL</a></h2>
+<p>One of the primary distinctions in FL methodologies is whether one is aiming to
+perform Horizontal or Vertical FL. The choice of methodological framework here
+is primarily driven by the kind of training data that exists and why you are
+doing FL in the first place.</p>
+<h3 id="horizontal-fl-more-data-same-features"><a class="header" href="#horizontal-fl-more-data-same-features">Horizontal FL: More Data, Same Features</a></h3>
+<p>In Horizontal FL, it is assumed that models will be trained on a <strong>unified</strong>
+set of features and targets. That is, across the distributed datasets, each
+training point has the same set of features with the same set of
+interpretations, pre-processing steps, and ranges of potential values, for
+example. The goal in Horizontal FL is to facilitate access to
+<strong>additional data points</strong> during the training of a model. For more details, see
+<a href="../horizontal/index.html">Horizontal FL</a>.</p>
 <figure>
 <center>
 <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/horizontal_fl.svg" alt="Horizontal FL", width="500">
 <figcaption>Feature spaces are shared between clients, enabling access to more unique training data points.</figcaption>
 </center>
 </figure>
-<p>In an Horizontal FL system, some fundamental elements are generally
-present. In most cases, communication and computation between the server and
-clients is broken into iterations known as <em>server rounds</em>. Typically, the
-number of such rounds is simply specified as a hyper-parameter, \(T &gt; 0\).
-During each round, the server chooses a subset of all possible clients of size
-\(m \leq N \) to participate in that round. Note that one may choose to
-include all clients or a proper subset thereof. These clients perform some
-kind of training using their local datasets and send the results of that
-training back to the server. The contents of these "training results" varies
-depending on the method used, but often include the model parameters after
-local training.</p>
-<p>After receiving the training results for the clients participating in the
-round, the server performs some kind of aggregation, combining the training
-results together. These combined results are returned to the clients for the
-next round of training. In most cases, the results are communicated to all
-clients, rather than just the subset that participated in the round.</p>
-<p>This process skeleton is summarized in the algorithm below. The specifics of
-how each of the high-level steps outlined in the algorithms function depends
-on the exact Horizontal FL algorithm being used. There are also variations of
-such algorithms that modify or add to the basic framework below.</p>
+<h3 id="vertical-fl-more-features-same-generators"><a class="header" href="#vertical-fl-more-features-same-generators">Vertical FL: More Features, Same Generators</a></h3>
+<p>While Horizontal FL is concerned with accessing more data points during training,
+Vertical FL aims to add additional predictive features to improve model
+predictions. In Vertical FL, there is a shared target or set of targets to be
+predicted across distributed datasets and it is assumed that all datasets share
+a non-empty intersection of "data generators" that can be "linked" in some way.
+For example, the "data generators" might be individual customers of different
+retailers. Two retailers, might want to collaboratively train a customer
+segmentation model to improve predictions for their shared customer base. Each
+retailer has unique information about the customer from their interactions
+that, when combined, might improve prediction performance.</p>
 <figure>
 <center>
-<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-hfl-outline.svg" alt="Horizontal FL Algorithm Outline">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/vertical_fl.svg" alt="Vertical FL", width="500">
+<figcaption>"Data generators" are shared between clients with unique features.</figcaption>
 </center>
 </figure>
-<p>This section of the book is organized as follows:</p>
-<ul>
-<li><a href="vanilla_fl/index.html">Vanilla FL</a>
-<ul>
-<li><a href="vanilla_fl/fedsgd.html">FedSGD</a></li>
-<li><a href="vanilla_fl/fedavg.html">FedAvg</a></li>
-</ul>
-</li>
-<li><a href="robust_global_fl/index.html">Robust Global FL</a>
-<ul>
-<li><a href="robust_global_fl/fedadam.html">FedAdam</a></li>
-<li><a href="robust_global_fl/fedprox.html">FedProx</a></li>
-<li><a href="robust_global_fl/moon.html">MOON</a></li>
-</ul>
-</li>
-<li><a href="personalized/index.html">Personalized FL</a>
-<ul>
-<li><a href="personalized/fedper.html">FedPer</a></li>
-<li><a href="personalized/fenda.html">FENDA-FL</a></li>
-<li><a href="personalized/ditto.html">Ditto</a></li>
-</ul>
-</li>
-</ul>
-<p>Each of the chapters covers a different aspect of Horizontal FL and provides
-deeper details on the inner workings of the various algorithms. In
-<a href="vanilla_fl/index.html">Vanilla FL</a>, the foundational Horizontal FL
-algorithms are discussed. In
-<a href="robust_global_fl/index.html">Robust Global FL</a>, extensions to these
-foundational algorithms are detailed. Such extensions aim to improve things
-like convergence and robustness to heterogeneous data challenges common in FL
-applications while still producing a single generalizable model. Finally,
-<a href="personalized/index.html">Personalized FL</a> discusses methods for
-robust and effective methods for training individual models per client that
-still benefit from the global perspective of other clients. The end result
-is a set of models individually optimized to perform well on each clients
-unique distributions.</p>
+<p>To produce a useful distributed training dataset in Vertical FL, datasets are
+privately "aligned" such that only the intersection of "data generators" are
+considered in training. In most cases, the datasets are ordered to ensure that
+disparate features are meaningfully aligned by the underlying generator.
+Depending on the properties of the datasets, fewer individual data points may
+be available for training, but hopefully they have been enriched with
+additional important features. For more details, see <a href="../vertical/index.html">Vertical FL</a>.</p>
+<h2 id="cross-device-vs-cross-silo-fl"><a class="header" href="#cross-device-vs-cross-silo-fl">Cross-Device Vs. Cross-Silo FL</a></h2>
+<p>An important distinction between standard ML training and decentralized model
+training is the presence of multiple, and potentially diverse, compute
+environments. Leaving aside settings with the possibility of significant
+resource disparities across data hosting environments, there are still many
+things to consider that influence the kinds of FL techniques to use. There are
+two main categories with general, but not firm, separating characteristics:
+Cross-Silo FL and Cross-Device FL. In the table below, key distinctions between
+the two types of FL are summarized.</p>
+<div class="table-wrapper"><table><thead><tr><th>Type</th><th>Cross-Silo</th><th>Cross-Device</th></tr></thead><tbody>
+<tr><td><strong># of Participants</strong></td><td>Small- to medium-sized pool of clients</td><td>Large pool of participants</td></tr>
+<tr><td><strong>Compute</strong></td><td>Moderate to large compute</td><td>Limited compute resources</td></tr>
+<tr><td><strong>Dataset Size</strong></td><td>Moderate to large datasets</td><td>Typically small datasets</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Stable connection and participation</td><td>Potentially unreliable participants</td></tr>
+</tbody></table>
+</div>
+<p>A quintessential example of a cross-device setting is training a model using
+data housed on different cell-phones. There are potentially millions of devices
+participating in training, each with limited computing resources. At any given
+time, a phone must be switched off or disconnected from the internet.
+Alternatively, cross-silo settings might arise in training a model between
+companies or institutions, such as banks or hospitals. They likely have larger
+datasets at each site and access to more computational resources. There will
+be fewer participants in training, but they are more likely to reliably
+contribute to the training system.</p>
+<p>Knowing which category of FL one is operating in helps inform design decisions
+and FL component choices. For example, the model being trained may need to be
+below a certain size or the memory/compute needs of an FL technique might be
+prohibitive. A good example of the latter is <a href="../horizontal/personalized/ditto.html">Ditto</a>,
+which requires larger compute resources than many other methods.</p>
+<h2 id="one-model-or-a-model-zoo"><a class="header" href="#one-model-or-a-model-zoo">One Model or a Model Zoo</a></h2>
+<p>The final distinction that is highlighted here is whether the model architecture
+to be trained is the same (homogeneous) across disparate sites or if it differs
+(heterogeneous). In many settings, the goal is to train a homogeneous model
+architecture across FL participants. In the context of Horizontal FL, this
+implies that each client has an identical copy of the architecture with shared
+feature and label dimensions, as in the figure below.</p>
+<figure>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/shared_labels.svg" alt="Homogeneous Architectures">
+<figcaption>Each client participating in Horizontal FL typically trains the same architecture.</figcaption>
+</center>
+</figure>
+<p>Alternatively, there are FL techniques which aim to federally train collections
+of heterogeneous architectures across clients.<sup class="footnote-reference"><a href="#2">2</a></sup> That is, each
+participant in the FL system might be training a <strong>different</strong> model
+architecture. Such a setting may arise, for example, if participants would
+like to benefit from the expanded training data pool offered through Horizontal
+FL, but want to train their own, proprietary model architecture, rather than a
+shared model design across all clients. As another example, perhaps certain
+participants, facing compute constraints, aim to train a model of more
+manageable size given the resources at their disposal.</p>
+<figure>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/heterogeneous_architectures.svg" alt="Homogeneous Architectures">
+<figcaption>Model heterogeneous FL attempts to wrangle a zoo of model architectures across participants.</figcaption>
+</center>
+</figure>
+<p>The primary focus of the current pocket references will consider the
+homogeneous architecture setting. However, there is significant research across
+each of the different flavors of FL discussed above.</p>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Sun_Revisiting_Unreasonable_Effectiveness_ICCV_2017_paper.pdf" target="_blank" rel="noopener noreferrer">C. Sun, A. Shrivastava, S. Singh, and A. Gupta. Revisiting unreasonable
+effectiveness of data in deep learning era. In ICCV 2017, pages 843–852, 2017. doi: 10.1109/ICCV.2017.97.</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://arxiv.org/pdf/2307.10616" target="_blank" rel="noopener noreferrer">Mang Ye, Xiuwen Fang, Bo Du, Pong C. Yuen, and Dacheng Tao. 2023.
+Heterogeneous Federated Learning: State-of-the-art and Research Challenges.
+ACM Comput. Surv. 56, 3, Article 79 (March 2024), 44 pages. https://doi.org/10.1145/3625558</a></p>
+</div>
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
 <small>
@@ -270,11 +331,11 @@ unique distributions.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../core/aggregation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../core/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../horizontal/vanilla_fl/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../core/client.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -284,11 +345,11 @@ unique distributions.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../core/aggregation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../core/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../horizontal/vanilla_fl/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../core/client.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

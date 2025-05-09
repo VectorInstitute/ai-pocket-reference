@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Aggregation Strategies - AI Pocket Reference: FL</title>
+        <title>Vanilla FL - AI Pocket Reference: FL</title>
 
 
         <!-- Custom HTML head -->
@@ -161,7 +161,59 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="aggregation-strategies"><a class="header" href="#aggregation-strategies">Aggregation Strategies</a></h1>
+                        <!-- markdownlint-disable-file MD033 MD013, MD053 -->
+<h1 id="foundational-fl-techniques"><a class="header" href="#foundational-fl-techniques">Foundational FL Techniques</a></h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 1 min</small></p>
+  </div>
+</div>
+<p>In this section, <a href="fedsgd.html">FedSGD</a> and <a href="fedavg.html">FedAvg</a> are detailed,
+both of which were first proposed in [1]. These methods fall under the
+category of Horizontal FL. Before detailing how each method works, let's first
+establish some notation that will be shared in describing both methods. First
+assume that there are \(N\) clients in the FL pool, each with a unique local
+training dataset, \(D_i\). Let</p>
+<p>$$
+D = \bigcup\limits_{k=1}^{N} D_k,
+$$</p>
+<p>and denote \(\vert D \vert = n\). The end goal is to train a model
+parameterized by weights \(\mathbf{w}\) using all data in \(D\). Further,
+let \(\ell(\mathbf{w})\) be a loss function depending on \(\mathbf{w}\).</p>
+<p>In standard FL, we aim to train a model by minimizing the loss over the
+dataset \(D\) of total size \(n\). This is written</p>
+<p>$$
+\begin{align*}
+\min_{\mathbf{w} \in \mathbf{R}^d} \ell(\mathbf{w}),
+\qquad \text{where} \qquad &amp; \ell(\mathbf{w}) =
+\frac{1}{n} \sum_{i=1}^n \ell_i(\mathbf{w}),
+\end{align*}
+$$</p>
+<p>and \(\ell_i(\mathbf{w})\) is the loss with respect to the
+\(i^{\text{th}}\) sample in the training dataset. Note that we have
+implicitly denoted the dimensionality of the model weights, in the equation
+above, as \(d\).</p>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf" target="_blank" rel="noopener noreferrer">H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
+Communication-efficient learning of deep networks from decentralized data.
+Proceedings of the 20th AISTATS, 2017.</a></p>
+</div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/emersodb">
+<img src="https://github.com/emersodb.png"
+  width="32px" alt="Contributor emersodb" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
 <div class="vector-logo">
     <a href="https://vectorinstitute.ai/">
         <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
@@ -179,7 +231,7 @@
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../horizontal/personalized/fedadam.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../horizontal/vanilla_fl/fedsgd.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -193,7 +245,7 @@
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../horizontal/personalized/fedadam.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../horizontal/vanilla_fl/fedsgd.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
