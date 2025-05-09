@@ -39,7 +39,7 @@ repos:
         static|
       args:
         [
-          "--skip=*/algolia.js",
+          "--skip=*/algolia.js,**/*.svg",
           "--ignore-words-list",
           "rouge,crate",
         ]

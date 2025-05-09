@@ -60,7 +60,7 @@ by jointly compressing attention keys and values to a lower dimension. The compr
 involves a linear projection matrix compressing keys and values down as well as
 another linear project matrix for compressing keys and values back up. Only the
 compressed joint representation of keys and values need to be cached during inference.
-For more details see [MLA](../llms/architecture/mla.md).
+For more details, see [MLA](../llms/architecture/mla.md).
 
 **Multi-Token Prediction:** In an effort to improve the training signal, DeepSeek-V3
 expands the prediction scope to additional future tokens at every token position

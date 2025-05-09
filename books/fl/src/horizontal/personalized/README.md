@@ -1,1 +1,1 @@
-# Personalized FL
+# Personalized FL Methods
