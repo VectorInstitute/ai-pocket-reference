@@ -107,8 +107,8 @@ datasets.
 
 <figure>
 <center>
-<img src="../../assets/local_model_1.png" alt="Local Model 1", width="49%">
-<img src="../../assets/local_model_2.png" alt="Local Model 2", width="49%">
+<img src="../../assets/local_model_1.png" alt="Local Model 1", height="300">
+<img src="../../assets/local_model_2.png" alt="Local Model 2", height="300">
 <figcaption>Two clients with different datasets. Note that each holds a
 slightly different view of the feature space. Notably, Client 1 (left) has a
 distinct cluster of data points in the bottom right and fewer points labeled in
@@ -127,8 +127,8 @@ distributions from a global perspective.
 
 <figure>
 <center>
-<img src="../../assets/fedavg_model.png" alt="FedAvg Model", width="49%">
-<img src="../../assets/fed_df_model.png" alt="FedDF Model", width="49%">
+<img src="../../assets/fedavg_model.png" alt="FedAvg Model", height="300">
+<img src="../../assets/fed_df_model.png" alt="FedDF Model", height="300">
 <figcaption>Model resulting from FedAvg (left) compared with the model
 trained using FedDF[^2] (right).</figcaption>
 </center>
