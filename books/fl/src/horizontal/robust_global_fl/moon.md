@@ -4,7 +4,7 @@
 
 {{ #aipr_header }}
 
-The MOON[^1] algorithm is built on the same principles as the
+The MOON algorithm[^1] is built on the same principles as the
 [FedProx](./fedprox.md)[^2] approach. That is, it targets limiting
 client-specific drift during local training by constraining how heavily local
 model updates stray from global models. The fundamental difference is the
@@ -36,10 +36,11 @@ Each of which makes \\(\\ell\_{\\text{con}}(\mathbf{x};\\mathbf{w})\\)
 **smaller**.
 
 Contrastive loss objectives have been widely used to bring latent
-representations of information closer together. For example, contrastive
-learning is used extensively in CLIP[^3] as a means of pushing image-caption
-text pairs closer together, while pushing unrelated image-text pairs further
-apart in the CLIP model's representation space.
+representations of similar inputs closer together and push dissimilar inputs
+further apart. For example, contrastive learning is used extensively in
+CLIP[^3] as a means of pushing image-caption text pairs closer together, while
+pushing unrelated image-text pairs further apart in the CLIP model's
+representation space.
 
 ## MOON models and an alternative to weight-drift penalties
 
@@ -62,7 +63,7 @@ contrastive loss functions and their latent representations.</figcaption>
 For server round \\(t\\), the model on the left represents the model after
 weight aggregation by the server. In the middle is the final model after
 local training on Client \\(i\\). The weights, \\(\\mathbf{w}^{t-1}\_i\\), have
-been aggregated across participating clients to form \\(\\mathbf{w}\_t\\).
+been aggregated across participating clients to form \\(\\mathbf{w}^t\\).
 Finally, the model on the right is the one being locally trained on Client
 \\(i\\). The output of the feature maps in these models will be used to form
 the local contrastive loss for Client \\(i\\).
@@ -96,22 +97,23 @@ loss over all data points in the batch is computed.
 
 The idea here is similar to FedProx. In some sense, we
 still want to make sure that, during training, the model does not drift too
-fair from the global model, as was the case in FedProx. The difference, here,
+far from the global model, as was the case in FedProx. The difference, here,
 is that we're applying that constraint in the feature representation space,
 rather than directly in the model weights themselves. In the original work,
 MOON showed notable improvements over methods like FedProx in heterogeneous
-settings. However, it does not always outperform FedProx or even FedAvg.[^4]
+settings. However, it does not **always** outperform FedProx or even FedAvg.[^4]
 As such, there are likely scenarios where MOON is the right approach for FL in
 heterogeneous settings, while others might benefit from an alternative
-approach.
+technique.
 
 ## The algorithm
 
 The MOON algorithm is fairly similar to that of FedProx. Most server-side
-aggregation strategy may be applied. However, the algorithm has some additional
-memory overhead, as forward passes of three separate models must be run in
-order to extract the latent representations of the data points in each training
-batch. In the algorithm below, FedAvg is used as the server-side strategy.
+aggregation strategies may be applied in combination with MOON. However, the
+algorithm has some additional memory overhead, as forward passes of three
+separate models must be run in order to extract the latent representations of
+the data points in each training batch. In the algorithm below, FedAvg is used
+as the server-side strategy.
 
 <figure>
 <center>

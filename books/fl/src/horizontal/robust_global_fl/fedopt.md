@@ -8,16 +8,16 @@ Recall that modern deep learning optimizers like AdamW[^1] or AdaGrad[^2] use
 first- and second-order moment estimates of the stochastic gradients computed
 during iterative optimization to adaptively modify the model updates.
 At a high level, each algorithm aims to reinforce common update directions
-(i.e. those with momentum) and damp update noisy directions (i.e. those with
-high batch-to-batch variance). The FedOpt family[^3] of algorithms, considers
-modifying the traditional FedAvg aggregation algorithm to incorporate similar
-adaptations into server-side model updates in FL.
+(i.e. those with momentum) and damp update elements corresponding to noisy
+directions (i.e. those with high batch-to-batch variance). The FedOpt
+family[^3] of algorithms, considers modifying the traditional
+[FedAvg](../vanilla_fl/fedavg.md) aggregation algorithm to incorporate
+similar adaptations into server-side model updates in FL.
 
 ## Mathematical motivation
 
-In [FedAvg](../vanilla_fl/fedavg.md), recall that, after a round of local
-training on each client, client model weights are combined into a single model
-representation via
+In FedAvg, recall that, after a round of local training on each client,
+client model weights are combined into a single model representation via
 
 $$
 \begin{align*}
@@ -35,13 +35,13 @@ $$
 \begin{align}
 \\mathbf{w}\_{t+1} = \\sum\_{k \\in C_t} \\frac{n_k}{n_s} \\mathbf{w}^k\_{t+1} &= \\mathbf{w}_t - \\frac{1}{C_t} \\sum\_{k \\in C_t}
 \\left( \\mathbf{w}_t - \\mathbf{w}^k\_{t+1} \\right), \\\\
-&= \\mathbf{w}_t - \\frac{1}{C\_t} \\sum\_{k \\in C_t}  \\Delta^k\_{t+1}, \\\\
-&= \\mathbf{w}_t - \\Delta\_{t+1}. \tag{1}
+&= \\mathbf{w}_t + \\frac{1}{C\_t} \\sum\_{k \\in C_t}  \\Delta^k\_{t+1}, \\\\
+&= \\mathbf{w}_t + \\Delta\_{t+1}. \tag{1}
 \end{align}
 $$
 
-Here, \\(\\Delta^k\_{t+1} = \\mathbf{w}\_t - \\mathbf{w}^k\_{t+1}\\) is just
-the vector pointing from the initial models weights and to those after local
+Here, \\(\\Delta^k\_{t+1} = \\mathbf{w}^k\_{t+1} - \\mathbf{w}\_t\\) is just
+the vector pointing from the initial models weights to those after local
 training and \\(\\Delta\_{t+1}\\) is simply the uniform average of these
 update vectors.
 
@@ -53,20 +53,19 @@ equivalent to a batch-SGD update with a learning rate of 1.0 for the
 **server**. The "server-side" batch is the union of the batches used on each
 client.
 
-The observation that \\(\Delta\_{t+1}\\) is simply a stochastic gradient
-motivates treating these update directions,
-\\(\\Delta^k\_{t+1} = \\mathbf{w}\_t - \\mathbf{w}^k\_{t+1}\\) like the
-stochastic gradients in standard adaptive optimizers. It's important to note
-that if the clients, for instance, apply multiple steps of local SGD or use
-different learning rates, the exact equivalence of \\(\Delta\_{t+1}\\) to a
-stochastic gradient is broken. However, it shares similarities to such a
-gradient and is, therefore, called a "pseudo-gradient."[^3]
+The observation that \\(-\Delta\_{t+1}\\) is simply a stochastic gradient
+motivates treating these update directions like the stochastic gradients
+in standard adaptive optimizers. It's important to note that if the clients,
+for instance, apply multiple steps of local SGD or use different learning
+rates, the exact equivalence of \\(-\Delta\_{t+1}\\) to a stochastic gradient
+is broken. However, it shares similarities to such a gradient and is,
+therefore, called a "pseudo-gradient."[^3]
 
 ## The algorithms: FedAdagrad, FedAdam, FedYogi
 
 Drawing inspiration from three successful, traditional adaptive optimizers,
-adaptive server-side aggregation strategy FedAdaGrad, FedAdam, and FedYogi have
-been proposed. See the algorithm below for details.
+the adaptive server-side aggregation strategies of FedAdaGrad, FedAdam, and
+FedYogi have been proposed. See the algorithm below for details.
 
 <figure>
 <center>
@@ -74,7 +73,7 @@ been proposed. See the algorithm below for details.
 </center>
 </figure>
 
-Those familiar with the mathematical formulations of Adagrad, Adam[^4], and
+Those familiar with the mathematical formulations of Adagrad, Adam,[^4] and
 Yogi[^5] will recognize the general structure of these equations. Computation
 of \\(m_t\\), based on the average of the update directions suggested by each
 client through local training (\\(\Delta\_{t+1}\\)) serves to accumulate

@@ -12,12 +12,12 @@ first consider the kind of phenomenon that FedProx, along with other methods,
 attempts to counteract.
 
 To help illustrate the issue, we'll use some helpful visualizations
-from researchers who proposed the SCAFFOLD method.[^2]<sup>,</sup>[^3].
-Consider a two-client setting each with their own loss landscape based on their
-privately held data, denoted \\(f_1\\) and \\(f_2\\). If each client has an
-equal amount of data, the global loss surface, which is the loss function when
-constructed from data available on both clients is equivalent to
-\\((f_1 + f_2)/2\\). When performing standard federated training, the
+from researchers who proposed the SCAFFOLD method.[^2]<sup>,</sup>[^3]
+Consider a two-client FL setting. Each client has their own loss landscape
+based on their privately held data, denoted \\(f_1\\) and \\(f_2\\). If each
+client has an equal amount of data, the global loss surface, which is the loss
+function when constructed from all data available on both clients is equivalent
+to \\((f_1 + f_2)/2\\). When performing standard federated training, the
 objective is to find model weights corresponding to the minimum of this global
 loss function. See the figure below. Note that the minima associated with the
 client loss functions are distinct from the global minimum.
@@ -39,19 +39,20 @@ step makes steady progress towards the global minimum.
 <figure>
 <center>
 <img src="../../assets/fedsgd_steps.svg" alt="FedSGD and global convergence" width="66%">
-<figcaption>FedSGD rounds result in models making steady progress towards
+<figcaption>FedSGD rounds result in averaged models making steady progress towards
 the global minimum.</figcaption>
 </center>
 </figure>
 
-As in the section on [FedAvg](../vanilla_fl/fedavg.md)[^4], there is a substantial
-reduction in communication overhead if each client applies multiple steps of
-batch SGD, optimizing the local model based on the local loss. We noted,
-however, that this breaks the equivalence enjoyed, for example, by FedSGD with
-centralized large-batch SGD. In settings, such as the one illustrated in the
-figures thus far, with data heterogeneity and markedly different loss
-landscapes this can engender various issues. One such issue is often referred
-to as "client drift" and is illustrated in the figure below.
+As detailed in the chapter on [FedAvg](../vanilla_fl/fedavg.md),[^4] there is a
+substantial reduction in communication overhead if each client applies
+multiple steps of batch SGD, optimizing the local model based on the local
+loss. It was noted therein, however, that this breaks the equivalence enjoyed,
+for example, by FedSGD with centralized large-batch SGD. In settings, such as
+the one illustrated in the figures thus far, with data heterogeneity and
+markedly different loss landscapes this can engender various issues. One such
+issue is often referred to as "client drift" and is illustrated in the figure
+below.
 
 <figure>
 <center>
@@ -118,12 +119,13 @@ hyper-parameter tuning. Heuristically, the proximal weight may be adapted
 across server rounds. If the aggregated server-side training loss
 (average final loss on each client) fails to decrease for a round, \\(\\mu\\)
 is increased. If the loss improves for some number of rounds, \\(\\mu\\) is
-decreased.
+decreased. In the figure below, this procedure results in the fuchsia colored
+line in the Figures below.
 
 <figure>
 <center>
-<img src="../../assets/FedProxAdaptation_top.png" alt="FedProx vs. FedAvg" width="85%">
-<img src="../../assets/FedProxAdaptation_bottom.png" alt="FedProx vs. FedAvg" width="85%">
+<img src="../../assets/FedProxAdaptation_top.png" alt="FedProx vs. FedAvg" width="100%">
+<img src="../../assets/FedProxAdaptation_bottom.png" alt="FedProx vs. FedAvg" width="100%">
 <figcaption>Comparison of FedProx to FedAvg in various settings. On the top left,
 data is homogeneous across clients. Without adaptation FedProx struggles to out
 perform FedAvg. Data is heterogeneous in the other settings and FedProx performs
