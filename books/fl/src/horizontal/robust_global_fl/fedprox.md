@@ -44,7 +44,7 @@ the global minimum.</figcaption>
 </center>
 </figure>
 
-As in the section on [FedAvg](../vanilla_fl/fedavg.md), there is a substantial
+As in the section on [FedAvg](../vanilla_fl/fedavg.md)[^4], there is a substantial
 reduction in communication overhead if each client applies multiple steps of
 batch SGD, optimizing the local model based on the local loss. We noted,
 however, that this breaks the equivalence enjoyed, for example, by FedSGD with
@@ -150,5 +150,10 @@ well with and without adaptation.
 [^3]:
     [Images adapted from Talk on "Stochastic Controlled Averaging for
     Federated Learning"](https://docs.google.com/presentation/d/1SYhRC6NMEMJJL2FTGDu5DJeINJBkbwFVGd2Emy43fk0/edit)
+
+[^4]:
+    [H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
+    Communication-efficient learning of deep networks from decentralized data.
+    Proceedings of the 20th AISTATS, 2017.](https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf)
 
 {{#author emersodb}}
