@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>FedAvg - AI Pocket Reference: FL</title>
+        <title>MOON - AI Pocket Reference: FL</title>
 
 
         <!-- Custom HTML head -->
@@ -162,7 +162,7 @@
                 <div id="content" class="content">
                     <main>
                         <!-- markdownlint-disable-file MD033 MD013 -->
-<h1 id="fedavg"><a class="header" href="#fedavg">FedAvg</a></h1>
+<h1 id="moon-model-contrastive-federated-learning"><a class="header" href="#moon-model-contrastive-federated-learning">MOON: Model-Contrastive Federated Learning</a></h1>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
   <div>
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
@@ -171,114 +171,129 @@
     <p style="margin: 0;"><small>Reading time: 5 min</small></p>
   </div>
 </div>
-<p>The FedAvg algorithm<sup class="footnote-reference"><a href="#1">1</a></sup> builds on the same principles of FedSGD, but aims to
-reduce the communication costs incurred by the <a href="fedsgd.html">FedSGD</a> approach.
-Recall that the major shortcoming of FedSGD was that it required clients to
-send local gradients for every training step in order to perform model updates.
-The FedAvg algorithm attempts to reduce this overhead by pushing additional
-computation onto the clients.</p>
-<h2 id="the-math"><a class="header" href="#the-math">The math</a></h2>
-<p>Assume a fixed learning rate of \(\eta &gt; 0\), and denote</p>
-<p>$$
-\begin{align}
-\mathbf{w}_{t+1}^k = \mathbf{w}_t - \eta \nabla L_k(\mathbf{w}_t). \tag{1}
-\end{align}
-$$</p>
-<p>Note that \(\mathbf{w}_t - \eta \nabla L_k(\mathbf{w}_t)\) is just a
-local (full) gradient step on client \(k\). That is,
-\(\nabla L_k(\mathbf{w}_t)\) is the gradient with respect to all training
-data on client \(k\). So the weights \(\mathbf{w}_{t+1}^k\) represent
-a new model using only the data of client \(k\) to update the weights,
-\(\mathbf{w}_t\). Then we can rewrite the server update in FedSGD in terms
-of \(\mathbf{w}_{t+1}^k\) with a little algebra as</p>
-<p>$$
-\begin{align}
-\mathbf{w}_{t+1}&amp;= \mathbf{w}_t - \eta \sum_{k \in C_t} \frac{n_k}{n_s} \nabla L_k(\mathbf{w}_t) \\
-&amp;= \sum_{k \in C_t} \frac{n_k}{n_s} \mathbf{w}_t - \eta \sum_{k \in C_t} \frac{n_k}{n_s} \nabla L_k(\mathbf{w}_t) \\
-&amp;= \sum_{k \in C_t} \frac{n_k}{n_s} \mathbf{w}_{t+1}^k. \tag{2}
-\end{align}
-$$</p>
-<p>The final line of Equation (2) implies that the updated weights,
-\(\mathbf{w}_{t+1}\), in FedSGD can be rewritten as the linearly weighted
-average of <strong>local</strong> weight updates performed by the clients themselves. That
-is, \(\mathbf{w}_{t+1}\) is just a weighted average of locally updated
-weights, where the weights are the proportion of data points on
-each client (\(n_k\)) relative the the size of all data points used to compute the
-update (\(n_s\)).</p>
-<p>With this in hand, we can push responsibility for updating model weights onto
-the clients participating in a round of FL training. Only model weights are
-communicated back and forth, and the server need only average the locally
-updated weights to obtain the new model. This procedure remains mathematically
-equivalent to centralized large batch SGD, as is the case for FedSGD. The bad
-news is that we haven't saved any communication yet. This still relies on
-communicating the updated weights after each step and the dimensionality of the
-model weights and their gradient is equal. So what can we do?</p>
-<p>Rather than a full, local-gradient step on each client, as expressed in
-Equation (1), we can run multiple local batch SGD updates. For client \(k\),
-let \(B\) be a set of batches drawn from \(P_k\), the collection of
-training data points on client \(k\). For \(b \in B\), perform local
-updates of the form</p>
+<p>The MOON algorithm<sup class="footnote-reference"><a href="#1">1</a></sup> is built on the same principles as the
+<a href="./fedprox.html">FedProx</a><sup class="footnote-reference"><a href="#2">2</a></sup> approach. That is, it targets limiting
+client-specific drift during local training by constraining how heavily local
+model updates stray from global models. The fundamental difference is the
+way that drift is measured to construct the penalty function.</p>
+<h2 id="contrastive-loss-a-brief-interlude"><a class="header" href="#contrastive-loss-a-brief-interlude">Contrastive Loss: A Brief Interlude</a></h2>
+<p>Before defining the MOON penalty, we need to review contrastive loss and what
+it aims to do in general. Say we have three vectors, \(\mathbf{z}\),
+\(\mathbf{z}_s\), \(\mathbf{z}_d \in \mathbb{R}^n\) and we want to
+optimize a model, parameterized by \(\mathbf{w}\), to map from an input,
+\(\mathbf{x}\), to a representation, \(\mathbf{z}\), which is <strong>closer</strong>
+to \(\mathbf{z}_s\) and <strong>further</strong> from \(\mathbf{z}_d\). We define</p>
 <p>$$
 \begin{align*}
-\mathbf{w}^k = \mathbf{w}^k - \eta \frac{1}{\vert b \vert} \sum_{i \in b} \nabla \ell_i (\mathbf{w}^k).
+\ell_{\text{con}}(\mathbf{x};\mathbf{w}) = - \log \frac{\exp
+\left(\text{sim}(\mathbf{z}, \mathbf{z}_s) \tau^{-1} \right)}{\exp
+\left(\text{sim}(\mathbf{z}, \mathbf{z}_s) \tau^{-1} \right) + \exp
+\left(\text{sim}(\mathbf{z}, \mathbf{z}_d) \tau^{-1} \right)},
 \end{align*}
 $$</p>
-<p>This allows for each client to perform multiple local batch SGD updates to
-the model weights. As in standard ML training, these updates can be performed
-for a certain number epochs, iterating through each client's local data. Only after
-completing such iterations are the updated weights communicated to the server for
-aggregation using the same formula in Equation (2) on the server side. In this
-manner, we have decoupled model updates from communication with the server and
-are free to communicate as frequently or infrequently as we choose.</p>
-<h2 id="the-algorithm"><a class="header" href="#the-algorithm">The algorithm</a></h2>
-<p>With the new approach proposed in the previous section, the full FedAvg
-algorithm may be summarized in the algorithm below. Inputs to the algorithm
-are:</p>
-<ul>
-<li>\(N\): The number of clients.</li>
-<li>\(T\): The number of server rounds to perform.</li>
-<li>\(\eta\): The learning rate to be used by each client.</li>
-<li>\(n_b\): The batch size to be used for each local gradient step.</li>
-<li>\(\mathbf{w}\): The initial weights for the model to be trained.</li>
-<li>\(E\): The number of epochs for each client to perform.</li>
-</ul>
-<p>After the final server round is complete, each client receives the final
-model as described by the weights \(\mathbf{w}_T\).</p>
+<p>where \(\text{sim}(\cdot, \cdot)\) is cosine-similarity and
+\(\tau &gt; 0\) is a temperature. Increasing the similarity of
+\(\mathbf{z}\) to \(\mathbf{z}_s\) <strong>increases</strong> the numerator. Pushing
+\(\mathbf{z}\) away from \(\mathbf{z}_d\) decreases the denominator.
+Each of which makes \(\ell_{\text{con}}(\mathbf{x};\mathbf{w})\)
+<strong>smaller</strong>.</p>
+<p>Contrastive loss objectives have been widely used to bring latent
+representations of similar inputs closer together and push dissimilar inputs
+further apart. For example, contrastive learning is used extensively in
+CLIP<sup class="footnote-reference"><a href="#3">3</a></sup> as a means of pushing image-caption text pairs closer together, while
+pushing unrelated image-text pairs further apart in the CLIP model's
+representation space.</p>
+<h2 id="moon-models-and-an-alternative-to-weight-drift-penalties"><a class="header" href="#moon-models-and-an-alternative-to-weight-drift-penalties">MOON models and an alternative to weight-drift penalties</a></h2>
+<p>As in FedProx, the major contribution of the MOON algorithm is to modify the
+local learning objective for each client. As foreshadowed in the previous
+section, the modification involves a contrastive loss function. To define this
+loss function, MOON first considers splitting the model to be federally trained
+into two stages: a feature map followed by a classification module.
+Furthermore, at each server round, \(t\), it distinguishes between three
+models. These models are illustrated in the figure below.</p>
 <figure>
 <center>
-<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedavg.svg" alt="FedAvg Algorithm" width="100%">
+<img src="../../assets/SplitModels.svg" alt="Moon models and their latent representation" width="100%">
+<figcaption>The three models important in the computation of MOON's
+contrastive loss functions and their latent representations.</figcaption>
 </center>
 </figure>
-<p>Note that, in the algorithm above, the local updates are performed with
-standard batch SGD. There is nothing stopping us from using a different
-training procedure on the client side. For example, one might instead perform
-such updates using an AdamW optimizer.<sup class="footnote-reference"><a href="#2">2</a></sup> As with standard ML
-training, the type of optimizer that works best is problem dependent.</p>
-<h3 id="a-broken-equivalence-can-have-consequences"><a class="header" href="#a-broken-equivalence-can-have-consequences">A broken equivalence can have consequences</a></h3>
-<p>Both theoretically and experimentally, FedAvg is a strong algorithm. The
-modifications to FedSGD can be used to substantially drive down communication
-costs while retaining many of the benefits of FedSGD in practice. Since its
-introduction, the FedAvg algorithm has been widely used to make ML model
-training on decentralized datasets a reality. However, the modifications that
-make FedAvg more communication efficient compared with FedSGD also break the
-mathematical equivalence to global large-batch SGD enjoyed by FedSGD.</p>
-<p>When the training data spread across clients is identically and independently
-distributed (i.e. drawn independently from the same distribution), this loss
-of equivalence is generally less consequential. On the other hand, when
-client data distributions become more heterogeneous, the lack of true
-equivalence materially impacts the convergence properties of FedAvg and can
-lead to suboptimal performance. As such, many approaches have since been
-proposed to improve upon FedAvg while maintaining its desirable qualities, like
-communication efficiency.</p>
-<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links</a></h4>
+<p>For server round \(t\), the model on the left represents the model after
+weight aggregation by the server. In the middle is the final model after
+local training on Client \(i\). The weights, \(\mathbf{w}^{t-1}_i\), have
+been aggregated across participating clients to form \(\mathbf{w}^t\).
+Finally, the model on the right is the one being locally trained on Client
+\(i\). The output of the feature maps in these models will be used to form
+the local contrastive loss for Client \(i\).</p>
+<p>Let \(\ell_i((\mathbf{x}, y); \mathbf{w})\) denote the local loss function
+of Client \(i\) for an input, \(\mathbf{x}\), and label, \(y\),
+parameterized by model weights \(\mathbf{w}\). MOON augments this local loss
+with the contrastive loss function</p>
+<p>$$
+\begin{align*}
+\ell_{i, \text{con}}((\mathbf{x}, y);\mathbf{w}^t_i) = - \log \frac{\exp
+\left(\text{sim}(\mathbf{z}, \mathbf{z}_{\text{glob}}) \tau^{-1}
+\right)}{\exp \left(\text{sim}(\mathbf{z}, \mathbf{z}_{\text{glob}})
+\tau^{-1} \right) + \exp \left(\text{sim}(\mathbf{z},
+\mathbf{z}_{\text{prev}}) \tau^{-1} \right)}.
+\end{align*}
+$$</p>
+<p>That is, the local objective for Client \(i\) is written</p>
+<p>$$
+\begin{align*}
+\ell_i((\mathbf{x}, y); \mathbf{w}^t_i) +
+\mu \ell_{i, \text{con}}((\mathbf{x}, y);\mathbf{w}^t_i),
+\end{align*}
+$$</p>
+<p>for \(\mu &gt; 0\). Note that, when computed over a batch of data, the average
+loss over all data points in the batch is computed.</p>
+<p>The idea here is similar to FedProx. In some sense, we
+still want to make sure that, during training, the model does not drift too
+far from the global model, as was the case in FedProx. The difference, here,
+is that we're applying that constraint in the feature representation space,
+rather than directly in the model weights themselves. In the original work,
+MOON showed notable improvements over methods like FedProx in heterogeneous
+settings. However, it does not <strong>always</strong> outperform FedProx or even FedAvg.<sup class="footnote-reference"><a href="#4">4</a></sup>
+As such, there are likely scenarios where MOON is the right approach for FL in
+heterogeneous settings, while others might benefit from an alternative
+technique.</p>
+<h2 id="the-algorithm"><a class="header" href="#the-algorithm">The Algorithm</a></h2>
+<p>The MOON algorithm is fairly similar to that of FedProx. Most server-side
+aggregation strategies may be applied in combination with MOON. However, the
+algorithm has some additional compute and memory overhead, as forward passes
+of three separate models must be run in order to extract the latent
+representations of the data points in each training batch. In the algorithm
+below, FedAvg is used as the server-side strategy.</p>
+<figure>
+<center>
+<img src="../../assets/algorithm-moon.svg" alt="Moon Algorithms" width="100%">
+</center>
+</figure>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p><a href="https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf" target="_blank" rel="noopener noreferrer">H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
-Communication-efficient learning of deep networks from decentralized data.
-Proceedings of the 20th AISTATS, 2017.</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2021/papers/Li_Model-Contrastive_Federated_Learning_CVPR_2021_paper.pdf" target="_blank" rel="noopener noreferrer">Q. Li, B. He, and D. Song. Model-contrastive federated learning. In Proceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2021a.</a></p>
 </div>
 <div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
-<p><a href="https://arxiv.org/pdf/1711.05101" target="_blank" rel="noopener noreferrer">I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM,
-2018.386</a></p>
+<p><a href="https://arxiv.org/pdf/1812.06127" target="_blank" rel="noopener noreferrer">T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith.
+Federated optimization in heterogeneous networks. In I. Dhillon,
+D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and
+Systems, volume 2, pages 429–450, 2020.</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://proceedings.mlr.press/v139/radford21a/radford21a.pdf" target="_blank" rel="noopener noreferrer">Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal,
+Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual
+models from natural language supervision. In International conference on machine learning,
+pages 8748–8763. PMLR, 2021.</a></p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://proceedings.mlr.press/v252/tavakoli24a.html" target="_blank" rel="noopener noreferrer">Fatemeh Tavakoli, D. B. Emerson, Sana Ayromlou, John Taylor Jewell,
+Amrit Krishnan, Yuchong Zhang, Amol Verma, and Fahad Razak.
+A comprehensive view of personalized federated learning on heterogeneous
+clinical datasets. In Kaivalya Deshpande, Madalina Fiterau, Shalmali Joshi,
+Zachary Lipton, Rajesh Ranganath, and Iñigo Urteaga, editors, Proceedings
+of the 9th Machine Learning for Healthcare Conference, volume 252 of
+Proceedings of Machine Learning Research. PMLR, 16–17 Aug 2024.</a></p>
 </div>
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
@@ -305,13 +320,10 @@ Proceedings of the 20th AISTATS, 2017.</a></p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../horizontal/vanilla_fl/fedsgd.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../horizontal/robust_global_fl/fedprox.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../horizontal/robust_global_fl/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -319,13 +331,10 @@ Proceedings of the 20th AISTATS, 2017.</a></p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../horizontal/vanilla_fl/fedsgd.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../horizontal/robust_global_fl/fedprox.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../horizontal/robust_global_fl/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>FedAvg - AI Pocket Reference: FL</title>
+        <title>Robust Global FL - AI Pocket Reference: FL</title>
 
 
         <!-- Custom HTML head -->
@@ -162,123 +162,160 @@
                 <div id="content" class="content">
                     <main>
                         <!-- markdownlint-disable-file MD033 MD013 -->
-<h1 id="fedavg"><a class="header" href="#fedavg">FedAvg</a></h1>
+<h1 id="robust-global-fl-approaches"><a class="header" href="#robust-global-fl-approaches">Robust Global FL Approaches</a></h1>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
   <div>
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
       <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
     </a>
-    <p style="margin: 0;"><small>Reading time: 5 min</small></p>
+    <p style="margin: 0;"><small>Reading time: 7 min</small></p>
   </div>
 </div>
-<p>The FedAvg algorithm<sup class="footnote-reference"><a href="#1">1</a></sup> builds on the same principles of FedSGD, but aims to
-reduce the communication costs incurred by the <a href="fedsgd.html">FedSGD</a> approach.
-Recall that the major shortcoming of FedSGD was that it required clients to
-send local gradients for every training step in order to perform model updates.
-The FedAvg algorithm attempts to reduce this overhead by pushing additional
-computation onto the clients.</p>
-<h2 id="the-math"><a class="header" href="#the-math">The math</a></h2>
-<p>Assume a fixed learning rate of \(\eta &gt; 0\), and denote</p>
+<h2 id="data-heterogeneity-in-standard-ml"><a class="header" href="#data-heterogeneity-in-standard-ml">Data heterogeneity in standard ML</a></h2>
+<p>In standard ML, when training and deploying a model, a standard underlying
+assumption is that the training data is distributionally
+similar to new data to which the model will be applied. There are methods
+that specialize in out-of-domain generalization, but in most cases
+models are assumed to be applied on data that is drawn from the same
+statistical distributions that describe the data on which it was trained. The
+validity of this assumption can degrade, for example, over time or due to
+the model being used to make predictions in entirely new domains.</p>
+<p>While data shifts present a significant challenge in centralized ML training,
+the characteristics that describe data shifts in this domain also exist in FL
+when comparing disparate, distributed datasets. Data shift between such
+datasets is typically referred to as "data heterogeneity" between clients. Such
+heterogeneity introduces new obstacles in FL and is quite prevalent. Before
+discussing its impact on federated training and how it is addressed. Let's
+define some types of data divergence. Three common ways to describe
+disparities or shifts between training and inference data are:<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<ol>
+<li><a href="#label-shift">Label Shift</a></li>
+<li><a href="#covariate-shift">Covariate Shift</a></li>
+<li><a href="#concept-drift">Concept Drift</a></li>
+</ol>
+<p>Let \(X\) and \(Y\) represent the feature (input) and label (output)
+spaces, respectively for a model. Shifts are present, regardless of whether
+model performance degrades, when the joint distributions</p>
 <p>$$
 \begin{align}
-\mathbf{w}_{t+1}^k = \mathbf{w}_t - \eta \nabla L_k(\mathbf{w}_t). \tag{1}
+\mathbb{P}_{\text{train}}(X, Y) \neq \mathbb{P}_{\text{test}}(X, Y). \tag{1}
 \end{align}
 $$</p>
-<p>Note that \(\mathbf{w}_t - \eta \nabla L_k(\mathbf{w}_t)\) is just a
-local (full) gradient step on client \(k\). That is,
-\(\nabla L_k(\mathbf{w}_t)\) is the gradient with respect to all training
-data on client \(k\). So the weights \(\mathbf{w}_{t+1}^k\) represent
-a new model using only the data of client \(k\) to update the weights,
-\(\mathbf{w}_t\). Then we can rewrite the server update in FedSGD in terms
-of \(\mathbf{w}_{t+1}^k\) with a little algebra as</p>
-<p>$$
-\begin{align}
-\mathbf{w}_{t+1}&amp;= \mathbf{w}_t - \eta \sum_{k \in C_t} \frac{n_k}{n_s} \nabla L_k(\mathbf{w}_t) \\
-&amp;= \sum_{k \in C_t} \frac{n_k}{n_s} \mathbf{w}_t - \eta \sum_{k \in C_t} \frac{n_k}{n_s} \nabla L_k(\mathbf{w}_t) \\
-&amp;= \sum_{k \in C_t} \frac{n_k}{n_s} \mathbf{w}_{t+1}^k. \tag{2}
-\end{align}
-$$</p>
-<p>The final line of Equation (2) implies that the updated weights,
-\(\mathbf{w}_{t+1}\), in FedSGD can be rewritten as the linearly weighted
-average of <strong>local</strong> weight updates performed by the clients themselves. That
-is, \(\mathbf{w}_{t+1}\) is just a weighted average of locally updated
-weights, where the weights are the proportion of data points on
-each client (\(n_k\)) relative the the size of all data points used to compute the
-update (\(n_s\)).</p>
-<p>With this in hand, we can push responsibility for updating model weights onto
-the clients participating in a round of FL training. Only model weights are
-communicated back and forth, and the server need only average the locally
-updated weights to obtain the new model. This procedure remains mathematically
-equivalent to centralized large batch SGD, as is the case for FedSGD. The bad
-news is that we haven't saved any communication yet. This still relies on
-communicating the updated weights after each step and the dimensionality of the
-model weights and their gradient is equal. So what can we do?</p>
-<p>Rather than a full, local-gradient step on each client, as expressed in
-Equation (1), we can run multiple local batch SGD updates. For client \(k\),
-let \(B\) be a set of batches drawn from \(P_k\), the collection of
-training data points on client \(k\). For \(b \in B\), perform local
-updates of the form</p>
-<p>$$
-\begin{align*}
-\mathbf{w}^k = \mathbf{w}^k - \eta \frac{1}{\vert b \vert} \sum_{i \in b} \nabla \ell_i (\mathbf{w}^k).
-\end{align*}
-$$</p>
-<p>This allows for each client to perform multiple local batch SGD updates to
-the model weights. As in standard ML training, these updates can be performed
-for a certain number epochs, iterating through each client's local data. Only after
-completing such iterations are the updated weights communicated to the server for
-aggregation using the same formula in Equation (2) on the server side. In this
-manner, we have decoupled model updates from communication with the server and
-are free to communicate as frequently or infrequently as we choose.</p>
-<h2 id="the-algorithm"><a class="header" href="#the-algorithm">The algorithm</a></h2>
-<p>With the new approach proposed in the previous section, the full FedAvg
-algorithm may be summarized in the algorithm below. Inputs to the algorithm
-are:</p>
-<ul>
-<li>\(N\): The number of clients.</li>
-<li>\(T\): The number of server rounds to perform.</li>
-<li>\(\eta\): The learning rate to be used by each client.</li>
-<li>\(n_b\): The batch size to be used for each local gradient step.</li>
-<li>\(\mathbf{w}\): The initial weights for the model to be trained.</li>
-<li>\(E\): The number of epochs for each client to perform.</li>
-</ul>
-<p>After the final server round is complete, each client receives the final
-model as described by the weights \(\mathbf{w}_T\).</p>
+<h3 id="label-shift"><a class="header" href="#label-shift">Label Shift</a></h3>
+<p>Label shifts occur when there is a change in the label distribution \(\mathbb{P}(Y)\)
+with a fixed posterior distribution \(\mathbb{P}(X \vert Y)\). That is, the
+probability of seeing different label values shifts, but the distribution of
+features conditioned on the labels does not change. A pertinent example of
+this might be data meant to train a model to diagnose COVID-19 in the early
+days of spread versus the later stages when the virus was widely circulating.
+Generally, the symptoms, given that someone had the virus, did not markedly
+change. However, the prevalence of the virus, \(\mathbb{P}(Y)\), did.</p>
+<h3 id="covariate-shift"><a class="header" href="#covariate-shift">Covariate Shift</a></h3>
+<p>Covariate shifts between data distributions represent a change in the feature
+distribution, \(\mathbb{P}(X)\), while the statistical relationship of labels to
+features, \(\mathbb{P}(Y \vert X)\), remains fixed. Consider the setting of training
+a readmission risk model on data drawn from the patient population of a
+general hospital. If, for instance, that model were transferred for use at a
+nearby pediatric hospital, assuming all else equal, predictions from that model
+would be influenced by covariate drift due to the change in patient
+demographics. Namely, though features associated with younger patients are
+likely part of the general hospital population, they will, of course, be
+statistically over-represented in the data points seen by the model at the
+pediatric hospital.</p>
+<h3 id="concept-drift"><a class="header" href="#concept-drift">Concept Drift</a></h3>
+<p>Concept drift is characterized by a change in \(\mathbb{P}(Y \vert X)\) provided a
+fixed \(\mathbb{P}(Y)\). Essentially, this drift encapsulates a shift in the
+predictive relationship between the features, \(X\), and the labels, \(Y\).
+As an illustrative example, consider training a purchase conversion model
+for airline ticket purchases where two possible incentives are features. The
+first offers a ticket discount to encourage purchase, whereas the second offers
+free add-ons. In good economic periods, the second incentive may produce higher
+conversion rates. On the other hand, in periods of economic uncertainty,
+perhaps the first offer would do so.</p>
+<p>Note that each of the shifts discussed above may exist in isolation or be
+present together to varying degrees.</p>
+<h2 id="how-does-data-heterogeneity-manifest-in-fl"><a class="header" href="#how-does-data-heterogeneity-manifest-in-fl">How does data heterogeneity manifest in FL?</a></h2>
+<p>In FL, differences in training data distributions are not strictly temporal or
+marked by a change in the joint probability distributions of the training and
+test datasets, as expressed in Equation (1). Each client participating in
+federated training might naturally exhibit distribution disparities compared
+to one another. Consider the example given in the Section on
+<a href="#covariate-shift">Covariate Shift</a>. If the general and pediatric hospitals
+would like to collaboratively train a model using FL, the demographics of
+their patient populations mean that there will be substantial statistical
+heterogeneity between their respective training datasets.</p>
+<p>Each distributed training dataset in an FL system may naturally exhibit the
+various disparities, compared with one another, discussed above. As a further
+example, consider two financial institutions working together to train a fraud
+detection model. Because of their different clientele, one bank may experience
+fraud at a rate of 2% per transaction, while the other may see only 0.1%, an
+example of label shift, among potentially others.</p>
+<h2 id="how-does-it-impact-fl-models-and-their-training"><a class="header" href="#how-does-it-impact-fl-models-and-their-training">How does it impact FL models and their training?</a></h2>
+<p>Data heterogeneity, in its various forms, has been linked to a number of
+challenges in training FL models using methods like
+<a href="../vanilla_fl/fedavg.html">FedAvg</a>, including slower convergence, performance
+degradation, and unevenly distributed training dynamics among clients. In [2],
+a clear illustration of the impact of data heterogeneity is provided. In the
+figures below, two clients have locally trained a model on their respective
+datasets.</p>
 <figure>
 <center>
-<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedavg.svg" alt="FedAvg Algorithm" width="100%">
+<img src="../../assets/local_model_1.png" alt="Local Model 1", height="300">
+<img src="../../assets/local_model_2.png" alt="Local Model 2", height="300">
+<figcaption>Two clients with different datasets. Note that each holds a
+slightly different view of the feature space. Notably, Client 1 (left) has a
+distinct cluster of data points in the bottom right and fewer points labeled in
+green within the red cluster. </figcaption>
 </center>
 </figure>
-<p>Note that, in the algorithm above, the local updates are performed with
-standard batch SGD. There is nothing stopping us from using a different
-training procedure on the client side. For example, one might instead perform
-such updates using an AdamW optimizer.<sup class="footnote-reference"><a href="#2">2</a></sup> As with standard ML
-training, the type of optimizer that works best is problem dependent.</p>
-<h3 id="a-broken-equivalence-can-have-consequences"><a class="header" href="#a-broken-equivalence-can-have-consequences">A broken equivalence can have consequences</a></h3>
-<p>Both theoretically and experimentally, FedAvg is a strong algorithm. The
-modifications to FedSGD can be used to substantially drive down communication
-costs while retaining many of the benefits of FedSGD in practice. Since its
-introduction, the FedAvg algorithm has been widely used to make ML model
-training on decentralized datasets a reality. However, the modifications that
-make FedAvg more communication efficient compared with FedSGD also break the
-mathematical equivalence to global large-batch SGD enjoyed by FedSGD.</p>
-<p>When the training data spread across clients is identically and independently
-distributed (i.e. drawn independently from the same distribution), this loss
-of equivalence is generally less consequential. On the other hand, when
-client data distributions become more heterogeneous, the lack of true
-equivalence materially impacts the convergence properties of FedAvg and can
-lead to suboptimal performance. As such, many approaches have since been
-proposed to improve upon FedAvg while maintaining its desirable qualities, like
-communication efficiency.</p>
-<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links</a></h4>
+<p>The decision boundaries of the locally trained models are largely similar but
+differ in important ways. If the two models are averaged via FedAvg (see figure
+below), the result is a blurred decision boundary which has diverged from the
+sharp boundary one would expect to compute were the data agglomerated and a
+central model trained. Alternatively, using an approach that is more robust
+to data heterogeneity, FedDF,<sup class="footnote-reference"><a href="#2">2</a></sup> the resulting model exhibits the kinds of
+classification boundaries one would expect when considering the data
+distributions from a global perspective.</p>
+<figure>
+<center>
+<img src="../../assets/fedavg_model.png" alt="FedAvg Model", height="300">
+<img src="../../assets/fed_df_model.png" alt="FedDF Model", height="300">
+<figcaption>Model resulting from FedAvg (left) compared with the model
+trained using FedDF (right).</figcaption>
+</center>
+</figure>
+<p>There are two common routes, among many other routes, for addressing
+heterogeneity in FL. The first is to maintain a sense of a single global model
+to be trained by all participants. Modifications to items like the aggregation
+strategy, local learning objectives, or corrections to model updates are
+applied to better align FL training with the dynamics of centralized training
+without sacrificing most of the benefits associated with the original FedAvg
+algorithm. The second route is to abandon, to one degree or another, the idea
+of a global model that performs well across all clients and instead allow
+each client to train a unique model. This is known as Personal or Personalized
+FL (pFL). Such models still benefit from global information through aspects of
+FL, but more strongly emphasize local distributions.</p>
+<figure>
+<center>
+<img src="../../assets/heterogeneity_two_routes_alt.svg" alt="Two FL Routes", width="75%">
+<figcaption>Two possible routes for addressing data heterogeneity in FL.</figcaption>
+</center>
+</figure>
+<p>In the subsequent sections of this chapter, we'll cover a few of the many FL
+methods aimed at robust global model optimization in FL. Such models are often
+more generalizable and are more easily distributed to new domains than their
+pFL equivalents. Alternatively, model performance on each client may not be
+as high as those produced by pFL approaches.</p>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p><a href="https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf" target="_blank" rel="noopener noreferrer">H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
-Communication-efficient learning of deep networks from decentralized data.
-Proceedings of the 20th AISTATS, 2017.</a></p>
+<p>J. Quinonero-Candela, M. Sugiyama, A. Schwaighofer, and N. D. Lawrence. Dataset shift
+in machine learning. Mit Press, 2008</p>
 </div>
 <div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
-<p><a href="https://arxiv.org/pdf/1711.05101" target="_blank" rel="noopener noreferrer">I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM,
-2018.386</a></p>
+<p><a href="https://proceedings.neurips.cc/paper/2020/file/18df51b97ccd68128e994804f3eccc87-Paper.pdf" target="_blank" rel="noopener noreferrer">Lin, Tao et al. “Ensemble distillation for robust model fusion in federated
+learning”. In: Proceedings of the 34th International Conference on Neural
+Information Processing Systems. NIPS ’20. Vancouver, BC, Canada: Curran
+Associates Inc., 2020.</a></p>
 </div>
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
@@ -305,11 +342,11 @@ Proceedings of the 20th AISTATS, 2017.</a></p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../horizontal/vanilla_fl/fedsgd.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../horizontal/vanilla_fl/fedavg.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../horizontal/robust_global_fl/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../horizontal/robust_global_fl/fedopt.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -319,11 +356,11 @@ Proceedings of the 20th AISTATS, 2017.</a></p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../horizontal/vanilla_fl/fedsgd.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../horizontal/vanilla_fl/fedavg.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../horizontal/robust_global_fl/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../horizontal/robust_global_fl/fedopt.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

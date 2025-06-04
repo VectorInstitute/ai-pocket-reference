@@ -651,7 +651,7 @@ such algorithms that modify or add to the basic framework below.</p>
 </li>
 <li><a href="horizontal/robust_global_fl/index.html">Robust Global FL</a>
 <ul>
-<li><a href="horizontal/robust_global_fl/fedadam.html">FedAdam</a></li>
+<li><a href="horizontal/robust_global_fl/fedopt.html">FedOpt</a></li>
 <li><a href="horizontal/robust_global_fl/fedprox.html">FedProx</a></li>
 <li><a href="horizontal/robust_global_fl/moon.html">MOON</a></li>
 </ul>
@@ -859,7 +859,7 @@ the model to be trained. After the final server round is complete, each
 client receives the final model as described by the weights \(\mathbf{w}_T\).</p>
 <figure>
 <center>
-<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedsgd.svg" alt="FedSGD Algorithm">
+<img src="horizontal/vanilla_fl/../../assets/algorithm-fedsgd.svg" alt="FedSGD Algorithm" width="100%">
 </center>
 </figure>
 <h3 id="communication-overhead"><a class="header" href="#communication-overhead">Communication overhead</a></h3>
@@ -984,7 +984,7 @@ are:</p>
 model as described by the weights \(\mathbf{w}_T\).</p>
 <figure>
 <center>
-<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedavg.svg" alt="FedAvg Algorithm">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedavg.svg" alt="FedAvg Algorithm" width="100%">
 </center>
 </figure>
 <p>Note that, in the algorithm above, the local updates are performed with
@@ -1017,6 +1017,637 @@ Proceedings of the 20th AISTATS, 2017.</a></p>
 <div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
 <p><a href="https://arxiv.org/pdf/1711.05101" target="_blank" rel="noopener noreferrer">I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM,
 2018.386</a></p>
+</div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/emersodb">
+<img src="https://github.com/emersodb.png"
+  width="32px" alt="Contributor emersodb" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 MD013 -->
+<h1 id="robust-global-fl-approaches"><a class="header" href="#robust-global-fl-approaches">Robust Global FL Approaches</a></h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 7 min</small></p>
+  </div>
+</div>
+<h2 id="data-heterogeneity-in-standard-ml"><a class="header" href="#data-heterogeneity-in-standard-ml">Data heterogeneity in standard ML</a></h2>
+<p>In standard ML, when training and deploying a model, a standard underlying
+assumption is that the training data is distributionally
+similar to new data to which the model will be applied. There are methods
+that specialize in out-of-domain generalization, but in most cases
+models are assumed to be applied on data that is drawn from the same
+statistical distributions that describe the data on which it was trained. The
+validity of this assumption can degrade, for example, over time or due to
+the model being used to make predictions in entirely new domains.</p>
+<p>While data shifts present a significant challenge in centralized ML training,
+the characteristics that describe data shifts in this domain also exist in FL
+when comparing disparate, distributed datasets. Data shift between such
+datasets is typically referred to as "data heterogeneity" between clients. Such
+heterogeneity introduces new obstacles in FL and is quite prevalent. Before
+discussing its impact on federated training and how it is addressed. Let's
+define some types of data divergence. Three common ways to describe
+disparities or shifts between training and inference data are:<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<ol>
+<li><a href="horizontal/robust_global_fl/index.html#label-shift">Label Shift</a></li>
+<li><a href="horizontal/robust_global_fl/index.html#covariate-shift">Covariate Shift</a></li>
+<li><a href="horizontal/robust_global_fl/index.html#concept-drift">Concept Drift</a></li>
+</ol>
+<p>Let \(X\) and \(Y\) represent the feature (input) and label (output)
+spaces, respectively for a model. Shifts are present, regardless of whether
+model performance degrades, when the joint distributions</p>
+<p>$$
+\begin{align}
+\mathbb{P}_{\text{train}}(X, Y) \neq \mathbb{P}_{\text{test}}(X, Y). \tag{1}
+\end{align}
+$$</p>
+<h3 id="label-shift"><a class="header" href="#label-shift">Label Shift</a></h3>
+<p>Label shifts occur when there is a change in the label distribution \(\mathbb{P}(Y)\)
+with a fixed posterior distribution \(\mathbb{P}(X \vert Y)\). That is, the
+probability of seeing different label values shifts, but the distribution of
+features conditioned on the labels does not change. A pertinent example of
+this might be data meant to train a model to diagnose COVID-19 in the early
+days of spread versus the later stages when the virus was widely circulating.
+Generally, the symptoms, given that someone had the virus, did not markedly
+change. However, the prevalence of the virus, \(\mathbb{P}(Y)\), did.</p>
+<h3 id="covariate-shift"><a class="header" href="#covariate-shift">Covariate Shift</a></h3>
+<p>Covariate shifts between data distributions represent a change in the feature
+distribution, \(\mathbb{P}(X)\), while the statistical relationship of labels to
+features, \(\mathbb{P}(Y \vert X)\), remains fixed. Consider the setting of training
+a readmission risk model on data drawn from the patient population of a
+general hospital. If, for instance, that model were transferred for use at a
+nearby pediatric hospital, assuming all else equal, predictions from that model
+would be influenced by covariate drift due to the change in patient
+demographics. Namely, though features associated with younger patients are
+likely part of the general hospital population, they will, of course, be
+statistically over-represented in the data points seen by the model at the
+pediatric hospital.</p>
+<h3 id="concept-drift"><a class="header" href="#concept-drift">Concept Drift</a></h3>
+<p>Concept drift is characterized by a change in \(\mathbb{P}(Y \vert X)\) provided a
+fixed \(\mathbb{P}(Y)\). Essentially, this drift encapsulates a shift in the
+predictive relationship between the features, \(X\), and the labels, \(Y\).
+As an illustrative example, consider training a purchase conversion model
+for airline ticket purchases where two possible incentives are features. The
+first offers a ticket discount to encourage purchase, whereas the second offers
+free add-ons. In good economic periods, the second incentive may produce higher
+conversion rates. On the other hand, in periods of economic uncertainty,
+perhaps the first offer would do so.</p>
+<p>Note that each of the shifts discussed above may exist in isolation or be
+present together to varying degrees.</p>
+<h2 id="how-does-data-heterogeneity-manifest-in-fl"><a class="header" href="#how-does-data-heterogeneity-manifest-in-fl">How does data heterogeneity manifest in FL?</a></h2>
+<p>In FL, differences in training data distributions are not strictly temporal or
+marked by a change in the joint probability distributions of the training and
+test datasets, as expressed in Equation (1). Each client participating in
+federated training might naturally exhibit distribution disparities compared
+to one another. Consider the example given in the Section on
+<a href="horizontal/robust_global_fl/index.html#covariate-shift">Covariate Shift</a>. If the general and pediatric hospitals
+would like to collaboratively train a model using FL, the demographics of
+their patient populations mean that there will be substantial statistical
+heterogeneity between their respective training datasets.</p>
+<p>Each distributed training dataset in an FL system may naturally exhibit the
+various disparities, compared with one another, discussed above. As a further
+example, consider two financial institutions working together to train a fraud
+detection model. Because of their different clientele, one bank may experience
+fraud at a rate of 2% per transaction, while the other may see only 0.1%, an
+example of label shift, among potentially others.</p>
+<h2 id="how-does-it-impact-fl-models-and-their-training"><a class="header" href="#how-does-it-impact-fl-models-and-their-training">How does it impact FL models and their training?</a></h2>
+<p>Data heterogeneity, in its various forms, has been linked to a number of
+challenges in training FL models using methods like
+<a href="horizontal/robust_global_fl/../vanilla_fl/fedavg.html">FedAvg</a>, including slower convergence, performance
+degradation, and unevenly distributed training dynamics among clients. In [2],
+a clear illustration of the impact of data heterogeneity is provided. In the
+figures below, two clients have locally trained a model on their respective
+datasets.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/local_model_1.png" alt="Local Model 1", height="300">
+<img src="horizontal/robust_global_fl/../../assets/local_model_2.png" alt="Local Model 2", height="300">
+<figcaption>Two clients with different datasets. Note that each holds a
+slightly different view of the feature space. Notably, Client 1 (left) has a
+distinct cluster of data points in the bottom right and fewer points labeled in
+green within the red cluster. </figcaption>
+</center>
+</figure>
+<p>The decision boundaries of the locally trained models are largely similar but
+differ in important ways. If the two models are averaged via FedAvg (see figure
+below), the result is a blurred decision boundary which has diverged from the
+sharp boundary one would expect to compute were the data agglomerated and a
+central model trained. Alternatively, using an approach that is more robust
+to data heterogeneity, FedDF,<sup class="footnote-reference"><a href="#2">2</a></sup> the resulting model exhibits the kinds of
+classification boundaries one would expect when considering the data
+distributions from a global perspective.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/fedavg_model.png" alt="FedAvg Model", height="300">
+<img src="horizontal/robust_global_fl/../../assets/fed_df_model.png" alt="FedDF Model", height="300">
+<figcaption>Model resulting from FedAvg (left) compared with the model
+trained using FedDF (right).</figcaption>
+</center>
+</figure>
+<p>There are two common routes, among many other routes, for addressing
+heterogeneity in FL. The first is to maintain a sense of a single global model
+to be trained by all participants. Modifications to items like the aggregation
+strategy, local learning objectives, or corrections to model updates are
+applied to better align FL training with the dynamics of centralized training
+without sacrificing most of the benefits associated with the original FedAvg
+algorithm. The second route is to abandon, to one degree or another, the idea
+of a global model that performs well across all clients and instead allow
+each client to train a unique model. This is known as Personal or Personalized
+FL (pFL). Such models still benefit from global information through aspects of
+FL, but more strongly emphasize local distributions.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/heterogeneity_two_routes_alt.svg" alt="Two FL Routes", width="75%">
+<figcaption>Two possible routes for addressing data heterogeneity in FL.</figcaption>
+</center>
+</figure>
+<p>In the subsequent sections of this chapter, we'll cover a few of the many FL
+methods aimed at robust global model optimization in FL. Such models are often
+more generalizable and are more easily distributed to new domains than their
+pFL equivalents. Alternatively, model performance on each client may not be
+as high as those produced by pFL approaches.</p>
+<h4 id="references--useful-links-6"><a class="header" href="#references--useful-links-6">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>J. Quinonero-Candela, M. Sugiyama, A. Schwaighofer, and N. D. Lawrence. Dataset shift
+in machine learning. Mit Press, 2008</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://proceedings.neurips.cc/paper/2020/file/18df51b97ccd68128e994804f3eccc87-Paper.pdf" target="_blank" rel="noopener noreferrer">Lin, Tao et al. “Ensemble distillation for robust model fusion in federated
+learning”. In: Proceedings of the 34th International Conference on Neural
+Information Processing Systems. NIPS ’20. Vancouver, BC, Canada: Curran
+Associates Inc., 2020.</a></p>
+</div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/emersodb">
+<img src="https://github.com/emersodb.png"
+  width="32px" alt="Contributor emersodb" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 MD013 -->
+<h1 id="the-fedopt-family-of-aggregation-strategies"><a class="header" href="#the-fedopt-family-of-aggregation-strategies">The FedOpt Family of Aggregation Strategies</a></h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 4 min</small></p>
+  </div>
+</div>
+<p>Recall that modern deep learning optimizers like AdamW<sup class="footnote-reference"><a href="#1">1</a></sup> or AdaGrad<sup class="footnote-reference"><a href="#2">2</a></sup> use
+first- and second-order moment estimates of the stochastic gradients computed
+during iterative optimization to adaptively modify the model updates.
+At a high level, each algorithm aims to reinforce common update directions
+(i.e. those with momentum) and damp update elements corresponding to noisy
+directions (i.e. those with high batch-to-batch variance). The FedOpt
+family<sup class="footnote-reference"><a href="#3">3</a></sup> of algorithms, considers modifying the traditional
+<a href="horizontal/robust_global_fl/../vanilla_fl/fedavg.html">FedAvg</a> aggregation algorithm to incorporate
+similar adaptations into server-side model updates in FL.</p>
+<h2 id="mathematical-motivation"><a class="header" href="#mathematical-motivation">Mathematical motivation</a></h2>
+<p>In FedAvg, recall that, after a round of local training on each client,
+client model weights are combined into a single model representation via</p>
+<p>$$
+\begin{align*}
+\mathbf{w}_{t+1} = \sum_{k \in C_t} \frac{n_k}{n_s} \mathbf{w}^k_{t+1},
+\end{align*}
+$$</p>
+<p>where \(\mathbf{w}^k_{t+1}\) is simply the model weights after local
+training on client \(k\). For round \(t\), each client starts local
+training from the same set of weights, \(\mathbf{w_t}\). Assume that each
+client has the same number of data points such that \(n_k = m\). With a bit
+of algebra, the update is rewritten</p>
+<p>$$
+\begin{align}
+\mathbf{w}_{t+1} = \sum_{k \in C_t} \frac{n_k}{n_s} \mathbf{w}^k_{t+1} &amp;= \mathbf{w}_t - \frac{1}{C_t} \sum_{k \in C_t}
+\left( \mathbf{w}_t - \mathbf{w}^k_{t+1} \right), \\
+&amp;= \mathbf{w}_t + \frac{1}{C_t} \sum_{k \in C_t}  \Delta^k_{t+1}, \\
+&amp;= \mathbf{w}_t + \Delta_{t+1}. \tag{1}
+\end{align}
+$$</p>
+<p>Here, \(\Delta^k_{t+1} = \mathbf{w}^k_{t+1} - \mathbf{w}_t\) is just
+the vector pointing from the initial models weights to those after local
+training and \(\Delta_{t+1}\) is simply the uniform average of these
+update vectors.</p>
+<p>Recall that, if each client uses a fixed learning rate, \(\eta\), and
+performs a single, full gradient update, FedAvg is equivalent to centralized
+large-batch SGD. Similarly, in this case, if each client performs one step of
+batch SGD with a learning rate of 1.0, then the update in Equation (1) is
+equivalent to a batch-SGD update with a learning rate of 1.0 for the
+<strong>server</strong>. The "server-side" batch is the union of the batches used on each
+client.</p>
+<p>The observation that \(-\Delta_{t+1}\) is simply a stochastic gradient
+motivates treating these update directions like the stochastic gradients
+in standard adaptive optimizers. It's important to note that if the clients,
+for instance, apply multiple steps of local SGD or use different learning
+rates, the exact equivalence of \(-\Delta_{t+1}\) to a stochastic gradient
+is broken. However, it shares similarities to such a gradient and is,
+therefore, called a "pseudo-gradient."<sup class="footnote-reference"><a href="#3">3</a></sup></p>
+<h2 id="the-algorithms-fedadagrad-fedadam-fedyogi"><a class="header" href="#the-algorithms-fedadagrad-fedadam-fedyogi">The algorithms: FedAdagrad, FedAdam, FedYogi</a></h2>
+<p>Drawing inspiration from three successful, traditional adaptive optimizers,
+the adaptive server-side aggregation strategies of FedAdaGrad, FedAdam, and
+FedYogi have been proposed. See the algorithm below for details.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/algorithm-fedopt.svg" alt="FedOpt Algorithms" width="100%">
+</center>
+</figure>
+<p>Those familiar with the mathematical formulations of Adagrad, Adam,<sup class="footnote-reference"><a href="#4">4</a></sup> and
+Yogi<sup class="footnote-reference"><a href="#5">5</a></sup> will recognize the general structure of these equations. Computation
+of \(m_t\), based on the average of the update directions suggested by each
+client through local training (\(\Delta_{t+1}\)) serves to accumulate
+momentum associated with directions that are consistently and frequently part
+of these updates. On the other hand, \(\nu_t\) estimates the variance
+associated with update directions throughout the server rounds. Directions
+with higher variance values are damped in favor of those with more consistency
+round over round.</p>
+<p>As with the usual forms of these algorithms, there are a number of
+hyper-parameters that can be tuned, including \(\tau, \beta_1,\) and
+\(\beta_2\). However, sensible defaults are suggested in the paper such that
+\(\beta_1=0.9\) and \(\beta_2=0.99\). The authors also show that
+performance is generally robust to \(\tau\).</p>
+<p>A number of experiments show that the proposed FedOpt family of algorithms
+can outperform FedAvg, especially in heterogeneous settings. Moreover, these
+algorithms, in the experiments of the paper, outperform SCAFFOLD,<sup class="footnote-reference"><a href="#6">6</a></sup> a
+variance reduction method aimed at improving convergence in the presence of
+heterogeneity. A final advantage of the FedOpt family of algorithms is that
+they are accompanied by several convergence results showing that, as long as
+the variance of the local gradients is not too large, the algorithms converge
+properly.</p>
+<h4 id="references--useful-links-7"><a class="header" href="#references--useful-links-7">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://arxiv.org/pdf/1711.05101" target="_blank" rel="noopener noreferrer">I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM,
+2018.386</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf" target="_blank" rel="noopener noreferrer">Duchi, J., Hazan, E., &amp; Singer, Y. (2011). Adaptive subgradient methods
+for online learning and stochastic optimization. Journal of machine learning research, 12(7).</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://arxiv.org/abs/2003.002950" target="_blank" rel="noopener noreferrer">S. J. Reddi, Z. Charles, M. Zaheer, Z. Garrett, K. Rush, J. Konêcný, S. Kumar, and H. B.
+McMahan. Adaptive federated optimization. In ICLR 2021, 2021.</a></p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://arxiv.org/pdf/1412.6980" target="_blank" rel="noopener noreferrer">Kingma, D. P. &amp; Ba, J. (2015). Adam: A Method for Stochastic Optimization.
+In Y. Bengio &amp; Y. LeCun (eds.), ICLR (Poster).</a></p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p><a href="https://proceedings.neurips.cc/paper_files/paper/2018/file/90365351ccc7437a1309dc64e4db32a3-Paper.pdf" target="_blank" rel="noopener noreferrer">Manzil Zaheer, Sashank J. Reddi, Devendra Sachan, Satyen Kale, and
+Sanjiv Kumar. 2018. Adaptive methods for nonconvex optimization. In Proceedings of the 32nd International Conference on Neural Information Processing Systems (NIPS'18). Curran Associates Inc., Red Hook, NY, USA, 9815–9825.</a></p>
+</div>
+<div class="footnote-definition" id="6"><sup class="footnote-definition-label">6</sup>
+<p><a href="https://www.microsoft.com/en-us/research/publication/frustratingly-easy-neural-domain-adaptation/" target="_blank" rel="noopener noreferrer">S. P. Karimireddy, S. Kale, M. Mohri, S. Reddi, S. Stich, and A. T. Suresh.
+SCAFFOLD: Stochastic controlled averaging for federated learning. In
+Hal Daumé III and Aarti Singh, editors, Proceedings of the 37th
+International Conference on Machine Learning, volume 119 of Proceedings of
+Machine Learning Research, pages 5132–5143. PMLR, 13–18 Jul 2020.</a></p>
+</div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/emersodb">
+<img src="https://github.com/emersodb.png"
+  width="32px" alt="Contributor emersodb" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 MD013 -->
+<h1 id="fedprox"><a class="header" href="#fedprox">FedProx</a></h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 5 min</small></p>
+  </div>
+</div>
+<p>The FedProx algorithm<sup class="footnote-reference"><a href="#1">1</a></sup> is one of the earliest approaches specifically aimed
+at addressing the optimization challenges associated with data heterogeneity in
+FL. At its core, the FedProx algorithm is quite straightforward. However,
+prior to diving into the modifications proposed in the FedProx approach, we'll
+first consider the kind of phenomenon that FedProx, along with other methods,
+attempts to counteract.</p>
+<p>To help illustrate the issue, we'll use some helpful visualizations
+from researchers who proposed the SCAFFOLD method.<sup class="footnote-reference"><a href="#2">2</a></sup><sup>,</sup><sup class="footnote-reference"><a href="#3">3</a></sup>
+Consider a two-client FL setting. Each client has their own loss landscape
+based on their privately held data, denoted \(f_1\) and \(f_2\). If each
+client has an equal amount of data, the global loss surface, which is the loss
+function when constructed from all data available on both clients is equivalent
+to \((f_1 + f_2)/2\). When performing standard federated training, the
+objective is to find model weights corresponding to the minimum of this global
+loss function. See the figure below. Note that the minima associated with the
+client loss functions are distinct from the global minimum.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/combined_loss_objective.svg" alt="Combined loss objective" width="66%">
+<figcaption>Comparison of local loss landscapes for two clients with the combined global loss.</figcaption>
+</center>
+</figure>
+<p>Recall that optimization with <a href="horizontal/robust_global_fl/../vanilla_fl/fedsgd.html">FedSGD</a> is equivalent
+to centralized large-batch SGD. That is, rounds of FedSGD are equivalent to
+optimizing the global loss function, expressed here as \((f_1 + f_2)/2\). As
+such, with a properly tuned learning rate, FedSGD will converge to the
+global optimum, as illustrated in the figure below. Each averaged gradient
+step makes steady progress towards the global minimum.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/fedsgd_steps.svg" alt="FedSGD and global convergence" width="66%">
+<figcaption>FedSGD rounds result in averaged models making steady progress towards
+the global minimum.</figcaption>
+</center>
+</figure>
+<p>As detailed in the chapter on <a href="horizontal/robust_global_fl/../vanilla_fl/fedavg.html">FedAvg</a>,<sup class="footnote-reference"><a href="#4">4</a></sup> there is a
+substantial reduction in communication overhead if each client applies
+multiple steps of batch SGD, optimizing the local model based on the local
+loss. It was noted therein, however, that this breaks the equivalence enjoyed,
+for example, by FedSGD with centralized large-batch SGD. In settings, such as
+the one illustrated in the figures thus far, with data heterogeneity and
+markedly different loss landscapes this can engender various issues. One such
+issue is often referred to as "client drift" and is illustrated in the figure
+below.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/fedavg_drift.svg" alt="FedAvg and the influence of local drift" width="66%">
+<figcaption>Illustration of "client drift" in FedAvg updates caused by
+differences in the shape of the local loss functions of each client.</figcaption>
+</center>
+</figure>
+<p>In the figure, each client is applying three local steps of batch SGD before
+sending the resulting weights to server for aggregation. The grey dots
+represent the updates using FedSGD for three rounds from the previous figure.
+The update using FedAvg deviates quite a bit from this path with a distinct
+drift towards the minima of Client 2. Drifts of this kind can be induced by the
+shape of the local loss surface and cause issues with FedAvg, such as slowed
+convergence.</p>
+<h2 id="the-math-2"><a class="header" href="#the-math-2">The Math</a></h2>
+<p>The general idea for FedProx is to limit models from drifting too far during
+local training. For a server round \(t\), consider the aggregated weights
+\(\mathbf{w}_t\). For a given client \(k\), let
+\(\ell_k(b; \mathbf{w})\) denote the local loss function for a batch,
+\(b\), of data, parameterized by model weights \(\mathbf{w}\). The primary
+modification of FedAvg in the FedProx algorithm is to augment
+\(\ell_k(b; \mathbf{w})\) with a penalty term such that, for \(\mu &gt; 0\),
+the local loss becomes</p>
+<p>$$
+\begin{align*}
+\ell_k(b; \mathbf{w}) + \mu \Vert \mathbf{w} - \mathbf{w_t} \Vert^2.
+\end{align*}
+$$</p>
+<p>The penalty term is referred to as the proximal loss. It penalizes significant
+deviation from the global model during local training such that loss
+optimization must trade off improvements in the standard loss with potential
+divergence from the original model weights. Revisiting the loss surfaces above,
+the FedProx penalty term alters the loss surface to make client drift less
+attractive, unless it leads to significant performance gains.</p>
+<h2 id="the-algorithm-2"><a class="header" href="#the-algorithm-2">The Algorithm</a></h2>
+<p>The FedProx algorithm is very similar to that of FedAvg, with the only
+modification coming in the local update calculations.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/algorithm-fedprox.svg" alt="FedProx Algorithms" width="100%">
+</center>
+</figure>
+<h2 id="adapting-mu"><a class="header" href="#adapting-mu">Adapting \(\mu\)</a></h2>
+<p>For a well-tuned \(\mu\), FedProx has been shown to outperform FedAvg under
+heterogeneous data conditions. It is widely applied, both because it is a
+simple modification to the FedAvg framework and because it works fairly well
+across a number of tasks. However, in settings where the data is homogeneous,
+FedProx has been shown to under-perform compared to FedAvg when \(\mu&gt;0\).
+See the top left of the figure below.</p>
+<p>Because of this, the authors of FedProx offer an alternative to extensive
+hyper-parameter tuning. Heuristically, the proximal weight may be adapted
+across server rounds. If the aggregated server-side training loss
+(average final loss on each client) fails to decrease for a round, \(\mu\)
+is increased. If the loss improves for some number of rounds, \(\mu\) is
+decreased. In the figure below, this procedure results in the fuchsia colored
+line in the Figures below.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/FedProxAdaptation_top.png" alt="FedProx vs. FedAvg" width="100%">
+<img src="horizontal/robust_global_fl/../../assets/FedProxAdaptation_bottom.png" alt="FedProx vs. FedAvg" width="100%">
+<figcaption>Comparison of FedProx to FedAvg in various settings. On the top left,
+data is homogeneous across clients. Without adaptation FedProx struggles to out
+perform FedAvg. Data is heterogeneous in the other settings and FedProx performs
+well with and without adaptation.
+</figcaption>
+</center>
+</figure>
+<h4 id="references--useful-links-8"><a class="header" href="#references--useful-links-8">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://arxiv.org/pdf/1812.06127" target="_blank" rel="noopener noreferrer">T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith.
+Federated optimization in heterogeneous networks. In I. Dhillon,
+D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and
+Systems, volume 2, pages 429–450, 2020.</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://www.microsoft.com/en-us/research/publication/frustratingly-easy-neural-domain-adaptation/" target="_blank" rel="noopener noreferrer">S. P. Karimireddy, S. Kale, M. Mohri, S. Reddi, S. Stich, and A. T. Suresh.
+SCAFFOLD: Stochastic controlled averaging for federated learning. In
+Hal Daumé III and Aarti Singh, editors, Proceedings of the 37th
+International Conference on Machine Learning, volume 119 of Proceedings of
+Machine Learning Research, pages 5132–5143. PMLR, 13–18 Jul 2020.</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://docs.google.com/presentation/d/1SYhRC6NMEMJJL2FTGDu5DJeINJBkbwFVGd2Emy43fk0/edit" target="_blank" rel="noopener noreferrer">Images adapted from Talk on "Stochastic Controlled Averaging for
+Federated Learning"</a></p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf" target="_blank" rel="noopener noreferrer">H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
+Communication-efficient learning of deep networks from decentralized data.
+Proceedings of the 20th AISTATS, 2017.</a></p>
+</div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+<div class="contributor-footnotes">
+<small>
+<strong>Contributors:</strong>
+<div style="display: flex; gap: 8px; margin-top: 10px;">
+<a href="https://github.com/emersodb">
+<img src="https://github.com/emersodb.png"
+  width="32px" alt="Contributor emersodb" style="border-radius: 50%">
+</a>
+</div>
+</small>
+</div>
+<div class="vector-logo">
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-default.png" alt="" class="light-logo">
+    </a>
+    <a href="https://vectorinstitute.ai/">
+        <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
+    </a>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 MD013 -->
+<h1 id="moon-model-contrastive-federated-learning"><a class="header" href="#moon-model-contrastive-federated-learning">MOON: Model-Contrastive Federated Learning</a></h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
+  <div>
+    <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
+      <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
+    </a>
+    <p style="margin: 0;"><small>Reading time: 5 min</small></p>
+  </div>
+</div>
+<p>The MOON algorithm<sup class="footnote-reference"><a href="#1">1</a></sup> is built on the same principles as the
+<a href="horizontal/robust_global_fl/./fedprox.html">FedProx</a><sup class="footnote-reference"><a href="#2">2</a></sup> approach. That is, it targets limiting
+client-specific drift during local training by constraining how heavily local
+model updates stray from global models. The fundamental difference is the
+way that drift is measured to construct the penalty function.</p>
+<h2 id="contrastive-loss-a-brief-interlude"><a class="header" href="#contrastive-loss-a-brief-interlude">Contrastive Loss: A Brief Interlude</a></h2>
+<p>Before defining the MOON penalty, we need to review contrastive loss and what
+it aims to do in general. Say we have three vectors, \(\mathbf{z}\),
+\(\mathbf{z}_s\), \(\mathbf{z}_d \in \mathbb{R}^n\) and we want to
+optimize a model, parameterized by \(\mathbf{w}\), to map from an input,
+\(\mathbf{x}\), to a representation, \(\mathbf{z}\), which is <strong>closer</strong>
+to \(\mathbf{z}_s\) and <strong>further</strong> from \(\mathbf{z}_d\). We define</p>
+<p>$$
+\begin{align*}
+\ell_{\text{con}}(\mathbf{x};\mathbf{w}) = - \log \frac{\exp
+\left(\text{sim}(\mathbf{z}, \mathbf{z}_s) \tau^{-1} \right)}{\exp
+\left(\text{sim}(\mathbf{z}, \mathbf{z}_s) \tau^{-1} \right) + \exp
+\left(\text{sim}(\mathbf{z}, \mathbf{z}_d) \tau^{-1} \right)},
+\end{align*}
+$$</p>
+<p>where \(\text{sim}(\cdot, \cdot)\) is cosine-similarity and
+\(\tau &gt; 0\) is a temperature. Increasing the similarity of
+\(\mathbf{z}\) to \(\mathbf{z}_s\) <strong>increases</strong> the numerator. Pushing
+\(\mathbf{z}\) away from \(\mathbf{z}_d\) decreases the denominator.
+Each of which makes \(\ell_{\text{con}}(\mathbf{x};\mathbf{w})\)
+<strong>smaller</strong>.</p>
+<p>Contrastive loss objectives have been widely used to bring latent
+representations of similar inputs closer together and push dissimilar inputs
+further apart. For example, contrastive learning is used extensively in
+CLIP<sup class="footnote-reference"><a href="#3">3</a></sup> as a means of pushing image-caption text pairs closer together, while
+pushing unrelated image-text pairs further apart in the CLIP model's
+representation space.</p>
+<h2 id="moon-models-and-an-alternative-to-weight-drift-penalties"><a class="header" href="#moon-models-and-an-alternative-to-weight-drift-penalties">MOON models and an alternative to weight-drift penalties</a></h2>
+<p>As in FedProx, the major contribution of the MOON algorithm is to modify the
+local learning objective for each client. As foreshadowed in the previous
+section, the modification involves a contrastive loss function. To define this
+loss function, MOON first considers splitting the model to be federally trained
+into two stages: a feature map followed by a classification module.
+Furthermore, at each server round, \(t\), it distinguishes between three
+models. These models are illustrated in the figure below.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/SplitModels.svg" alt="Moon models and their latent representation" width="100%">
+<figcaption>The three models important in the computation of MOON's
+contrastive loss functions and their latent representations.</figcaption>
+</center>
+</figure>
+<p>For server round \(t\), the model on the left represents the model after
+weight aggregation by the server. In the middle is the final model after
+local training on Client \(i\). The weights, \(\mathbf{w}^{t-1}_i\), have
+been aggregated across participating clients to form \(\mathbf{w}^t\).
+Finally, the model on the right is the one being locally trained on Client
+\(i\). The output of the feature maps in these models will be used to form
+the local contrastive loss for Client \(i\).</p>
+<p>Let \(\ell_i((\mathbf{x}, y); \mathbf{w})\) denote the local loss function
+of Client \(i\) for an input, \(\mathbf{x}\), and label, \(y\),
+parameterized by model weights \(\mathbf{w}\). MOON augments this local loss
+with the contrastive loss function</p>
+<p>$$
+\begin{align*}
+\ell_{i, \text{con}}((\mathbf{x}, y);\mathbf{w}^t_i) = - \log \frac{\exp
+\left(\text{sim}(\mathbf{z}, \mathbf{z}_{\text{glob}}) \tau^{-1}
+\right)}{\exp \left(\text{sim}(\mathbf{z}, \mathbf{z}_{\text{glob}})
+\tau^{-1} \right) + \exp \left(\text{sim}(\mathbf{z},
+\mathbf{z}_{\text{prev}}) \tau^{-1} \right)}.
+\end{align*}
+$$</p>
+<p>That is, the local objective for Client \(i\) is written</p>
+<p>$$
+\begin{align*}
+\ell_i((\mathbf{x}, y); \mathbf{w}^t_i) +
+\mu \ell_{i, \text{con}}((\mathbf{x}, y);\mathbf{w}^t_i),
+\end{align*}
+$$</p>
+<p>for \(\mu &gt; 0\). Note that, when computed over a batch of data, the average
+loss over all data points in the batch is computed.</p>
+<p>The idea here is similar to FedProx. In some sense, we
+still want to make sure that, during training, the model does not drift too
+far from the global model, as was the case in FedProx. The difference, here,
+is that we're applying that constraint in the feature representation space,
+rather than directly in the model weights themselves. In the original work,
+MOON showed notable improvements over methods like FedProx in heterogeneous
+settings. However, it does not <strong>always</strong> outperform FedProx or even FedAvg.<sup class="footnote-reference"><a href="#4">4</a></sup>
+As such, there are likely scenarios where MOON is the right approach for FL in
+heterogeneous settings, while others might benefit from an alternative
+technique.</p>
+<h2 id="the-algorithm-3"><a class="header" href="#the-algorithm-3">The Algorithm</a></h2>
+<p>The MOON algorithm is fairly similar to that of FedProx. Most server-side
+aggregation strategies may be applied in combination with MOON. However, the
+algorithm has some additional compute and memory overhead, as forward passes
+of three separate models must be run in order to extract the latent
+representations of the data points in each training batch. In the algorithm
+below, FedAvg is used as the server-side strategy.</p>
+<figure>
+<center>
+<img src="horizontal/robust_global_fl/../../assets/algorithm-moon.svg" alt="Moon Algorithms" width="100%">
+</center>
+</figure>
+<h4 id="references--useful-links-9"><a class="header" href="#references--useful-links-9">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2021/papers/Li_Model-Contrastive_Federated_Learning_CVPR_2021_paper.pdf" target="_blank" rel="noopener noreferrer">Q. Li, B. He, and D. Song. Model-contrastive federated learning. In Proceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2021a.</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://arxiv.org/pdf/1812.06127" target="_blank" rel="noopener noreferrer">T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith.
+Federated optimization in heterogeneous networks. In I. Dhillon,
+D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and
+Systems, volume 2, pages 429–450, 2020.</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://proceedings.mlr.press/v139/radford21a/radford21a.pdf" target="_blank" rel="noopener noreferrer">Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal,
+Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual
+models from natural language supervision. In International conference on machine learning,
+pages 8748–8763. PMLR, 2021.</a></p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://proceedings.mlr.press/v252/tavakoli24a.html" target="_blank" rel="noopener noreferrer">Fatemeh Tavakoli, D. B. Emerson, Sana Ayromlou, John Taylor Jewell,
+Amrit Krishnan, Yuchong Zhang, Amol Verma, and Fahad Razak.
+A comprehensive view of personalized federated learning on heterogeneous
+clinical datasets. In Kaivalya Deshpande, Madalina Fiterau, Shalmali Joshi,
+Zachary Lipton, Rajesh Ranganath, and Iñigo Urteaga, editors, Proceedings
+of the 9th Machine Learning for Healthcare Conference, volume 252 of
+Proceedings of Machine Learning Research. PMLR, 16–17 Aug 2024.</a></p>
 </div>
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">

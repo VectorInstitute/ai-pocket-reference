@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>FedAvg - AI Pocket Reference: FL</title>
+        <title>FedProx - AI Pocket Reference: FL</title>
 
 
         <!-- Custom HTML head -->
@@ -162,7 +162,7 @@
                 <div id="content" class="content">
                     <main>
                         <!-- markdownlint-disable-file MD033 MD013 -->
-<h1 id="fedavg"><a class="header" href="#fedavg">FedAvg</a></h1>
+<h1 id="fedprox"><a class="header" href="#fedprox">FedProx</a></h1>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
   <div>
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
@@ -171,114 +171,139 @@
     <p style="margin: 0;"><small>Reading time: 5 min</small></p>
   </div>
 </div>
-<p>The FedAvg algorithm<sup class="footnote-reference"><a href="#1">1</a></sup> builds on the same principles of FedSGD, but aims to
-reduce the communication costs incurred by the <a href="fedsgd.html">FedSGD</a> approach.
-Recall that the major shortcoming of FedSGD was that it required clients to
-send local gradients for every training step in order to perform model updates.
-The FedAvg algorithm attempts to reduce this overhead by pushing additional
-computation onto the clients.</p>
-<h2 id="the-math"><a class="header" href="#the-math">The math</a></h2>
-<p>Assume a fixed learning rate of \(\eta &gt; 0\), and denote</p>
-<p>$$
-\begin{align}
-\mathbf{w}_{t+1}^k = \mathbf{w}_t - \eta \nabla L_k(\mathbf{w}_t). \tag{1}
-\end{align}
-$$</p>
-<p>Note that \(\mathbf{w}_t - \eta \nabla L_k(\mathbf{w}_t)\) is just a
-local (full) gradient step on client \(k\). That is,
-\(\nabla L_k(\mathbf{w}_t)\) is the gradient with respect to all training
-data on client \(k\). So the weights \(\mathbf{w}_{t+1}^k\) represent
-a new model using only the data of client \(k\) to update the weights,
-\(\mathbf{w}_t\). Then we can rewrite the server update in FedSGD in terms
-of \(\mathbf{w}_{t+1}^k\) with a little algebra as</p>
-<p>$$
-\begin{align}
-\mathbf{w}_{t+1}&amp;= \mathbf{w}_t - \eta \sum_{k \in C_t} \frac{n_k}{n_s} \nabla L_k(\mathbf{w}_t) \\
-&amp;= \sum_{k \in C_t} \frac{n_k}{n_s} \mathbf{w}_t - \eta \sum_{k \in C_t} \frac{n_k}{n_s} \nabla L_k(\mathbf{w}_t) \\
-&amp;= \sum_{k \in C_t} \frac{n_k}{n_s} \mathbf{w}_{t+1}^k. \tag{2}
-\end{align}
-$$</p>
-<p>The final line of Equation (2) implies that the updated weights,
-\(\mathbf{w}_{t+1}\), in FedSGD can be rewritten as the linearly weighted
-average of <strong>local</strong> weight updates performed by the clients themselves. That
-is, \(\mathbf{w}_{t+1}\) is just a weighted average of locally updated
-weights, where the weights are the proportion of data points on
-each client (\(n_k\)) relative the the size of all data points used to compute the
-update (\(n_s\)).</p>
-<p>With this in hand, we can push responsibility for updating model weights onto
-the clients participating in a round of FL training. Only model weights are
-communicated back and forth, and the server need only average the locally
-updated weights to obtain the new model. This procedure remains mathematically
-equivalent to centralized large batch SGD, as is the case for FedSGD. The bad
-news is that we haven't saved any communication yet. This still relies on
-communicating the updated weights after each step and the dimensionality of the
-model weights and their gradient is equal. So what can we do?</p>
-<p>Rather than a full, local-gradient step on each client, as expressed in
-Equation (1), we can run multiple local batch SGD updates. For client \(k\),
-let \(B\) be a set of batches drawn from \(P_k\), the collection of
-training data points on client \(k\). For \(b \in B\), perform local
-updates of the form</p>
-<p>$$
-\begin{align*}
-\mathbf{w}^k = \mathbf{w}^k - \eta \frac{1}{\vert b \vert} \sum_{i \in b} \nabla \ell_i (\mathbf{w}^k).
-\end{align*}
-$$</p>
-<p>This allows for each client to perform multiple local batch SGD updates to
-the model weights. As in standard ML training, these updates can be performed
-for a certain number epochs, iterating through each client's local data. Only after
-completing such iterations are the updated weights communicated to the server for
-aggregation using the same formula in Equation (2) on the server side. In this
-manner, we have decoupled model updates from communication with the server and
-are free to communicate as frequently or infrequently as we choose.</p>
-<h2 id="the-algorithm"><a class="header" href="#the-algorithm">The algorithm</a></h2>
-<p>With the new approach proposed in the previous section, the full FedAvg
-algorithm may be summarized in the algorithm below. Inputs to the algorithm
-are:</p>
-<ul>
-<li>\(N\): The number of clients.</li>
-<li>\(T\): The number of server rounds to perform.</li>
-<li>\(\eta\): The learning rate to be used by each client.</li>
-<li>\(n_b\): The batch size to be used for each local gradient step.</li>
-<li>\(\mathbf{w}\): The initial weights for the model to be trained.</li>
-<li>\(E\): The number of epochs for each client to perform.</li>
-</ul>
-<p>After the final server round is complete, each client receives the final
-model as described by the weights \(\mathbf{w}_T\).</p>
+<p>The FedProx algorithm<sup class="footnote-reference"><a href="#1">1</a></sup> is one of the earliest approaches specifically aimed
+at addressing the optimization challenges associated with data heterogeneity in
+FL. At its core, the FedProx algorithm is quite straightforward. However,
+prior to diving into the modifications proposed in the FedProx approach, we'll
+first consider the kind of phenomenon that FedProx, along with other methods,
+attempts to counteract.</p>
+<p>To help illustrate the issue, we'll use some helpful visualizations
+from researchers who proposed the SCAFFOLD method.<sup class="footnote-reference"><a href="#2">2</a></sup><sup>,</sup><sup class="footnote-reference"><a href="#3">3</a></sup>
+Consider a two-client FL setting. Each client has their own loss landscape
+based on their privately held data, denoted \(f_1\) and \(f_2\). If each
+client has an equal amount of data, the global loss surface, which is the loss
+function when constructed from all data available on both clients is equivalent
+to \((f_1 + f_2)/2\). When performing standard federated training, the
+objective is to find model weights corresponding to the minimum of this global
+loss function. See the figure below. Note that the minima associated with the
+client loss functions are distinct from the global minimum.</p>
 <figure>
 <center>
-<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedavg.svg" alt="FedAvg Algorithm" width="100%">
+<img src="../../assets/combined_loss_objective.svg" alt="Combined loss objective" width="66%">
+<figcaption>Comparison of local loss landscapes for two clients with the combined global loss.</figcaption>
 </center>
 </figure>
-<p>Note that, in the algorithm above, the local updates are performed with
-standard batch SGD. There is nothing stopping us from using a different
-training procedure on the client side. For example, one might instead perform
-such updates using an AdamW optimizer.<sup class="footnote-reference"><a href="#2">2</a></sup> As with standard ML
-training, the type of optimizer that works best is problem dependent.</p>
-<h3 id="a-broken-equivalence-can-have-consequences"><a class="header" href="#a-broken-equivalence-can-have-consequences">A broken equivalence can have consequences</a></h3>
-<p>Both theoretically and experimentally, FedAvg is a strong algorithm. The
-modifications to FedSGD can be used to substantially drive down communication
-costs while retaining many of the benefits of FedSGD in practice. Since its
-introduction, the FedAvg algorithm has been widely used to make ML model
-training on decentralized datasets a reality. However, the modifications that
-make FedAvg more communication efficient compared with FedSGD also break the
-mathematical equivalence to global large-batch SGD enjoyed by FedSGD.</p>
-<p>When the training data spread across clients is identically and independently
-distributed (i.e. drawn independently from the same distribution), this loss
-of equivalence is generally less consequential. On the other hand, when
-client data distributions become more heterogeneous, the lack of true
-equivalence materially impacts the convergence properties of FedAvg and can
-lead to suboptimal performance. As such, many approaches have since been
-proposed to improve upon FedAvg while maintaining its desirable qualities, like
-communication efficiency.</p>
-<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links</a></h4>
+<p>Recall that optimization with <a href="../vanilla_fl/fedsgd.html">FedSGD</a> is equivalent
+to centralized large-batch SGD. That is, rounds of FedSGD are equivalent to
+optimizing the global loss function, expressed here as \((f_1 + f_2)/2\). As
+such, with a properly tuned learning rate, FedSGD will converge to the
+global optimum, as illustrated in the figure below. Each averaged gradient
+step makes steady progress towards the global minimum.</p>
+<figure>
+<center>
+<img src="../../assets/fedsgd_steps.svg" alt="FedSGD and global convergence" width="66%">
+<figcaption>FedSGD rounds result in averaged models making steady progress towards
+the global minimum.</figcaption>
+</center>
+</figure>
+<p>As detailed in the chapter on <a href="../vanilla_fl/fedavg.html">FedAvg</a>,<sup class="footnote-reference"><a href="#4">4</a></sup> there is a
+substantial reduction in communication overhead if each client applies
+multiple steps of batch SGD, optimizing the local model based on the local
+loss. It was noted therein, however, that this breaks the equivalence enjoyed,
+for example, by FedSGD with centralized large-batch SGD. In settings, such as
+the one illustrated in the figures thus far, with data heterogeneity and
+markedly different loss landscapes this can engender various issues. One such
+issue is often referred to as "client drift" and is illustrated in the figure
+below.</p>
+<figure>
+<center>
+<img src="../../assets/fedavg_drift.svg" alt="FedAvg and the influence of local drift" width="66%">
+<figcaption>Illustration of "client drift" in FedAvg updates caused by
+differences in the shape of the local loss functions of each client.</figcaption>
+</center>
+</figure>
+<p>In the figure, each client is applying three local steps of batch SGD before
+sending the resulting weights to server for aggregation. The grey dots
+represent the updates using FedSGD for three rounds from the previous figure.
+The update using FedAvg deviates quite a bit from this path with a distinct
+drift towards the minima of Client 2. Drifts of this kind can be induced by the
+shape of the local loss surface and cause issues with FedAvg, such as slowed
+convergence.</p>
+<h2 id="the-math"><a class="header" href="#the-math">The Math</a></h2>
+<p>The general idea for FedProx is to limit models from drifting too far during
+local training. For a server round \(t\), consider the aggregated weights
+\(\mathbf{w}_t\). For a given client \(k\), let
+\(\ell_k(b; \mathbf{w})\) denote the local loss function for a batch,
+\(b\), of data, parameterized by model weights \(\mathbf{w}\). The primary
+modification of FedAvg in the FedProx algorithm is to augment
+\(\ell_k(b; \mathbf{w})\) with a penalty term such that, for \(\mu &gt; 0\),
+the local loss becomes</p>
+<p>$$
+\begin{align*}
+\ell_k(b; \mathbf{w}) + \mu \Vert \mathbf{w} - \mathbf{w_t} \Vert^2.
+\end{align*}
+$$</p>
+<p>The penalty term is referred to as the proximal loss. It penalizes significant
+deviation from the global model during local training such that loss
+optimization must trade off improvements in the standard loss with potential
+divergence from the original model weights. Revisiting the loss surfaces above,
+the FedProx penalty term alters the loss surface to make client drift less
+attractive, unless it leads to significant performance gains.</p>
+<h2 id="the-algorithm"><a class="header" href="#the-algorithm">The Algorithm</a></h2>
+<p>The FedProx algorithm is very similar to that of FedAvg, with the only
+modification coming in the local update calculations.</p>
+<figure>
+<center>
+<img src="../../assets/algorithm-fedprox.svg" alt="FedProx Algorithms" width="100%">
+</center>
+</figure>
+<h2 id="adapting-mu"><a class="header" href="#adapting-mu">Adapting \(\mu\)</a></h2>
+<p>For a well-tuned \(\mu\), FedProx has been shown to outperform FedAvg under
+heterogeneous data conditions. It is widely applied, both because it is a
+simple modification to the FedAvg framework and because it works fairly well
+across a number of tasks. However, in settings where the data is homogeneous,
+FedProx has been shown to under-perform compared to FedAvg when \(\mu&gt;0\).
+See the top left of the figure below.</p>
+<p>Because of this, the authors of FedProx offer an alternative to extensive
+hyper-parameter tuning. Heuristically, the proximal weight may be adapted
+across server rounds. If the aggregated server-side training loss
+(average final loss on each client) fails to decrease for a round, \(\mu\)
+is increased. If the loss improves for some number of rounds, \(\mu\) is
+decreased. In the figure below, this procedure results in the fuchsia colored
+line in the Figures below.</p>
+<figure>
+<center>
+<img src="../../assets/FedProxAdaptation_top.png" alt="FedProx vs. FedAvg" width="100%">
+<img src="../../assets/FedProxAdaptation_bottom.png" alt="FedProx vs. FedAvg" width="100%">
+<figcaption>Comparison of FedProx to FedAvg in various settings. On the top left,
+data is homogeneous across clients. Without adaptation FedProx struggles to out
+perform FedAvg. Data is heterogeneous in the other settings and FedProx performs
+well with and without adaptation.
+</figcaption>
+</center>
+</figure>
+<h4 id="references--useful-links"><a class="header" href="#references--useful-links">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://arxiv.org/pdf/1812.06127" target="_blank" rel="noopener noreferrer">T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith.
+Federated optimization in heterogeneous networks. In I. Dhillon,
+D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and
+Systems, volume 2, pages 429–450, 2020.</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://www.microsoft.com/en-us/research/publication/frustratingly-easy-neural-domain-adaptation/" target="_blank" rel="noopener noreferrer">S. P. Karimireddy, S. Kale, M. Mohri, S. Reddi, S. Stich, and A. T. Suresh.
+SCAFFOLD: Stochastic controlled averaging for federated learning. In
+Hal Daumé III and Aarti Singh, editors, Proceedings of the 37th
+International Conference on Machine Learning, volume 119 of Proceedings of
+Machine Learning Research, pages 5132–5143. PMLR, 13–18 Jul 2020.</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://docs.google.com/presentation/d/1SYhRC6NMEMJJL2FTGDu5DJeINJBkbwFVGd2Emy43fk0/edit" target="_blank" rel="noopener noreferrer">Images adapted from Talk on "Stochastic Controlled Averaging for
+Federated Learning"</a></p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
 <p><a href="https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf" target="_blank" rel="noopener noreferrer">H. B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Arcas.
 Communication-efficient learning of deep networks from decentralized data.
 Proceedings of the 20th AISTATS, 2017.</a></p>
-</div>
-<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
-<p><a href="https://arxiv.org/pdf/1711.05101" target="_blank" rel="noopener noreferrer">I. Loshchilov and F. Hutter. Fixing weight decay regularization in ADAM,
-2018.386</a></p>
 </div>
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
@@ -305,11 +330,11 @@ Proceedings of the 20th AISTATS, 2017.</a></p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../horizontal/vanilla_fl/fedsgd.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../horizontal/robust_global_fl/fedopt.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../horizontal/robust_global_fl/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../horizontal/robust_global_fl/moon.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -319,11 +344,11 @@ Proceedings of the 20th AISTATS, 2017.</a></p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../horizontal/vanilla_fl/fedsgd.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../horizontal/robust_global_fl/fedopt.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../horizontal/robust_global_fl/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../horizontal/robust_global_fl/moon.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
