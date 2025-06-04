@@ -54,7 +54,7 @@ This section of the book is organized as follows:
   - [FedSGD](vanilla_fl/fedsgd.md)
   - [FedAvg](vanilla_fl/fedavg.md)
 - [Robust Global FL](robust_global_fl/index.md)
-  - [FedAdam](robust_global_fl/fedadam.md)
+  - [FedOpt](robust_global_fl/fedopt.md)
   - [FedProx](robust_global_fl/fedprox.md)
   - [MOON](robust_global_fl/moon.md)
 - [Personalized FL](personalized/index.md)
