@@ -34,7 +34,7 @@ model performance degrades, when the joint distributions
 
 $$
 \begin{align}
-P\_{\\text{train}}(X, Y) \\neq P\_{\\text{test}}(X, Y). \tag{1}
+\\mathbb{P}\_{\\text{train}}(X, Y) \\neq \\mathbb{P}\_{\\text{test}}(X, Y). \tag{1}
 \end{align}
 $$
 
@@ -56,7 +56,7 @@ distribution, \\(\\mathbb{P}(X)\\), while the statistical relationship of labels
 features, \\(\\mathbb{P}(Y \\vert X)\\), remains fixed. Consider the setting of training
 a readmission risk model on data drawn from the patient population of a
 general hospital. If, for instance, that model were transferred for use at a
-nearby pediatric hospital. Assuming all else equal, predictions from that model
+nearby pediatric hospital, assuming all else equal, predictions from that model
 would be influenced by covariate drift due to the change in patient
 demographics. Namely, though features associated with younger patients are
 likely part of the general hospital population, they will, of course, be

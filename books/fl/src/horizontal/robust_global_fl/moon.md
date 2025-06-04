@@ -106,14 +106,14 @@ As such, there are likely scenarios where MOON is the right approach for FL in
 heterogeneous settings, while others might benefit from an alternative
 technique.
 
-## The algorithm
+## The Algorithm
 
 The MOON algorithm is fairly similar to that of FedProx. Most server-side
 aggregation strategies may be applied in combination with MOON. However, the
-algorithm has some additional memory overhead, as forward passes of three
-separate models must be run in order to extract the latent representations of
-the data points in each training batch. In the algorithm below, FedAvg is used
-as the server-side strategy.
+algorithm has some additional compute and memory overhead, as forward passes
+of three separate models must be run in order to extract the latent
+representations of the data points in each training batch. In the algorithm
+below, FedAvg is used as the server-side strategy.
 
 <figure>
 <center>

@@ -47,7 +47,7 @@ update vectors.
 
 Recall that, if each client uses a fixed learning rate, \\(\eta\\), and
 performs a single, full gradient update, FedAvg is equivalent to centralized
-large-batch SGD. Similarly, in this case, if each client performs on step of
+large-batch SGD. Similarly, in this case, if each client performs one step of
 batch SGD with a learning rate of 1.0, then the update in Equation (1) is
 equivalent to a batch-SGD update with a learning rate of 1.0 for the
 **server**. The "server-side" batch is the union of the batches used on each
