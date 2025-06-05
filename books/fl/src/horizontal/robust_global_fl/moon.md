@@ -54,7 +54,7 @@ models. These models are illustrated in the figure below.
 
 <figure>
 <center>
-<img src="../../assets/SplitModels.svg" alt="Moon models and their latent representation" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/SplitModels.svg" alt="Moon models and their latent representation" width="100%">
 <figcaption>The three models important in the computation of MOON's
 contrastive loss functions and their latent representations.</figcaption>
 </center>
@@ -117,7 +117,7 @@ below, FedAvg is used as the server-side strategy.
 
 <figure>
 <center>
-<img src="../../assets/algorithm-moon.svg" alt="Moon Algorithms" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-moon.svg" alt="Moon Algorithms" width="100%">
 </center>
 </figure>
 
