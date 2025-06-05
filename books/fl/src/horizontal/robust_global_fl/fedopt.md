@@ -69,7 +69,7 @@ FedYogi have been proposed. See the algorithm below for details.
 
 <figure>
 <center>
-<img src="../../assets/algorithm-fedopt.svg" alt="FedOpt Algorithms" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedopt.svg" alt="FedOpt Algorithms" width="100%">
 </center>
 </figure>
 

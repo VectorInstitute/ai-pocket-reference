@@ -24,7 +24,7 @@ client loss functions are distinct from the global minimum.
 
 <figure>
 <center>
-<img src="../../assets/combined_loss_objective.svg" alt="Combined loss objective" width="66%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/combined_loss_objective.svg" alt="Combined loss objective" width="66%">
 <figcaption>Comparison of local loss landscapes for two clients with the combined global loss.</figcaption>
 </center>
 </figure>
@@ -38,7 +38,7 @@ step makes steady progress towards the global minimum.
 
 <figure>
 <center>
-<img src="../../assets/fedsgd_steps.svg" alt="FedSGD and global convergence" width="66%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/fedsgd_steps.svg" alt="FedSGD and global convergence" width="66%">
 <figcaption>FedSGD rounds result in averaged models making steady progress towards
 the global minimum.</figcaption>
 </center>
@@ -56,7 +56,7 @@ below.
 
 <figure>
 <center>
-<img src="../../assets/fedavg_drift.svg" alt="FedAvg and the influence of local drift" width="66%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/fedavg_drift.svg" alt="FedAvg and the influence of local drift" width="66%">
 <figcaption>Illustration of "client drift" in FedAvg updates caused by
 differences in the shape of the local loss functions of each client.</figcaption>
 </center>
@@ -101,7 +101,7 @@ modification coming in the local update calculations.
 
 <figure>
 <center>
-<img src="../../assets/algorithm-fedprox.svg" alt="FedProx Algorithms" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedprox.svg" alt="FedProx Algorithms" width="100%">
 </center>
 </figure>
 
@@ -124,8 +124,8 @@ line in the Figures below.
 
 <figure>
 <center>
-<img src="../../assets/FedProxAdaptation_top.png" alt="FedProx vs. FedAvg" width="100%">
-<img src="../../assets/FedProxAdaptation_bottom.png" alt="FedProx vs. FedAvg" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/FedProxAdaptation_top.png" alt="FedProx vs. FedAvg" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/FedProxAdaptation_bottom.png" alt="FedProx vs. FedAvg" width="100%">
 <figcaption>Comparison of FedProx to FedAvg in various settings. On the top left,
 data is homogeneous across clients. Without adaptation FedProx struggles to out
 perform FedAvg. Data is heterogeneous in the other settings and FedProx performs
