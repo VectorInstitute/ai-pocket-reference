@@ -859,7 +859,7 @@ the model to be trained. After the final server round is complete, each
 client receives the final model as described by the weights \(\mathbf{w}_T\).</p>
 <figure>
 <center>
-<img src="horizontal/vanilla_fl/../../assets/algorithm-fedsgd.svg" alt="FedSGD Algorithm" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedsgd.svg" alt="FedSGD Algorithm" width="100%">
 </center>
 </figure>
 <h3 id="communication-overhead"><a class="header" href="#communication-overhead">Communication overhead</a></h3>
@@ -1137,8 +1137,8 @@ figures below, two clients have locally trained a model on their respective
 datasets.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/local_model_1.png" alt="Local Model 1", height="300">
-<img src="horizontal/robust_global_fl/../../assets/local_model_2.png" alt="Local Model 2", height="300">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/local_model_1.png" alt="Local Model 1", height="300">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/local_model_2.png" alt="Local Model 2", height="300">
 <figcaption>Two clients with different datasets. Note that each holds a
 slightly different view of the feature space. Notably, Client 1 (left) has a
 distinct cluster of data points in the bottom right and fewer points labeled in
@@ -1155,8 +1155,8 @@ classification boundaries one would expect when considering the data
 distributions from a global perspective.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/fedavg_model.png" alt="FedAvg Model", height="300">
-<img src="horizontal/robust_global_fl/../../assets/fed_df_model.png" alt="FedDF Model", height="300">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/fedavg_model.png" alt="FedAvg Model", height="300">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/fed_df_model.png" alt="FedDF Model", height="300">
 <figcaption>Model resulting from FedAvg (left) compared with the model
 trained using FedDF (right).</figcaption>
 </center>
@@ -1174,7 +1174,7 @@ FL (pFL). Such models still benefit from global information through aspects of
 FL, but more strongly emphasize local distributions.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/heterogeneity_two_routes_alt.svg" alt="Two FL Routes", width="75%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/heterogeneity_two_routes_alt.svg" alt="Two FL Routes", width="75%">
 <figcaption>Two possible routes for addressing data heterogeneity in FL.</figcaption>
 </center>
 </figure>
@@ -1278,7 +1278,7 @@ the adaptive server-side aggregation strategies of FedAdaGrad, FedAdam, and
 FedYogi have been proposed. See the algorithm below for details.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/algorithm-fedopt.svg" alt="FedOpt Algorithms" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedopt.svg" alt="FedOpt Algorithms" width="100%">
 </center>
 </figure>
 <p>Those familiar with the mathematical formulations of Adagrad, Adam,<sup class="footnote-reference"><a href="#4">4</a></sup> and
@@ -1379,7 +1379,7 @@ loss function. See the figure below. Note that the minima associated with the
 client loss functions are distinct from the global minimum.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/combined_loss_objective.svg" alt="Combined loss objective" width="66%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/combined_loss_objective.svg" alt="Combined loss objective" width="66%">
 <figcaption>Comparison of local loss landscapes for two clients with the combined global loss.</figcaption>
 </center>
 </figure>
@@ -1391,7 +1391,7 @@ global optimum, as illustrated in the figure below. Each averaged gradient
 step makes steady progress towards the global minimum.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/fedsgd_steps.svg" alt="FedSGD and global convergence" width="66%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/fedsgd_steps.svg" alt="FedSGD and global convergence" width="66%">
 <figcaption>FedSGD rounds result in averaged models making steady progress towards
 the global minimum.</figcaption>
 </center>
@@ -1407,7 +1407,7 @@ issue is often referred to as "client drift" and is illustrated in the figure
 below.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/fedavg_drift.svg" alt="FedAvg and the influence of local drift" width="66%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/fedavg_drift.svg" alt="FedAvg and the influence of local drift" width="66%">
 <figcaption>Illustration of "client drift" in FedAvg updates caused by
 differences in the shape of the local loss functions of each client.</figcaption>
 </center>
@@ -1444,7 +1444,7 @@ attractive, unless it leads to significant performance gains.</p>
 modification coming in the local update calculations.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/algorithm-fedprox.svg" alt="FedProx Algorithms" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-fedprox.svg" alt="FedProx Algorithms" width="100%">
 </center>
 </figure>
 <h2 id="adapting-mu"><a class="header" href="#adapting-mu">Adapting \(\mu\)</a></h2>
@@ -1463,8 +1463,8 @@ decreased. In the figure below, this procedure results in the fuchsia colored
 line in the Figures below.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/FedProxAdaptation_top.png" alt="FedProx vs. FedAvg" width="100%">
-<img src="horizontal/robust_global_fl/../../assets/FedProxAdaptation_bottom.png" alt="FedProx vs. FedAvg" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/FedProxAdaptation_top.png" alt="FedProx vs. FedAvg" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/FedProxAdaptation_bottom.png" alt="FedProx vs. FedAvg" width="100%">
 <figcaption>Comparison of FedProx to FedAvg in various settings. On the top left,
 data is homogeneous across clients. Without adaptation FedProx struggles to out
 perform FedAvg. Data is heterogeneous in the other settings and FedProx performs
@@ -1567,7 +1567,7 @@ Furthermore, at each server round, \(t\), it distinguishes between three
 models. These models are illustrated in the figure below.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/SplitModels.svg" alt="Moon models and their latent representation" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/SplitModels.svg" alt="Moon models and their latent representation" width="100%">
 <figcaption>The three models important in the computation of MOON's
 contrastive loss functions and their latent representations.</figcaption>
 </center>
@@ -1620,7 +1620,7 @@ representations of the data points in each training batch. In the algorithm
 below, FedAvg is used as the server-side strategy.</p>
 <figure>
 <center>
-<img src="horizontal/robust_global_fl/../../assets/algorithm-moon.svg" alt="Moon Algorithms" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/fl/algorithm-moon.svg" alt="Moon Algorithms" width="100%">
 </center>
 </figure>
 <h4 id="references--useful-links-9"><a class="header" href="#references--useful-links-9">References &amp; Useful Links <!-- markdownlint-disable-line MD001 --></a></h4>
