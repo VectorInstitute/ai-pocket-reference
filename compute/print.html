@@ -593,27 +593,236 @@ github repository</li>
         <img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/vector-logo-dark.png" alt="" class="dark-logo">
     </a>
 </div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="kernels-for-triangular-matmul-forward-pass"><a class="header" href="#kernels-for-triangular-matmul-forward-pass">Kernels for triangular matmul forward pass</a></h1>
-<!-- Header -->
+<div style="break-before: page; page-break-before: always;"></div><!-- markdownlint-disable-file MD033 -->
+<h1 id="kernels-for-triangular-matrix-multiplication-trimat-forward-pass"><a class="header" href="#kernels-for-triangular-matrix-multiplication-trimat-forward-pass">Kernels for Triangular Matrix Multiplication (Trimat Forward Pass)</a></h1>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em;">
   <div>
     <a target="_blank" href="https://github.com/VectorInstitute/ai-pocket-reference/issues/new?template=edit-request.yml">
       <img src="https://img.shields.io/badge/Suggest_an_Edit-black?logo=github&style=flat" alt="Suggest an Edit"/>
     </a>
-    <p style="margin: 0;"><small>Reading time: 0 min</small></p>
+    <p style="margin: 0;"><small>Reading time: 7 min</small></p>
   </div>
 </div>
 <!-- Main Body -->
+<h2 id="introduction-2"><a class="header" href="#introduction-2">Introduction</a></h2>
+<p>This pocket reference provides efficient GPU implementations of <strong>triangular
+matrix multiplication</strong>, as used in <strong>causal self-attention</strong> in autoregressive
+transformer models.
+For <strong>causal (autoregressive) attention</strong>, we only need the <strong>lower triangle</strong>
+of the attention matrix. That is, each token should only attend to current and
+previous tokens.</p>
+<p>Computing the full matrix is wasteful when only the lower triangle is needed.
+Triangular matrix multiplication is a specialized form of matrix multiplication,
+where instead of computing the full output matrix, only the <strong>lower triangle</strong>
+is computed. This leads to substantial computational savings.</p>
+<p>This guide explains a series of CUDA kernel implementations for the <strong>Trimat
+Forward Pass</strong>, based on the <a href="https://github.com/karpathy/llm.c/tree/master/dev/cuda" target="_blank" rel="noopener noreferrer">llm.c</a>
+GitHub repository.
+These kernels avoid unnecessary computation and offer potential speedups over
+cuBLAS. They are introduced in increasing order of optimization:</p>
+<ul>
+<li><a href="cuda/kernels/trimat_forward.html#kernel-1-naive-implementation-matmul_tri_naive">Kernel 1: <code>matmul_tri_naive</code></a>:
+A simple nested loop implementation with no memory optimization.</li>
+<li><a href="cuda/kernels/trimat_forward.html#kernel-2-register-tiling-matmul_tri_registers">Kernel 2: <code>matmul_tri_registers</code></a>:
+Uses <strong>register tiling</strong> to reduce redundant memory loads.</li>
+<li><a href="cuda/kernels/trimat_forward.html#kernel-3-vectorized-loads-matmul_tri3">Kernel 3: <code>matmul_tri3</code></a>: Adds <strong>vectorized
+memory access</strong> using <code>float4</code> to improve memory coalescing.</li>
+<li><a href="cuda/kernels/trimat_forward.html#kernel-4-shared-memory-tiling-matmul_tri4">Kernel 4: <code>matmul_tri4</code></a>:
+Leverages <strong>shared memory</strong> tiling for inter-thread data reuse and further
+performance gains.</li>
+</ul>
+<p>The next section, <a href="cuda/kernels/trimat_forward.html#input-output-and-computation">Input, Output, and
+Computation</a>, describes the tensor shapes, the
+configuration used in the examples, and the exact computation performed during
+the Trimat Forward Pass.</p>
+<h2 id="input-output-and-computation"><a class="header" href="#input-output-and-computation">Input, Output, and Computation</a></h2>
+<p>This section describes the structure of the input/output tensors and the
+computation performed by the trimat kernels.</p>
+<h3 id="input-tensor"><a class="header" href="#input-tensor">Input Tensor</a></h3>
+<p>The input tensor packs queries and keys (and values, though unused here) in
+the shape:</p>
+<p>$$
+(B, T, 3, NH, HS)
+$$</p>
+<p>where:</p>
+<ul>
+<li>\(B\): Batch size</li>
+<li>\(T\): Sequence length</li>
+<li>\(3\): Stacked Query, Key, and Value vectors</li>
+<li>\(NH\): Number of attention heads</li>
+<li>\(HS\): Head size, where \(HS = C / NH\) and \(C\) is the total
+channel size</li>
+</ul>
+<p>Only the \(Q\) and \(K\) portions of the input are used in this
+computation.</p>
+<h3 id="output-tensor"><a class="header" href="#output-tensor">Output Tensor</a></h3>
+<p>The output tensor has shape:</p>
+<p>$$
+(B, NH, T, T)
+$$</p>
+<p>where:</p>
+<ul>
+<li>\(B\): Batch size</li>
+<li>\(NH\): Number of attention heads</li>
+<li>\(T\): Sequence length (used for both dimensions of the attention
+matrix)</li>
+</ul>
+<p>Each output slice \([b, nh]\) contains the attention scores for batch \(b\)
+and head \(nh\).
+Values above the diagonal (i.e., when a token would attend to a future token)
+are ignored or masked (e.g., set to NaN).</p>
+<h3 id="configuration-used"><a class="header" href="#configuration-used">Configuration Used</a></h3>
+<p>The configurations used in the examples are:</p>
+<ul>
+<li>\(B = 8\): Batch size</li>
+<li>\(T = 1024\): Sequence length</li>
+<li>\(C = 768\): Total channels</li>
+<li>\(NH = 12\): Number of heads</li>
+<li>\(HS = 64\): Head size, where \(HS = C / NH\)</li>
+</ul>
+<h3 id="computation-goal"><a class="header" href="#computation-goal">Computation Goal</a></h3>
+<p>The goal is to compute the scaled dot-product attention score between queries
+and keys:</p>
+<p>$$
+\text{out}[b][h][i][j] = \frac{Q[b][i][h] \cdot K[b][j][h]}{\sqrt{\text{HS}}}
+\quad \text{for } j \leq i
+$$</p>
+<p>That is, for each batch \((b)\), head \((h)\), and timestep pair \((i, j)\)
+such that \(j \leq i\), we compute the dot product between query vector
+\(Q[b][i][h]\) and key vector \(K[b][j][h]\).
+The upper triangle \((j &gt; i)\) is skipped or masked due to the causal
+attention constraint.</p>
+<h3 id="mathematical-illustration"><a class="header" href="#mathematical-illustration">Mathematical Illustration</a></h3>
+<p>To illustrate what this computation is accomplishing mathematically, consider
+the following example:</p>
+<p>Let \(X\) and \(Y\) be two 3×3 matrices. In a full matrix multiplication,
+we would compute:</p>
+<p>$$
+Z = X \cdot Y =
+\begin{bmatrix}
+\sum_{i=1}^3 x_{1,i} y_{i,1} &amp; \sum_{i=1}^3 x_{1,i} y_{i,2} &amp;
+\sum_{i=1}^3 x_{1,i} y_{i,3} \\
+\sum_{i=1}^3 x_{2,i} y_{i,1} &amp; \sum_{i=1}^3 x_{2,i} y_{i,2} &amp;
+\sum_{i=1}^3 x_{2,i} y_{i,3} \\
+\sum_{i=1}^3 x_{3,i} y_{i,1} &amp; \sum_{i=1}^3 x_{3,i} y_{i,2} &amp;
+\sum_{i=1}^3 x_{3,i} y_{i,3}
+\end{bmatrix}
+$$</p>
+<p>However, in <strong>triangular (causal) matrix multiplication</strong>, we only compute the
+<strong>lower triangle</strong>:</p>
+<p>$$
+Z_{\text{causal}} =
+\begin{bmatrix}
+\sum_{i=1}^3 x_{1,i} y_{i,1} &amp; 0 &amp; 0 \\
+\sum_{i=1}^3 x_{2,i} y_{i,1} &amp; \sum_{i=1}^3 x_{2,i} y_{i,2} &amp; 0 \\
+\sum_{i=1}^3 x_{3,i} y_{i,1} &amp; \sum_{i=1}^3 x_{3,i} y_{i,2} &amp;
+\sum_{i=1}^3 x_{3,i} y_{i,3}
+\end{bmatrix}
+$$</p>
+<p>This ensures that each row \(i\) only attends to columns \(j \leq i\),
+enforcing the causal constraint.</p>
+<h2 id="kernel-1-naive-implementation-matmul_tri_naive"><a class="header" href="#kernel-1-naive-implementation-matmul_tri_naive">Kernel 1: Naive Implementation (<code>matmul_tri_naive</code>)</a></h2>
+<p>This is the baseline GPU kernel, designed for clarity and correctness rather
+than performance.
+Each thread is responsible for computing an <strong>8×8 tile</strong> of the output
+attention matrix using a straightforward triple-nested loop.
+There are <strong>no memory optimizations</strong>; all reads are done directly from global
+memory.
+It is intentionally simple and mirrors a CPU-style nested loop structure to
+show what an unoptimized CUDA implementation looks like.</p>
+<h3 id="key-characteristics-of-kernel-1"><a class="header" href="#key-characteristics-of-kernel-1">Key Characteristics of Kernel 1</a></h3>
+<ul>
+<li><strong>No shared memory</strong> or caching.</li>
+<li><strong>Each thread loads \(Q[i]\) and \(K[j]\)</strong> directly from global memory.</li>
+<li>Computes <strong>64 dot products</strong> per thread (8 queries × 8 keys).</li>
+<li>Causal masking is enforced by skipping blocks where \(j &gt; i\).</li>
+<li><strong>Upper triangle is ignored</strong>, though some redundant work may occur inside
+diagonal blocks.</li>
+</ul>
+<p>Below is a visualization of how threads compute 8×8 blocks in the output
+matrix:</p>
+<figure>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/trimat_forward/kernel1.svg" alt="Kernel 1 Diagram" width="100%"> <!-- markdownlint-disable-line MD013 -->
+</center>
+</figure>
+<h2 id="kernel-2-register-tiling-matmul_tri_registers"><a class="header" href="#kernel-2-register-tiling-matmul_tri_registers">Kernel 2: Register Tiling (<code>matmul_tri_registers</code>)</a></h2>
+<p>This kernel improves performance by leveraging <strong>register tiling</strong>.
+Each thread still computes an <strong>8×8 tile</strong> of the output, but instead of
+reading query and key vectors from global memory multiple times, each thread
+loads its \(Q\) and \(K\) vectors into registers for reuse.</p>
+<h3 id="key-characteristics-of-kernel-2"><a class="header" href="#key-characteristics-of-kernel-2">Key Characteristics of Kernel 2</a></h3>
+<ul>
+<li>One thread per <strong>8×8 tile</strong>, same as Kernel 1.</li>
+<li>\(Q\) and \(K\) values are loaded into <strong><code>float lhs[8]</code> and <code>float rhs[8]</code></strong>
+arrays in registers.</li>
+<li>Loops over the head size \((HS)\) to compute 64 dot products per thread.</li>
+<li><strong>No shared memory</strong>, but much better memory locality than Kernel 1.</li>
+<li>Still performs some redundant computation above the diagonal (ignored due to
+masking).</li>
+<li>Faster than Kernel 1 due to fewer global loads.</li>
+</ul>
+<p>See <strong>Figure 2</strong> for a visualization of how registers are used to tile the data
+within a thread:</p>
+<figure>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/trimat_forward/kernel2.svg" alt="Kernel 2 Diagram" width="100%"> <!-- markdownlint-disable-line MD013 -->
+</center>
+</figure>
+<h2 id="kernel-3-vectorized-loads-matmul_tri3"><a class="header" href="#kernel-3-vectorized-loads-matmul_tri3">Kernel 3: Vectorized Loads (<code>matmul_tri3</code>)</a></h2>
+<p>This kernel builds on Kernel 2 by introducing <strong>vectorized and coalesced
+memory access</strong> using <code>float4</code> loads.
+The goal is to improve global memory bandwidth utilization by aligning reads
+and writes to 16-byte boundaries.</p>
+<h3 id="key-characteristics-of-kernel-3"><a class="header" href="#key-characteristics-of-kernel-3">Key Characteristics of Kernel 3</a></h3>
+<ul>
+<li>Each thread still computes an <strong>8×8 tile</strong> (64 dot products).</li>
+<li>\(Q\) and \(K\) values are loaded using <code>float4</code> for better memory coalescing.</li>
+<li>Improves memory access patterns by reducing the number of memory
+transactions.</li>
+<li>No shared memory; only register reuse + vectorized reads and writes.</li>
+<li>Uses <code>ld_vec()</code> and <code>st_vec()</code> helper functions to safely cast pointers to
+<code>float4</code>.</li>
+<li>Faster than Kernel 2 due to reduced memory traffic.</li>
+</ul>
+<h2 id="kernel-4-shared-memory-tiling-matmul_tri4"><a class="header" href="#kernel-4-shared-memory-tiling-matmul_tri4">Kernel 4: Shared Memory Tiling (<code>matmul_tri4</code>)</a></h2>
+<p>This kernel introduces <strong>shared memory tiling</strong> to improve memory reuse across
+threads in a thread block.
+Threads collaborate to load tiles of the \(Q\) and \(K\) matrices into
+shared memory,
+significantly reducing global memory accesses.</p>
+<h3 id="key-characteristics-of-kernel-4"><a class="header" href="#key-characteristics-of-kernel-4">Key Characteristics of Kernel 4</a></h3>
+<ul>
+<li>Uses shared memory arrays: <code>lhs_s[128][32]</code>, <code>rhs_s[128][32]</code>.</li>
+<li>16×16 threads cooperatively load <strong>128 rows × 32 dimensions</strong> from \(Q\)
+and \(K\) into shared memory.</li>
+<li>Computes <strong>8×8 tiles</strong> per thread, iterating over \(HS / 32\) slices to
+accumulate dot products.</li>
+<li>Final results are written with <strong>vectorized <code>float4</code> stores</strong> for efficient
+global memory writes.</li>
+</ul>
+<p>See <strong>Figure 4</strong> for an illustration of shared memory tiling and accumulation:</p>
+<figure>
+<center>
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/trimat_forward/kernel4.svg" alt="Kernel 4 Diagram" width="100%"> <!-- markdownlint-disable-line MD013 -->
+</center>
+</figure>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ol>
+<li><a href="https://github.com/karpathy/llm.c/tree/master/dev/cuda" target="_blank" rel="noopener noreferrer">llm.c CUDA kernels</a></li>
+<li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer">Scaled Dot-Product Attention (Vaswani et al., 2017)</a></li>
+<li><a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#memory-coalescing" target="_blank" rel="noopener noreferrer">CUDA Programming Guide: Memory
+Coalescing</a></li>
+</ol>
 <!-- Contributors -->
- <!-- replace VectorInstitute with your github user -->
 <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 <div class="contributor-footnotes">
 <small>
 <strong>Contributors:</strong>
 <div style="display: flex; gap: 8px; margin-top: 10px;">
-<a href="https://github.com/VectorInstitute">
-<img src="https://github.com/VectorInstitute.png"
-  width="32px" alt="Contributor VectorInstitute" style="border-radius: 50%">
+<a href="https://github.com/kohankhaki">
+<img src="https://github.com/kohankhaki.png"
+  width="32px" alt="Contributor kohankhaki" style="border-radius: 50%">
 </a>
 </div>
 </small>
