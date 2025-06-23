@@ -1,6 +1,6 @@
 <!-- markdownlint-disable-file MD033 -->
 
-# Kernels for Triangular Matrix Multiplication (Trimat) Forward Pass
+# Kernels for Triangular Matrix Multiplication (Trimat Forward Pass)
 
 {{ #aipr_header }}
 
@@ -20,8 +20,8 @@ Triangular matrix multiplication is a specialized form of matrix multiplication,
 where instead of computing the full output matrix, only the **lower triangle**
 is computed. This leads to substantial computational savings.
 
-This guide explains a series of CUDA kernel implementations for the **trimat
-forward pass**, based on the [llm.c](https://github.com/karpathy/llm.c/tree/master/dev/cuda)
+This guide explains a series of CUDA kernel implementations for the **Trimat
+Forward Pass**, based on the [llm.c](https://github.com/karpathy/llm.c/tree/master/dev/cuda)
 GitHub repository.
 These kernels avoid unnecessary computation and offer potential speedups over
 cuBLAS. They are introduced in increasing order of optimization:
@@ -39,7 +39,7 @@ cuBLAS. They are introduced in increasing order of optimization:
 The next section, [Input, Output, and
 Computation](#input-output-and-computation), describes the tensor shapes, the
 configuration used in the examples, and the exact computation performed during
-the trimat forward pass.
+the Trimat Forward Pass.
 
 ## Input, Output, and Computation
 
