@@ -1,4 +1,4 @@
-<!-- markdownlint-disable-file MD033 MD013 -->
+<!-- markdownlint-disable-file MD033 -->
 
 # Kernels for Triangular Matrix Multiplication (Trimat) Forward Pass
 
@@ -28,8 +28,8 @@ cuBLAS. They are introduced in increasing order of optimization:
 
 - [Kernel 1: `matmul_tri_naive`](#kernel-1-naive-implementation-matmul_tri_naive):
   A simple nested loop implementation with no memory optimization.
-- [Kernel 2: `matmul_tri_registers`](#kernel-2-register-tiling-matmul_tri_registers): Uses
-  **register tiling** to reduce redundant memory loads.
+- [Kernel 2: `matmul_tri_registers`](#kernel-2-register-tiling-matmul_tri_registers):
+  Uses **register tiling** to reduce redundant memory loads.
 - [Kernel 3: `matmul_tri3`](#kernel-3-vectorized-loads-matmul_tri3): Adds **vectorized
   memory access** using `float4` to improve memory coalescing.
 - [Kernel 4: `matmul_tri4`](#kernel-4-shared-memory-tiling-matmul_tri4):
