@@ -174,7 +174,7 @@ matrix:
 
 <figure>
 <center>
-<img src="figures/trimat_forward/kernel1.svg" alt="Kernel 1 Diagram" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/trimat_forward/kernel1.svg" alt="Kernel 1 Diagram" width="100%"> <!-- markdownlint-disable-line MD013 -->
 </center>
 </figure>
 
@@ -201,7 +201,7 @@ within a thread:
 
 <figure>
 <center>
-<img src="figures/trimat_forward/kernel2.svg" alt="Kernel 2 Diagram" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/trimat_forward/kernel2.svg" alt="Kernel 2 Diagram" width="100%"> <!-- markdownlint-disable-line MD013 -->
 </center>
 </figure>
 
@@ -245,15 +245,14 @@ See **Figure 4** for an illustration of shared memory tiling and accumulation:
 
 <figure>
 <center>
-<img src="figures/trimat_forward/kernel4.svg" alt="Kernel 4 Diagram" width="100%">
+<img src="https://d3ddy8balm3goa.cloudfront.net/vector-ai-pocket-refs/compute/trimat_forward/kernel4.svg" alt="Kernel 4 Diagram" width="100%"> <!-- markdownlint-disable-line MD013 -->
 </center>
 </figure>
 
 ## References
 
 1. [llm.c CUDA kernels](https://github.com/karpathy/llm.c/tree/master/dev/cuda)
-2. [Scaled Dot-Product Attention (Vaswani et al.,
-   2017)](https://arxiv.org/abs/1706.03762)
+2. [Scaled Dot-Product Attention (Vaswani et al., 2017)](https://arxiv.org/abs/1706.03762)
 3. [CUDA Programming Guide: Memory
    Coalescing](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#memory-coalescing)
 
