@@ -30,7 +30,7 @@
     - [Hard prompts]() <!-- (llms/prompting/hard.md) -->
   - [Fine-tuning]() <!-- (llms/fine_tuning/README.md) -->
     - [Supervised Fine-Tuning]() <!-- (llms/fine_tuning/sft.md) -->
-    - [RLHF]() <!-- (llms/fine_tuning/rlhf.md) -->
+    - [RLHF](llms/fine_tuning/rlhf.md)
     - [DPO]() <!-- (llms/fine_tuning/dpo.md) -->
     - [GRPO]() <!-- (llms/fine_tuning/grpo.md) -->
     - [PEFT]() <!-- (llms/fine_tuning/peft.md) -->
